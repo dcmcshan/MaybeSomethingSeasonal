@@ -2729,7 +2729,7 @@ const App: React.FC = () => {
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
-            <h2 className="text-2xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-gray-800 christmas-title">
               {format(currentDate, 'MMMM yyyy')}
             </h2>
             <button
@@ -2743,7 +2743,7 @@ const App: React.FC = () => {
           {/* Calendar Grid */}
           <div className="grid grid-cols-7 gap-2 mb-4">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-              <div key={day} className="text-center text-sm font-medium text-gray-500 py-2">
+              <div key={day} className="text-center text-xs font-medium text-gray-500 py-1 christmas-font">
                 {day}
               </div>
             ))}
@@ -2762,7 +2762,7 @@ const App: React.FC = () => {
                     isCurrentMonth ? 'bg-white' : 'bg-gray-50'
                   } ${isToday ? 'ring-2 ring-green-500' : ''}`}
                 >
-                  <div className={`text-sm font-medium mb-1 ${
+                  <div className={`text-xs font-medium mb-1 christmas-font ${
                     isCurrentMonth ? 'text-gray-800' : 'text-gray-400'
                   } ${isToday ? 'text-green-600' : ''}`}>
                     {format(day, 'd')}
@@ -2805,7 +2805,7 @@ const App: React.FC = () => {
                           />
                         ) : null}
                         <span className="mr-1" style={{display: event.image ? 'none' : 'inline'}}>{event.icon}</span>
-                        <span className="truncate">{event.title}</span>
+                        <span className="truncate christmas-font text-xs">{event.title}</span>
                       </div>
                     ))}
                     {dayEvents.length > 3 && (

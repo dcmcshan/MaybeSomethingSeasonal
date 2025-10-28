@@ -37,96 +37,144 @@
 @media print {
   @page {
     size: 8.5in 11in landscape;
-    margin: 0.5in;
+    margin: 0.1in;
   }
-  
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
   body {
     background: white !important;
     color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 8px !important;
   }
-  
+
   /* Hide non-essential elements */
   .no-print {
     display: none !important;
   }
-  
-  /* Calendar print layout */
-  .print-container {
-    display: block !important;
-    width: 100% !important;
+
+  /* Hide action buttons */
+  button {
+    display: none !important;
+  }
+
+  /* Calendar container */
+  .container {
     max-width: none !important;
+    width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
   }
-  
-  .print-calendar {
-    width: 100% !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    border: 2px solid #000 !important;
-  }
-  
-  .print-calendar-grid {
-    display: grid !important;
-    grid-template-columns: repeat(7, 1fr) !important;
-    gap: 1px !important;
-    border: 1px solid #000 !important;
-  }
-  
-  .print-calendar-day {
-    min-height: 1.2in !important;
-    border: 1px solid #ccc !important;
-    padding: 4px !important;
-    font-size: 10px !important;
+
+  /* Calendar card */
+  .bg-white {
     background: white !important;
-    color: black !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
   }
-  
-  .print-calendar-day-number {
-    font-weight: bold !important;
-    font-size: 12px !important;
+
+  /* Calendar header */
+  .text-center {
+    text-align: center !important;
+    margin-bottom: 4px !important;
+  }
+
+  .christmas-title {
+    font-size: 14px !important;
     margin-bottom: 2px !important;
   }
-  
-  .print-event {
-    font-size: 8px !important;
-    margin: 1px 0 !important;
-    padding: 1px 2px !important;
-    border-radius: 2px !important;
-    background: #f0f0f0 !important;
-    color: black !important;
-    border: 1px solid #ccc !important;
-  }
-  
-  .print-event-icon {
-    font-size: 10px !important;
-    margin-right: 2px !important;
-  }
-  
-  .print-header {
-    text-align: center !important;
-    margin-bottom: 10px !important;
-    font-size: 18px !important;
-    font-weight: bold !important;
-  }
-  
-  .print-month-nav {
-    display: none !important;
-  }
-  
-  .print-days-header {
+
+  /* Calendar grid */
+  .grid {
     display: grid !important;
+    width: 100% !important;
+    height: calc(100vh - 40px) !important;
+  }
+
+  .grid-cols-7 {
     grid-template-columns: repeat(7, 1fr) !important;
-    gap: 1px !important;
+  }
+
+  .gap-2 {
+    gap: 0.5px !important;
+  }
+
+  /* Calendar day cells */
+  .min-h-\[100px\] {
+    min-height: calc((100vh - 50px) / 6) !important;
+    max-height: calc((100vh - 50px) / 6) !important;
+    padding: 1px !important;
+    border: 0.5px solid #000 !important;
+    page-break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+
+  /* Day numbers */
+  .text-xs {
+    font-size: 8px !important;
+    margin-bottom: 0.5px !important;
+  }
+
+  /* Events */
+  .space-y-1 > * + * {
+    margin-top: 0.5px !important;
+  }
+
+  .text-xs.p-1 {
+    font-size: 6px !important;
+    padding: 0.5px 1px !important;
+    margin-bottom: 0.5px !important;
+    line-height: 1 !important;
+  }
+
+  /* Event icons */
+  img {
+    width: 6px !important;
+    height: 6px !important;
+  }
+
+  /* Event text */
+  .truncate {
+    font-size: 6px !important;
+    line-height: 1 !important;
+  }
+
+  /* Day of week headers */
+  .py-1 {
+    padding: 1px 0 !important;
+    font-size: 7px !important;
+  }
+
+  /* Ensure full page usage */
+  .rounded-xl {
+    border-radius: 0 !important;
+  }
+
+  .p-6 {
+    padding: 0 !important;
+  }
+
+  .mb-6 {
     margin-bottom: 2px !important;
   }
-  
-  .print-day-name {
-    text-align: center !important;
-    font-weight: bold !important;
-    font-size: 10px !important;
-    padding: 4px !important;
-    background: #f0f0f0 !important;
-    border: 1px solid #000 !important;
+
+  .mb-4 {
+    margin-bottom: 1px !important;
+  }
+
+  /* Force full width and height */
+  html, body {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
   }
 }
