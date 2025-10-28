@@ -11,6 +11,73 @@ interface CalendarEvent {
   category: string;
 }
 
+// Embedded calendar data to avoid fetch issues
+const CALENDAR_DATA: CalendarEvent[] = [
+  {
+    title: "Spring Equinox",
+    date: "2024-03-20",
+    description: "The first day of spring! Time for renewal and growth.",
+    icon: "🌸",
+    category: "seasonal"
+  },
+  {
+    title: "Earth Day",
+    date: "2024-04-22",
+    description: "Celebrate our planet and environmental awareness.",
+    icon: "🌍",
+    category: "environmental"
+  },
+  {
+    title: "Summer Solstice",
+    date: "2024-06-21",
+    description: "The longest day of the year - peak of summer energy.",
+    icon: "☀️",
+    category: "seasonal"
+  },
+  {
+    title: "Autumn Equinox",
+    date: "2024-09-22",
+    description: "Fall begins - time for harvest and reflection.",
+    icon: "🍂",
+    category: "seasonal"
+  },
+  {
+    title: "Winter Solstice",
+    date: "2024-12-21",
+    description: "The shortest day - embrace the darkness and prepare for renewal.",
+    icon: "❄️",
+    category: "seasonal"
+  },
+  {
+    title: "New Year's Day",
+    date: "2024-01-01",
+    description: "Fresh start and new beginnings.",
+    icon: "🎊",
+    category: "celebration"
+  },
+  {
+    title: "Valentine's Day",
+    date: "2024-02-14",
+    description: "Celebrate love and connection.",
+    icon: "💕",
+    category: "celebration"
+  },
+  {
+    title: "Halloween",
+    date: "2024-10-31",
+    description: "Embrace the spooky and mysterious.",
+    icon: "🎃",
+    category: "celebration"
+  },
+  {
+    title: "Christmas",
+    date: "2024-12-25",
+    description: "Joy, peace, and celebration.",
+    icon: "🎄",
+    category: "celebration"
+  }
+];
+
 const App: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -18,63 +85,11 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchCalendarData();
+    // Use embedded data directly to avoid fetch issues
+    setEvents(CALENDAR_DATA);
+    setIsLoading(false);
+    console.log('Calendar data loaded:', CALENDAR_DATA.length, 'events');
   }, []);
-
-  const fetchCalendarData = async () => {
-    try {
-      // Try multiple URL formats to ensure compatibility
-      const urls = [
-        './calendar-data.json',
-        'calendar-data.json',
-        '/calendar-data.json'
-      ];
-      
-      let data = null;
-      for (const url of urls) {
-        try {
-          const response = await fetch(url);
-          if (response.ok) {
-            data = await response.json();
-            break;
-          }
-        } catch (error) {
-          console.log(`Failed to fetch from ${url}:`, error);
-          continue;
-        }
-      }
-      
-      if (data) {
-        setEvents(data);
-        console.log('Calendar data loaded successfully:', data.length, 'events');
-      } else {
-        console.error('Failed to load calendar data from all URLs');
-        // Fallback to hardcoded data for testing
-        const fallbackData = [
-          {
-            title: "Spring Equinox",
-            date: "2024-03-20",
-            description: "The first day of spring! Time for renewal and growth.",
-            icon: "🌸",
-            category: "seasonal"
-          },
-          {
-            title: "Summer Solstice",
-            date: "2024-06-21",
-            description: "The longest day of the year - peak of summer energy.",
-            icon: "☀️",
-            category: "seasonal"
-          }
-        ];
-        setEvents(fallbackData);
-        console.log('Using fallback calendar data');
-      }
-    } catch (error) {
-      console.error('Error loading calendar data:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
