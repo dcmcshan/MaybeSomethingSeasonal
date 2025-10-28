@@ -11,6 +11,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Mountains of Christmas font for festive elements */
+.christmas-font {
+  font-family: 'Mountains of Christmas', cursive;
+}
+
+.christmas-title {
+  font-family: 'Mountains of Christmas', cursive;
+  font-weight: 700;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
