@@ -8,6 +8,7 @@ interface CalendarEvent {
   date: string;
   description: string;
   icon: string;
+  image?: string;
   category: string;
 }
 
@@ -19,6 +20,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     date: "2025-01-01",
     description: "New Year's Day - Mary as Theotokos, God-bearer.",
     icon: "👑",
+    image: "/images/image1.jpg",
     category: "religious"
   },
   {
@@ -54,6 +56,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     date: "2025-01-06",
     description: "Manifestation of Christ to the Gentiles.",
     icon: "⭐",
+    image: "/images/image2.jpg",
     category: "religious"
   },
   {
@@ -2379,6 +2382,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     date: "2025-12-06",
     description: "Bishop and saint, patron of children and gift-giving.",
     icon: "🎁",
+    image: "/images/image3.jpg",
     category: "religious"
   },
   {
@@ -2428,6 +2432,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     date: "2025-12-13",
     description: "Virgin and martyr, patron of light and vision.",
     icon: "🕯️",
+    image: "/images/image4.jpg",
     category: "religious"
   },
   {
@@ -2570,6 +2575,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     date: "2025-12-05",
     description: "Krampus Night - the dark companion of St. Nicholas.",
     icon: "👹",
+    image: "/images/image5.png",
     category: "cultural"
   },
   {
@@ -2773,6 +2779,7 @@ const App: React.FC = () => {
                             <div class="font-semibold mb-1">${event.title}</div>
                             <div class="text-gray-300 mb-2">${format(new Date(event.date), 'MMMM d, yyyy')}</div>
                             <div class="text-gray-200">${event.description}</div>
+                            ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ''}
                           `;
                           tooltip.style.left = '0';
                           tooltip.style.top = '100%';
@@ -2786,7 +2793,18 @@ const App: React.FC = () => {
                           }
                         }}
                       >
-                        <span className="mr-1">{event.icon}</span>
+                        {event.image ? (
+                          <img 
+                            src={event.image} 
+                            alt={event.title}
+                            className="w-4 h-4 object-cover rounded mr-1 inline-block"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              e.currentTarget.nextElementSibling.style.display = 'inline';
+                            }}
+                          />
+                        ) : null}
+                        <span className="mr-1" style={{display: event.image ? 'none' : 'inline'}}>{event.icon}</span>
                         <span className="truncate">{event.title}</span>
                       </div>
                     ))}
