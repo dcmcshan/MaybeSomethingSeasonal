@@ -23,7 +23,7 @@ const App: React.FC = () => {
 
   const fetchCalendarData = async () => {
     try {
-      const response = await fetch('/MaybeSomethingSeasonal/calendar-data.json');
+      const response = await fetch('./calendar-data.json');
       const data = await response.json();
       setEvents(data);
     } catch (error) {
@@ -53,7 +53,7 @@ const App: React.FC = () => {
 
   const handleDownloadICS = () => {
     const link = document.createElement('a');
-    link.href = '/MaybeSomethingSeasonal/MaybeSomethingSeasonal.ics';
+    link.href = './MaybeSomethingSeasonal.ics';
     link.download = 'MaybeSomethingSeasonal.ics';
     document.body.appendChild(link);
     link.click();
