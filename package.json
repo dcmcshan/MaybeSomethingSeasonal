@@ -1,0 +1,32 @@
+{
+  "name": "maybe-something-seasonal",
+  "version": "1.0.0",
+  "description": "A seasonal calendar with ICS generation and React viewer",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "generate-ics": "node scripts/generate-ics.js",
+    "deploy": "npm run build && npm run generate-ics"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "date-fns": "^2.30.0",
+    "lucide-react": "^0.294.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.1.1",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "vite": "^5.0.0",
+    "typescript": "^5.2.2"
+  },
+  "keywords": ["calendar", "ics", "seasonal", "react"],
+  "author": "Daniel McShan",
+  "license": "MIT"
+}
