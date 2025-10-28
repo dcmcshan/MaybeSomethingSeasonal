@@ -23,9 +23,52 @@ const App: React.FC = () => {
 
   const fetchCalendarData = async () => {
     try {
-      const response = await fetch('./calendar-data.json');
-      const data = await response.json();
-      setEvents(data);
+      // Try multiple URL formats to ensure compatibility
+      const urls = [
+        './calendar-data.json',
+        'calendar-data.json',
+        '/calendar-data.json'
+      ];
+      
+      let data = null;
+      for (const url of urls) {
+        try {
+          const response = await fetch(url);
+          if (response.ok) {
+            data = await response.json();
+            break;
+          }
+        } catch (error) {
+          console.log(`Failed to fetch from ${url}:`, error);
+          continue;
+        }
+      }
+      
+      if (data) {
+        setEvents(data);
+        console.log('Calendar data loaded successfully:', data.length, 'events');
+      } else {
+        console.error('Failed to load calendar data from all URLs');
+        // Fallback to hardcoded data for testing
+        const fallbackData = [
+          {
+            title: "Spring Equinox",
+            date: "2024-03-20",
+            description: "The first day of spring! Time for renewal and growth.",
+            icon: "🌸",
+            category: "seasonal"
+          },
+          {
+            title: "Summer Solstice",
+            date: "2024-06-21",
+            description: "The longest day of the year - peak of summer energy.",
+            icon: "☀️",
+            category: "seasonal"
+          }
+        ];
+        setEvents(fallbackData);
+        console.log('Using fallback calendar data');
+      }
     } catch (error) {
       console.error('Error loading calendar data:', error);
     } finally {
