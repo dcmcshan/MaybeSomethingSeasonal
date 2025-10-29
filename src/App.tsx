@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
+import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { ChevronLeft, ChevronRight, Download, Calendar, MapPin, Printer } from 'lucide-react';
 import './App.css';
 
@@ -2659,7 +2659,9 @@ const App: React.FC = () => {
 
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
-  const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
+  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 });
+  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
+  const daysInMonth = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
 
   const getEventsForDate = (date: Date) => {
     return events.filter(event => isSameDay(new Date(event.date), date));
