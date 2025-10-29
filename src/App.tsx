@@ -2443,6 +2443,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious"
   },
   {
+    title: "Palmer Lake Yule Log Hunt",
+    date: "2025-12-14",
+    description: "Annual tradition in Palmer Lake, Colorado: community yule log hunt and celebration.",
+    icon: "🪵",
+    category: "cultural"
+  },
+  {
     title: "St. Mary Di Rosa",
     date: "2025-12-15",
     description: "Founder of Handmaids of Charity.",

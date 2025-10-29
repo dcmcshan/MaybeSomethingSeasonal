@@ -65,6 +65,13 @@ const seasonalEvents = [
     description: "Joy, peace, and celebration.",
     icon: "🎄",
     category: "celebration"
+  },
+  {
+    title: "Palmer Lake Yule Log Hunt",
+    date: "2025-12-14",
+    description: "Annual tradition in Palmer Lake, Colorado: community yule log hunt and celebration.",
+    icon: "🪵",
+    category: "cultural"
   }
 ];
 
