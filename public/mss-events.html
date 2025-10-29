@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>MSS Calendar Events</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
+      <style>
       :root {
         color-scheme: light;
         font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -231,6 +231,87 @@
           padding: 1rem;
         }
       }
+      #event-detail {
+        max-width: 75rem;
+        margin: 1.5rem auto;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+        padding: 1.5rem;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        position: relative;
+      }
+      #event-detail h2 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: clamp(1.4rem, 2vw, 1.75rem);
+        color: #0b7285;
+      }
+      #event-detail .detail-meta {
+        color: #475569;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      #event-detail .detail-body {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+      }
+      #event-detail .detail-section {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      #event-detail .detail-section strong {
+        display: inline-block;
+        font-size: 0.82rem;
+        letter-spacing: 0.01em;
+        color: #0f172a;
+        text-transform: uppercase;
+        margin-bottom: 0.35rem;
+      }
+      #event-detail .detail-notes {
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 12px;
+        background: #fff5eb;
+        border: 1px solid rgba(245, 158, 11, 0.35);
+        color: #92400e;
+      }
+      #event-detail .detail-image {
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+      }
+      #event-detail .detail-image img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+      }
+      #event-detail .detail-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(15, 23, 42, 0.05);
+        border: 1px solid rgba(15, 23, 42, 0.15);
+        border-radius: 999px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        color: #0f172a;
+      }
+      @media (max-width: 640px) {
+        #event-detail {
+          padding: 1.25rem;
+        }
+        #event-detail .detail-body {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
   <body>
@@ -252,6 +333,30 @@
         <span id="status" role="status">Loading events…</span>
       </div>
     </header>
+
+      <section id="event-detail" class="hidden" aria-live="polite">
+        <button type="button" class="detail-close" id="close-detail">
+          Close
+        </button>
+        <div class="detail-image hidden" id="detail-image"></div>
+        <h2 id="detail-title"></h2>
+        <div class="detail-meta" id="detail-meta"></div>
+        <div class="detail-body">
+          <div class="detail-section">
+            <strong>History</strong>
+            <p id="detail-history"></p>
+          </div>
+          <div class="detail-section">
+            <strong>Traditions</strong>
+            <p id="detail-traditions"></p>
+          </div>
+          <div class="detail-section">
+            <strong>Feasting</strong>
+            <p id="detail-feasting"></p>
+          </div>
+        </div>
+        <div class="detail-notes hidden" id="detail-notes"></div>
+      </section>
 
     <div class="table-wrapper hidden" id="table-container">
       <table>
