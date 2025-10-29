@@ -2634,6 +2634,7 @@ const App: React.FC = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [downloadCatholicOnly, setDownloadCatholicOnly] = useState<boolean>(false);
 
   useEffect(() => {
     // Use embedded data directly to avoid fetch issues
@@ -2662,7 +2663,71 @@ const App: React.FC = () => {
     return colors[category] || colors.default;
   };
 
+  const escapeIcsText = (value: string): string => {
+    return value
+      .replace(/\\/g, '\\\\')
+      .replace(/\n/g, '\\n')
+      .replace(/,/g, '\\,')
+      .replace(/;/g, '\\;');
+  };
+
+  const buildIcsFromEvents = (icsEvents: CalendarEvent[], calendarName: string, calendarDesc: string): string => {
+    const now = new Date();
+    const timestamp = now.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    let ics = '';
+    ics += 'BEGIN:VCALENDAR\r\n';
+    ics += 'VERSION:2.0\r\n';
+    ics += 'PRODID:-//MaybeSomethingSeasonal//Calendar//EN\r\n';
+    ics += 'CALSCALE:GREGORIAN\r\n';
+    ics += 'METHOD:PUBLISH\r\n';
+    ics += `X-WR-CALNAME:${escapeIcsText(calendarName)}\r\n`;
+    ics += `X-WR-CALDESC:${escapeIcsText(calendarDesc)}\r\n`;
+
+    icsEvents.forEach((event, index) => {
+      const startDate = new Date(`${event.date}T00:00:00Z`);
+      const endDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
+      const dtStart = startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      const dtEnd = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      const uid = `event-${index}-${Date.now()}@maybesomethingseasonal.com`;
+
+      ics += 'BEGIN:VEVENT\r\n';
+      ics += `UID:${uid}\r\n`;
+      ics += `DTSTAMP:${timestamp}\r\n`;
+      ics += `DTSTART:${dtStart}\r\n`;
+      ics += `DTEND:${dtEnd}\r\n`;
+      ics += `SUMMARY:${escapeIcsText(event.title)}\r\n`;
+      ics += `DESCRIPTION:${escapeIcsText(event.description)}\r\n`;
+      ics += `CATEGORIES:${escapeIcsText(event.category)}\r\n`;
+      ics += 'STATUS:CONFIRMED\r\n';
+      ics += 'TRANSP:TRANSPARENT\r\n';
+      ics += 'END:VEVENT\r\n';
+    });
+
+    ics += 'END:VCALENDAR';
+    return ics;
+  };
+
   const handleDownloadICS = () => {
+    if (downloadCatholicOnly) {
+      const catholicEvents = CALENDAR_DATA.filter((e) => e.category === 'religious');
+      const icsContent = buildIcsFromEvents(
+        catholicEvents,
+        'Catholic Liturgical Calendar',
+        'Catholic liturgical feasts and memorials'
+      );
+
+      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Catholic.ics';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      return;
+    }
+
     const link = document.createElement('a');
     link.href = './MaybeSomethingSeasonal.ics';
     link.download = 'MaybeSomethingSeasonal.ics';
@@ -2701,11 +2766,19 @@ const App: React.FC = () => {
           </div>
           
           {/* Action buttons in top right */}
-          <div className="absolute top-0 right-0 flex gap-2">
+          <div className="absolute top-0 right-0 flex items-center gap-3">
+            <label className="flex items-center gap-2 text-sm text-gray-700 bg-white/70 px-2 py-1 rounded-md border">
+              <input
+                type="checkbox"
+                checked={downloadCatholicOnly}
+                onChange={(e) => setDownloadCatholicOnly(e.target.checked)}
+              />
+              <span className="whitespace-nowrap">Catholic .ics</span>
+            </label>
             <button
               onClick={handleDownloadICS}
               className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              title="Download Calendar (.ics)"
+              title={downloadCatholicOnly ? 'Download Catholic (.ics)' : 'Download Calendar (.ics)'}
             >
               <Download className="w-5 h-5" />
             </button>
