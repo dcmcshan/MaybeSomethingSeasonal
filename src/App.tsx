@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { ChevronLeft, ChevronRight, Download, Calendar, MapPin, Printer } from 'lucide-react';
 import './App.css';
@@ -2629,18 +2630,98 @@ const CALENDAR_DATA: CalendarEvent[] = [
   }
 ];
 
+// Helpers
+const slugify = (title: string, date: string): string => {
+  const base = `${title}-${date}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)+/g, '');
+  return base;
+};
+
+const unfoldIcs = (icsText: string): string => {
+  // Unfold folded lines per RFC 5545 (lines starting with space/tab are continuations)
+  return icsText.replace(/\r?\n[ \t]/g, '');
+};
+
+const parseIcs = (icsText: string): CalendarEvent[] => {
+  const text = unfoldIcs(icsText);
+  const events: CalendarEvent[] = [];
+  const blocks = text.split('BEGIN:VEVENT').slice(1);
+  for (const blockRaw of blocks) {
+    const block = blockRaw.split('END:VEVENT')[0];
+    const lines = block.split(/\r?\n/);
+    const get = (prop: string) => {
+      const line = lines.find(l => l.startsWith(prop + ':') || l.startsWith(prop + ';'));
+      if (!line) return '';
+      const idx = line.indexOf(':');
+      return idx >= 0 ? line.slice(idx + 1).trim() : '';
+    };
+    const summary = get('SUMMARY');
+    const description = get('DESCRIPTION');
+    const categories = get('CATEGORIES');
+    const dtstart = get('DTSTART');
+    if (!summary || !dtstart) continue;
+    let isoDate = '';
+    try {
+      const normalized = dtstart.endsWith('Z') || dtstart.includes('T') ? dtstart : `${dtstart}T00:00:00Z`;
+      isoDate = new Date(normalized).toISOString().slice(0, 10);
+    } catch {
+      continue;
+    }
+    events.push({
+      title: summary,
+      date: isoDate,
+      description: description.replace(/\\n/g, '\n'),
+      icon: '📅',
+      category: categories || 'default',
+    });
+  }
+  return events;
+};
+
+const mergeUniqueEvents = (base: CalendarEvent[], incoming: CalendarEvent[]): CalendarEvent[] => {
+  const key = (e: CalendarEvent) => `${e.title}|${e.date}`;
+  const seen = new Set(base.map(key));
+  const merged = [...base];
+  for (const e of incoming) {
+    const k = key(e);
+    if (!seen.has(k)) {
+      merged.push(e);
+      seen.add(k);
+    }
+  }
+  return merged;
+};
+
 const App: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [downloadCatholicOnly, setDownloadCatholicOnly] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Use embedded data directly to avoid fetch issues
     setEvents(CALENDAR_DATA);
     setIsLoading(false);
     console.log('Calendar data loaded:', CALENDAR_DATA.length, 'events');
+  }, []);
+
+  // Merge events parsed from public .ics file (if present)
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch('./MaybeSomethingSeasonal.ics');
+        if (!res.ok) return;
+        const text = await res.text();
+        const icsEvents = parseIcs(text);
+        setEvents(prev => mergeUniqueEvents(prev, icsEvents));
+      } catch (err) {
+        console.warn('Unable to load ICS file', err);
+      }
+    })();
   }, []);
 
   const monthStart = startOfMonth(currentDate);
@@ -2740,6 +2821,83 @@ const App: React.FC = () => {
     window.print();
   };
 
+  const EVENT_CONTENT: Record<string, { history: string; traditions: string; menu: string[] }> = {
+    [slugify('Spring Equinox', '2024-03-20')]: {
+      history: 'The spring equinox marks equal day and night, celebrated as a time of renewal.',
+      traditions: 'Sow seeds, air out the home, walk at sunset to notice balance.',
+      menu: ['Asparagus tart', 'Greens with citrus', 'Honey cakes']
+    },
+    [slugify('Autumn Equinox', '2024-09-22')]: {
+      history: 'Harvest feasts around the world honor balance and gratitude as daylight wanes.',
+      traditions: 'Name three gratitudes, share harvest, light a candle at dusk.',
+      menu: ['Roasted squash soup', 'Apple walnut salad', 'Cider bread']
+    },
+    [slugify('Winter Solstice', '2024-12-21')]: {
+      history: 'The longest night of the year, long marked with fire, feasting, and hope for returning light.',
+      traditions: 'Yule log, story circle, simple handmade gifts.',
+      menu: ['Mulled cider', 'Root vegetable roast', 'Gingerbread']
+    },
+  };
+
+  const EventDetail: React.FC = () => {
+    const { slug = '' } = useParams();
+    const event = events.find(e => slugify(e.title, e.date) === slug);
+    if (!event) {
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+          <div className="container mx-auto px-4 py-16">
+            <div className="bg-white rounded-xl shadow p-8 text-center">
+              <h2 className="text-2xl font-semibold mb-2">Event not found</h2>
+              <p className="text-gray-600 mb-6">We couldn’t locate that event.</p>
+              <Link to="/" className="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Back to calendar</Link>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    const content = EVENT_CONTENT[slug] || {
+      history: `About ${event.title}. Add a short history here.`,
+      traditions: 'List your household or community traditions for this day.',
+      menu: ['Main dish', 'Side', 'Dessert']
+    };
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-6 flex items-center justify-between">
+            <Link to="/" className="text-green-700 hover:underline">← Back to calendar</Link>
+          </div>
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="text-3xl" aria-hidden>{event.icon}</div>
+              <h1 className="text-2xl font-bold text-gray-800 christmas-title">{event.title}</h1>
+            </div>
+            <div className="text-sm text-gray-600 mb-6">{format(new Date(event.date), 'MMMM d, yyyy')} • {event.category}</div>
+            {event.image && (
+              <img src={event.image} alt={event.title} className="w-full max-h-80 object-cover rounded-lg mb-6" />
+            )}
+            <p className="text-gray-700 mb-8 whitespace-pre-line">{event.description}</p>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <section className="md:col-span-2">
+                <h2 className="text-xl font-semibold mb-2">History</h2>
+                <p className="text-gray-700">{content.history}</p>
+              </section>
+              <aside className="md:col-span-1">
+                <h2 className="text-xl font-semibold mb-2">Our Traditions</h2>
+                <p className="text-gray-700 mb-4">{content.traditions}</p>
+                <h3 className="font-semibold mb-1">Menu</h3>
+                <ul className="list-disc list-inside text-gray-700">
+                  {content.menu.map((item, i) => (<li key={i}>{item}</li>))}
+                </ul>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
@@ -2752,148 +2910,152 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="relative mb-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-800 mb-2 christmas-title">
-              Maybe Something Seasonal
-            </h1>
-            <p className="text-lg text-gray-600 mb-4">
-              A calendar celebrating nature's cycles and seasonal moments
-            </p>
-          </div>
-          
-          {/* Action buttons in top right */}
-          <div className="absolute top-0 right-0 flex items-center gap-3">
-            <label className="flex items-center gap-2 text-sm text-gray-700 bg-white/70 px-2 py-1 rounded-md border">
-              <input
-                type="checkbox"
-                checked={downloadCatholicOnly}
-                onChange={(e) => setDownloadCatholicOnly(e.target.checked)}
-              />
-              <span className="whitespace-nowrap">Catholic .ics</span>
-            </label>
-            <button
-              onClick={handleDownloadICS}
-              className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              title={downloadCatholicOnly ? 'Download Catholic (.ics)' : 'Download Calendar (.ics)'}
-            >
-              <Download className="w-5 h-5" />
-            </button>
-            <button
-              onClick={handlePrint}
-              className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              title="Print Calendar"
-            >
-              <Printer className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Full Width Calendar */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          {/* Calendar Header */}
-          <div className="flex items-center justify-between mb-6">
-            <button
-              onClick={() => setCurrentDate(subMonths(currentDate, 1))}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <h2 className="text-xl font-semibold text-gray-800 christmas-title">
-              {format(currentDate, 'MMMM yyyy')}
-            </h2>
-            <button
-              onClick={() => setCurrentDate(addMonths(currentDate, 1))}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-2 mb-4">
-            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-              <div key={day} className="text-center text-xs font-medium text-gray-500 py-1 christmas-font">
-                {day}
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-7 gap-2">
-            {daysInMonth.map(day => {
-              const dayEvents = getEventsForDate(day);
-              const isCurrentMonth = isSameMonth(day, currentDate);
-              const isToday = isSameDay(day, new Date());
-
-              return (
-                <div
-                  key={day.toISOString()}
-                  className={`min-h-[100px] p-2 border rounded-lg relative ${
-                    isCurrentMonth ? 'bg-white' : 'bg-gray-50'
-                  } ${isToday ? 'ring-2 ring-green-500' : ''}`}
-                >
-                  <div className={`text-xs font-medium mb-1 christmas-font ${
-                    isCurrentMonth ? 'text-gray-800' : 'text-gray-400'
-                  } ${isToday ? 'text-green-600' : ''}`}>
-                    {format(day, 'd')}
-                  </div>
-                  <div className="space-y-1">
-                    {dayEvents.slice(0, 3).map((event, index) => (
-                      <div
-                        key={index}
-                        className={`text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative ${getCategoryColor(event.category)}`}
-                        onMouseEnter={(e) => {
-                          const tooltip = document.createElement('div');
-                          tooltip.className = 'absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none';
-                          tooltip.innerHTML = `
-                            <div class="font-semibold mb-1">${event.title}</div>
-                            <div class="text-gray-300 mb-2">${format(new Date(event.date), 'MMMM d, yyyy')}</div>
-                            <div class="text-gray-200">${event.description}</div>
-                            ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ''}
-                          `;
-                          tooltip.style.left = '0';
-                          tooltip.style.top = '100%';
-                          tooltip.style.marginTop = '4px';
-                          e.currentTarget.appendChild(tooltip);
-                        }}
-                        onMouseLeave={(e) => {
-                          const tooltip = e.currentTarget.querySelector('div[class*="absolute z-50"]');
-                          if (tooltip) {
-                            tooltip.remove();
-                          }
-                        }}
-                      >
-                        {event.image ? (
-                          <img 
-                            src={event.image} 
-                            alt={event.title}
-                            className="w-4 h-4 object-cover rounded mr-1 inline-block"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                              e.currentTarget.nextElementSibling.style.display = 'inline';
-                            }}
-                          />
-                        ) : null}
-                        <span className="mr-1" style={{display: event.image ? 'none' : 'inline'}}>{event.icon}</span>
-                        <span className="truncate christmas-font text-xs">{event.title}</span>
-                      </div>
-                    ))}
-                    {dayEvents.length > 3 && (
-                      <div className="text-xs text-gray-500">
-                        +{dayEvents.length - 3} more
-                      </div>
-                    )}
-                  </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+            <div className="container mx-auto px-4 py-8">
+              <div className="relative mb-8">
+                <div className="text-center">
+                  <h1 className="text-4xl font-bold text-gray-800 mb-2 christmas-title">
+                    Maybe Something Seasonal
+                  </h1>
+                  <p className="text-lg text-gray-600 mb-4">
+                    A calendar celebrating nature's cycles and seasonal moments
+                  </p>
                 </div>
-              );
-            })}
+                <div className="absolute top-0 right-0 flex items-center gap-3">
+                  <label className="flex items-center gap-2 text-sm text-gray-700 bg-white/70 px-2 py-1 rounded-md border">
+                    <input
+                      type="checkbox"
+                      checked={downloadCatholicOnly}
+                      onChange={(e) => setDownloadCatholicOnly(e.target.checked)}
+                    />
+                    <span className="whitespace-nowrap">Catholic .ics</span>
+                  </label>
+                  <button
+                    onClick={handleDownloadICS}
+                    className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    title={downloadCatholicOnly ? 'Download Catholic (.ics)' : 'Download Calendar (.ics)'}
+                  >
+                    <Download className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={handlePrint}
+                    className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    title="Print Calendar"
+                  >
+                    <Printer className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <button
+                    onClick={() => setCurrentDate(subMonths(currentDate, 1))}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <h2 className="text-xl font-semibold text-gray-800 christmas-title">
+                    {format(currentDate, 'MMMM yyyy')}
+                  </h2>
+                  <button
+                    onClick={() => setCurrentDate(addMonths(currentDate, 1))}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-7 gap-2 mb-4">
+                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                    <div key={day} className="text-center text-xs font-medium text-gray-500 py-1 christmas-font">
+                      {day}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-7 gap-2">
+                  {daysInMonth.map(day => {
+                    const dayEvents = getEventsForDate(day);
+                    const isCurrentMonth = isSameMonth(day, currentDate);
+                    const isToday = isSameDay(day, new Date());
+
+                    return (
+                      <div
+                        key={day.toISOString()}
+                        className={`min-h-[100px] p-2 border rounded-lg relative ${
+                          isCurrentMonth ? 'bg-white' : 'bg-gray-50'
+                        } ${isToday ? 'ring-2 ring-green-500' : ''}`}
+                      >
+                        <div className={`text-xs font-medium mb-1 christmas-font ${
+                          isCurrentMonth ? 'text-gray-800' : 'text-gray-400'
+                        } ${isToday ? 'text-green-600' : ''}`}>
+                          {format(day, 'd')}
+                        </div>
+                        <div className="space-y-1">
+                          {dayEvents.slice(0, 3).map((event, index) => (
+                            <div
+                              key={index}
+                              className={`text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative ${getCategoryColor(event.category)}`}
+                              onMouseEnter={(e) => {
+                                const tooltip = document.createElement('div');
+                                tooltip.className = 'absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none';
+                                tooltip.innerHTML = `
+                                  <div class="font-semibold mb-1">${event.title}</div>
+                                  <div class="text-gray-300 mb-2">${format(new Date(event.date), 'MMMM d, yyyy')}</div>
+                                  <div class="text-gray-200">${event.description}</div>
+                                  ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ''}
+                                `;
+                                tooltip.style.left = '0';
+                                tooltip.style.top = '100%';
+                                tooltip.style.marginTop = '4px';
+                                e.currentTarget.appendChild(tooltip);
+                              }}
+                              onMouseLeave={(e) => {
+                                const tooltip = e.currentTarget.querySelector('div[class*="absolute z-50"]');
+                                if (tooltip) {
+                                  tooltip.remove();
+                                }
+                              }}
+                              onClick={() => navigate(`/events/${slugify(event.title, event.date)}`)}
+                              role="link"
+                            >
+                              {event.image ? (
+                                <img 
+                                  src={event.image} 
+                                  alt={event.title}
+                                  className="w-4 h-4 object-cover rounded mr-1 inline-block"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                    (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'inline';
+                                  }}
+                                />
+                              ) : null}
+                              <span className="mr-1" style={{display: event.image ? 'none' : 'inline'}}>{event.icon}</span>
+                              <span className="truncate christmas-font text-xs">{event.title}</span>
+                            </div>
+                          ))}
+                          {dayEvents.length > 3 && (
+                            <div className="text-xs text-gray-500">
+                              +{dayEvents.length - 3} more
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        }
+      />
+      <Route path="/events/:slug" element={<EventDetail />} />
+    </Routes>
   );
 };
 
