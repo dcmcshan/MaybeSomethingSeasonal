@@ -2334,6 +2334,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious"
   },
   {
+    title: "Handel's Messiah (Glen Eyrie)",
+    date: "2025-11-29",
+    description: "A Christmas concert at Glen Eyrie Castle. Two performances at 4:00 pm and 7:00 pm. Optional dinner buffet at 5:30 pm.",
+    icon: "🎶",
+    category: "cultural"
+  },
+  {
     title: "St. Andrew",
     date: "2025-11-30",
     description: "Apostle and martyr, patron of Scotland.",
