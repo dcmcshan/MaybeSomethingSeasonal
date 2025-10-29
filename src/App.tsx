@@ -95,6 +95,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious"
   },
   {
+    title: "Feast of the Ass",
+    date: "2025-01-14",
+    description: "Medieval celebration recalling the Flight into Egypt (donkey).",
+    icon: "🫏",
+    category: "cultural"
+  },
+  {
     title: "St. Paul the Hermit",
     date: "2025-01-15",
     description: "First Christian hermit, patron of hermits.",
