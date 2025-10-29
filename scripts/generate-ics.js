@@ -68,6 +68,15 @@ const seasonalEvents = [
   }
 ];
 
+// Additional featured events
+seasonalEvents.push({
+  title: "Handel's Messiah (Glen Eyrie)",
+  date: "2025-11-29",
+  description: "Christmas concert at Glen Eyrie Castle. Two performances at 4:00 pm and 7:00 pm. Optional dinner buffet at 5:30 pm.",
+  icon: "🎶",
+  category: "cultural"
+});
+
 function generateICS(events) {
   const now = new Date();
   const timestamp = now.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
