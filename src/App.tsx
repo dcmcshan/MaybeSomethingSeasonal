@@ -2436,6 +2436,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious"
   },
   {
+    title: "Holiday Evening 2025 (Rock Ledge Ranch)",
+    date: "2025-12-13",
+    description: "Festive evening at Rock Ledge Ranch with St. Nicholas, wagon rides, music, demonstrations, crafts. 4-8 p.m. Tickets: https://rockledgeranch.ticketspice.com/holiday-evening-2025",
+    icon: "🎄",
+    category: "cultural"
+  },
+  {
     title: "St. John of the Cross",
     date: "2025-12-14",
     description: "Carmelite priest and Doctor of the Church.",
