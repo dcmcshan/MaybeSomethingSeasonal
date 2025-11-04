@@ -75,8 +75,8 @@ function extractEvents() {
   return { events, lines };
 }
 
-// Generate image using OpenAI DALL-E API
-// Note: Requires an OpenAI API key (not OpenRouter key)
+// Generate image using OpenRouter's image generation API
+// OpenRouter supports image generation through chat completions with modalities parameter
 async function generateImage(prompt, retries = 3) {
   // First, enhance the prompt using OpenRouter's GPT if enabled
   let finalPrompt = prompt;
@@ -89,23 +89,30 @@ async function generateImage(prompt, retries = 3) {
     }
   }
   
-  // Generate image using OpenAI DALL-E
+  // Use OpenRouter's image generation via chat completions API
+  // Models that support image generation: black-forest-labs/flux-1.1-pro, stability-ai/stable-diffusion-xl, etc.
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify({
-      model: "dall-e-3",
-      prompt: finalPrompt,
-      n: 1,
-      size: "1024x1024",
-      quality: "standard"
+      model: "black-forest-labs/flux-1.1-pro", // High-quality image generation model
+      messages: [
+        {
+          role: "user",
+          content: finalPrompt
+        }
+      ],
+      modalities: ["image", "text"], // Request image generation
+      max_tokens: 1000
     });
     
     const req = https.request({
-      hostname: 'api.openai.com',
-      path: '/v1/images/generations',
+      hostname: 'openrouter.ai',
+      path: '/api/v1/chat/completions',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+        'HTTP-Referer': 'https://maybesomethingseasonal.com',
+        'X-Title': 'Maybe Something Seasonal Calendar',
         'Content-Length': Buffer.byteLength(postData)
       }
     }, (res) => {
@@ -119,16 +126,51 @@ async function generateImage(prompt, retries = 3) {
         if (res.statusCode === 200) {
           try {
             const response = JSON.parse(data);
-            // OpenRouter may wrap the response differently
-            if (response.data && response.data[0] && response.data[0].url) {
-              resolve(response.data[0].url);
-            } else if (response.url) {
-              // Direct URL response
-              resolve(response.url);
-            } else {
-              console.error('Response structure:', JSON.stringify(response, null, 2));
-              reject(new Error('No image URL in response'));
+            // OpenRouter returns images in the response
+            // Check for image URL in the response structure
+            if (response.choices && response.choices[0]) {
+              const choice = response.choices[0];
+              
+              // Image might be in message.content as URL or base64
+              if (choice.message && choice.message.content) {
+                const content = choice.message.content;
+                
+                // If content is an array, look for image objects
+                if (Array.isArray(content)) {
+                  const imageItem = content.find(item => item.type === 'image' || item.image_url);
+                  if (imageItem) {
+                    const imageUrl = imageItem.image_url?.url || imageItem.url;
+                    if (imageUrl) {
+                      resolve(imageUrl);
+                      return;
+                    }
+                  }
+                }
+                
+                // If content is a string URL
+                if (typeof content === 'string' && (content.startsWith('http://') || content.startsWith('https://'))) {
+                  resolve(content);
+                  return;
+                }
+                
+                // Try to extract URL from content
+                const urlMatch = content.match(/https?:\/\/[^\s]+/);
+                if (urlMatch) {
+                  resolve(urlMatch[0]);
+                  return;
+                }
+              }
+              
+              // Check for image in response.data or other structures
+              if (response.data && response.data[0] && response.data[0].url) {
+                resolve(response.data[0].url);
+                return;
+              }
             }
+            
+            // Debug: log the response structure
+            console.error('Response structure:', JSON.stringify(response, null, 2).substring(0, 500));
+            reject(new Error('No image URL found in OpenRouter response'));
           } catch (e) {
             reject(e);
           }
@@ -140,7 +182,7 @@ async function generateImage(prompt, retries = 3) {
             generateImage(prompt, retries - 1).then(resolve).catch(reject);
           }, retryAfter * 1000);
         } else {
-          console.error(`API error response: ${data}`);
+          console.error(`API error response: ${data.substring(0, 500)}`);
           reject(new Error(`API error: ${res.statusCode} - ${data.substring(0, 200)}`));
         }
       });
