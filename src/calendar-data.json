@@ -2318,7 +2318,14 @@
     "description": "Bishop and martyr, patron of Toulouse.",
     "icon": "⛪",
     "category": "religious"
-  },
+    },
+    {
+      "title": "Ecstatic Dance",
+      "date": "2025-11-29",
+      "description": "Community ecstatic dance gathering at 1 p.m. to move together after Thanksgiving.",
+      "icon": "🕺",
+      "category": "cultural"
+    },
   {
     "title": "Handel Messiah",
     "date": "2025-11-29",
@@ -2516,7 +2523,14 @@
     "description": "Abbot and saint, patron of prisoners.",
     "icon": "⛪",
     "category": "religious"
-  },
+    },
+    {
+      "title": "Ecstatic Dance",
+      "date": "2025-12-20",
+      "description": "Community ecstatic dance gathering at 1 p.m. to celebrate the weekend before Christmas.",
+      "icon": "🕺",
+      "category": "cultural"
+    },
   {
     "title": "Solstice Eve",
     "date": "2025-12-20",
