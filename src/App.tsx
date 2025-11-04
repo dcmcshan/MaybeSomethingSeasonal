@@ -2831,15 +2831,21 @@ const App: React.FC = () => {
               const endDate = currentEvent.endDate ? new Date(currentEvent.endDate) : new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
               const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
               
-              events.push({
+              const eventData: CalendarEvent = {
                 title: currentEvent.title,
                 date: currentEvent.date,
                 endDate: daysDiff > 1 ? currentEvent.endDate : undefined,
                 description: currentEvent.description || '',
                 icon: icon,
                 category: category,
-                ...(image && { image: image })
-              });
+              };
+              
+              if (image) {
+                eventData.image = image;
+                console.log(`Event "${currentEvent.title}" has image: ${image.substring(0, 50)}...`);
+              }
+              
+              events.push(eventData);
             }
             
             inEvent = false;
@@ -3050,18 +3056,29 @@ const App: React.FC = () => {
               // Get the primary event image for this day (first event with an image)
               const primaryEvent = dayEvents.find(e => e.image) || dayEvents[0];
               const backgroundImage = primaryEvent?.image;
+              
+              // Debug log
+              if (backgroundImage && isSameDay(day, new Date('2025-01-01'))) {
+                console.log('Background image for Jan 1:', backgroundImage);
+                console.log('Primary event:', primaryEvent);
+              }
 
               return (
                 <div
                   key={day.toISOString()}
                   className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
-                    isCurrentMonth ? 'bg-white' : 'bg-gray-50'
-                  } ${isToday ? 'ring-2 ring-green-500' : ''}`}
+                    isToday ? 'ring-2 ring-green-500' : ''
+                  }`}
                   style={{
-                    backgroundImage: backgroundImage ? `url("${backgroundImage}")` : undefined,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat'
+                    ...(backgroundImage ? {
+                      backgroundImage: `url("${backgroundImage}")`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundColor: isCurrentMonth ? 'transparent' : '#f9fafb'
+                    } : {
+                      backgroundColor: isCurrentMonth ? '#ffffff' : '#f9fafb'
+                    })
                   }}
                 >
                   {/* Overlay for text readability */}
