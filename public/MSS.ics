@@ -293,6 +293,17 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:event-advent-1-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251130T070000Z
+DTEND:20251201T070000Z
+SUMMARY:1st Sunday of Advent
+DESCRIPTION:First Sunday of Advent - the beginning of the liturgical year and preparation for Christmas.\n\nIcon: 🕯️\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:event-50-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251205T070000Z
@@ -310,6 +321,17 @@ DTSTART:20251206T070000Z
 DTEND:20251207T070000Z
 SUMMARY:St. Nicholas Day
 DESCRIPTION:Feast of St. Nicholas\, bishop and patron saint of children and gift-giving.\n\nIcon: 🎁\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:event-advent-2-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251207T070000Z
+DTEND:20251208T070000Z
+SUMMARY:2nd Sunday of Advent
+DESCRIPTION:Second Sunday of Advent - preparation and anticipation.\n\nIcon: 🕯️\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
@@ -381,6 +403,17 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:event-advent-3-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251214T070000Z
+DTEND:20251215T070000Z
+SUMMARY:3rd Sunday of Advent
+DESCRIPTION:Third Sunday of Advent (Gaudete Sunday) - joy and rejoicing.\n\nIcon: 🕯️\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:event-hanukkah-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251215T190000Z
@@ -410,6 +443,17 @@ DTEND:20251221T070000Z
 SUMMARY:Solstice Eve
 DESCRIPTION:Eve of the winter solstice\, the longest night.\n\nIcon: 🌙\nCategory: seasonal
 CATEGORIES:seasonal
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:event-advent-4-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251221T070000Z
+DTEND:20251222T070000Z
+SUMMARY:4th Sunday of Advent
+DESCRIPTION:Fourth Sunday of Advent - final preparation before Christmas.\n\nIcon: 🕯️\nCategory: cultural
+CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
