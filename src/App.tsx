@@ -2754,8 +2754,18 @@ const App: React.FC = () => {
     // Parse MSS.ics file - it's the source of truth
     const parseICS = async () => {
       try {
-        const response = await fetch('./MSS.ics');
+        // Try different paths for development and production
+        const basePath = import.meta.env.BASE_URL || '/';
+        const icsPath = `${basePath}MSS.ics`;
+        console.log('Fetching ICS from:', icsPath, 'BASE_URL:', import.meta.env.BASE_URL);
+        const response = await fetch(icsPath);
+        if (!response.ok) {
+          console.error(`Failed to fetch MSS.ics: ${response.status} ${response.statusText}`);
+          throw new Error(`Failed to fetch MSS.ics: ${response.status} ${response.statusText}`);
+        }
         const icsText = await response.text();
+        console.log('ICS file loaded, length:', icsText.length, 'characters');
+        console.log('First 200 chars:', icsText.substring(0, 200));
         
         const events: CalendarEvent[] = [];
         const lines = icsText.split(/\r?\n/);
@@ -2765,19 +2775,60 @@ const App: React.FC = () => {
         let descriptionLines: string[] = [];
         let inDescription = false;
         
+        let eventCount = 0;
         for (let i = 0; i < lines.length; i++) {
-          const line = lines[i].trim();
+          const line = lines[i];
           
-          if (line === 'BEGIN:VEVENT') {
+          // Skip completely empty lines, but keep lines with just spaces (they're continuation lines)
+          if (line === '') {
+            continue;
+          }
+          
+          const trimmedLine = line.trim();
+          
+          if (trimmedLine === 'BEGIN:VEVENT') {
             inEvent = true;
             currentEvent = {};
             descriptionLines = [];
             inDescription = false;
-          } else if (line === 'END:VEVENT' && inEvent) {
+            eventCount++;
+          } else if (trimmedLine === 'END:VEVENT' && inEvent) {
             // Parse description to extract icon and category
-            const fullDescription = descriptionLines.join('\\n');
-            const iconMatch = fullDescription.match(/Icon:\s*([^\n\\]+)/);
-            const categoryMatch = fullDescription.match(/Category:\s*([^\n\\]+)/);
+            const fullDescription = descriptionLines.join('');
+            
+            // The description contains literal \n sequences (backslash-n as two characters)
+            // Icon and Category are separated by \n\nIcon: and \nCategory:
+            // Try multiple patterns to handle different formats
+            let icon = '📅';
+            let category = 'default';
+            
+            // Pattern 1: Match literal \n (backslash followed by n) - two characters
+            const iconMatch1 = fullDescription.match(/\\n\\nIcon:\s*([^\n\\]+?)(?=\\n|$)/);
+            const categoryMatch1 = fullDescription.match(/\\nCategory:\s*([^\n\\]+?)(?=\\n|$)/);
+            
+            // Pattern 2: Match actual newline characters (in case file was processed)
+            const iconMatch2 = fullDescription.match(/\n\nIcon:\s*([^\n]+?)(?=\n|$)/);
+            const categoryMatch2 = fullDescription.match(/\nCategory:\s*([^\n]+?)(?=\n|$)/);
+            
+            if (iconMatch1) icon = iconMatch1[1].trim();
+            else if (iconMatch2) icon = iconMatch2[1].trim();
+            
+            if (categoryMatch1) category = categoryMatch1[1].trim();
+            else if (categoryMatch2) category = categoryMatch2[1].trim();
+            
+            console.log(`Parsing event ${eventCount}:`, {
+              title: currentEvent.title,
+              date: currentEvent.date,
+              hasDescription: !!fullDescription,
+              descriptionLength: fullDescription.length,
+              descriptionPreview: fullDescription.substring(0, 150),
+              iconMatch1: iconMatch1 ? iconMatch1[1] : null,
+              categoryMatch1: categoryMatch1 ? categoryMatch1[1] : null,
+              iconMatch2: iconMatch2 ? iconMatch2[1] : null,
+              categoryMatch2: categoryMatch2 ? categoryMatch2[1] : null,
+              finalIcon: icon,
+              finalCategory: category
+            });
             
             if (currentEvent.title && currentEvent.date) {
               // Check if this is a multi-day event
@@ -2790,49 +2841,95 @@ const App: React.FC = () => {
                 date: currentEvent.date,
                 endDate: daysDiff > 1 ? currentEvent.endDate : undefined,
                 description: currentEvent.description || '',
-                icon: iconMatch ? iconMatch[1].trim() : 'GPT-5',
-                category: categoryMatch ? categoryMatch[1].trim() : 'default',
+                icon: icon,
+                category: category,
                 ...(currentEvent.image && { image: currentEvent.image })
+              });
+              console.log(`✅ Added event: ${currentEvent.title}`);
+            } else {
+              console.warn('❌ Skipping event - missing title or date:', { 
+                title: currentEvent.title, 
+                date: currentEvent.date,
+                hasTitle: !!currentEvent.title,
+                hasDate: !!currentEvent.date
               });
             }
             
             inEvent = false;
             currentEvent = {};
-          } else if (inEvent && line.startsWith('SUMMARY:')) {
-            currentEvent.title = line.substring(8);
-          } else if (inEvent && line.startsWith('DTSTART:')) {
-            const dtStart = line.substring(8);
-            // Parse ICS date format: YYYYMMDDTHHMMSSZ
-            const year = dtStart.substring(0, 4);
-            const month = dtStart.substring(4, 6);
-            const day = dtStart.substring(6, 8);
-            currentEvent.date = `${year}-${month}-${day}`;
-          } else if (inEvent && line.startsWith('DTEND:')) {
-            const dtEnd = line.substring(6);
-            const year = dtEnd.substring(0, 4);
-            const month = dtEnd.substring(4, 6);
-            const day = dtEnd.substring(6, 8);
-            currentEvent.endDate = `${year}-${month}-${day}`;
-          } else if (inEvent && line.startsWith('DESCRIPTION:')) {
-            const desc = line.substring(12);
-            descriptionLines.push(desc);
-            inDescription = true;
-            // Extract main description (before Icon:)
-            const mainDesc = desc.split('\\n\\nIcon:')[0].replace(/\\n/g, ' ').replace(/\\,/g, ',').replace(/\\;/g, ';');
-            currentEvent.description = mainDesc;
+            descriptionLines = [];
+            inDescription = false;
+          } else if (inEvent && trimmedLine.startsWith('SUMMARY')) {
+            // Handle SUMMARY with or without parameters (e.g., SUMMARY: or SUMMARY;LANGUAGE=en:)
+            const colonIndex = trimmedLine.indexOf(':');
+            if (colonIndex >= 0) {
+              currentEvent.title = trimmedLine.substring(colonIndex + 1);
+              console.log('Found SUMMARY:', currentEvent.title);
+            }
+          } else if (inEvent && trimmedLine.startsWith('DTSTART')) {
+            // Handle DTSTART with or without parameters
+            const colonIndex = trimmedLine.indexOf(':');
+            if (colonIndex >= 0) {
+              const dtStart = trimmedLine.substring(colonIndex + 1);
+              // Parse ICS date format: YYYYMMDDTHHMMSSZ or YYYYMMDD
+              const datePart = dtStart.substring(0, 8); // Get YYYYMMDD part
+              const year = datePart.substring(0, 4);
+              const month = datePart.substring(4, 6);
+              const day = datePart.substring(6, 8);
+              currentEvent.date = `${year}-${month}-${day}`;
+              console.log('Found DTSTART:', currentEvent.date);
+            }
+          } else if (inEvent && trimmedLine.startsWith('DTEND')) {
+            // Handle DTEND with or without parameters
+            const colonIndex = trimmedLine.indexOf(':');
+            if (colonIndex >= 0) {
+              const dtEnd = trimmedLine.substring(colonIndex + 1);
+              // Parse ICS date format: YYYYMMDDTHHMMSSZ or YYYYMMDD
+              const datePart = dtEnd.substring(0, 8); // Get YYYYMMDD part
+              const year = datePart.substring(0, 4);
+              const month = datePart.substring(4, 6);
+              const day = datePart.substring(6, 8);
+              currentEvent.endDate = `${year}-${month}-${day}`;
+            }
+          } else if (inEvent && trimmedLine.startsWith('DESCRIPTION')) {
+            // Handle DESCRIPTION with or without parameters
+            const colonIndex = trimmedLine.indexOf(':');
+            if (colonIndex >= 0) {
+              const desc = trimmedLine.substring(colonIndex + 1);
+              descriptionLines.push(desc);
+              inDescription = true;
+              // Extract main description (before \n\nIcon:)
+              // Handle both literal \n sequences (backslash-n) and actual newlines
+              const mainDesc = desc.split(/\\n\\nIcon:/)[0]
+                .replace(/\\n/g, ' ')
+                .replace(/\n/g, ' ')
+                .replace(/\\,/g, ',')
+                .replace(/\\;/g, ';')
+                .replace(/\\\\/g, '\\');
+              currentEvent.description = mainDesc;
+              console.log('Found DESCRIPTION:', desc.substring(0, 100) + '...');
+            }
           } else if (inDescription && line.startsWith(' ')) {
-            // Continuation line for description
+            // Continuation line for description (ICS format uses leading space)
+            // Remove the leading space and add to the last description line
             descriptionLines[descriptionLines.length - 1] += line.substring(1);
           }
         }
         
+        console.log(`Found ${eventCount} BEGIN:VEVENT blocks, parsed ${events.length} events`);
+        
+        console.log('Calendar data loaded from MSS.ics:', events.length, 'events');
+        if (events.length === 0) {
+          console.warn('No events found in MSS.ics. ICS file content length:', icsText.length);
+          console.warn('First 500 characters of ICS:', icsText.substring(0, 500));
+        }
         setEvents(events);
         setIsLoading(false);
-        console.log('Calendar data loaded from MSS.ics:', events.length, 'events');
       } catch (error) {
         console.error('Error loading MSS.ics:', error);
-        // Fallback to empty array
-        setEvents([]);
+        // Fallback to CALENDAR_DATA if available
+        console.log('Falling back to embedded CALENDAR_DATA');
+        setEvents(CALENDAR_DATA);
         setIsLoading(false);
       }
     };
