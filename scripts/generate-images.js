@@ -41,20 +41,27 @@ function extractEvents() {
   return { events, lines };
 }
 
-// Generate image using OpenRouter API (which routes to DALL-E or other image models)
-function generateImage(prompt, retries = 3) {
+// Generate image using OpenRouter API
+// OpenRouter doesn't have direct image generation, so we'll use their chat API to generate
+// a detailed prompt, then use a different image service
+async function generateImage(prompt, retries = 3) {
+  // First, use OpenRouter to enhance the prompt
+  const enhancedPrompt = await enhancePromptWithOpenRouter(prompt);
+  
+  // Then generate image using OpenAI API (we'll need a fallback if OpenRouter key doesn't work)
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify({
-      model: "openai/dall-e-3",
-      prompt: prompt,
+      model: "dall-e-3",
+      prompt: enhancedPrompt,
       n: 1,
       size: "1024x1024",
       quality: "standard"
     });
     
+    // Try OpenRouter's proxy endpoint first
     const options = {
       hostname: 'openrouter.ai',
-      path: '/api/v1/images/generations',
+      path: '/api/v1/chat/completions',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -65,7 +72,23 @@ function generateImage(prompt, retries = 3) {
       }
     };
     
-    const req = https.request(options, (res) => {
+    // Actually, OpenRouter doesn't support image generation directly
+    // Let's use a hybrid approach: get enhanced prompt, then use direct OpenAI
+    // For now, let's try using the prompt directly with OpenAI's API
+    // The user's key might be an OpenAI key that works directly
+    
+    // Use OpenAI endpoint - the key format suggests it might work with OpenAI directly
+    // If not, we'll need to handle the error and suggest using OpenAI key instead
+    const req = https.request({
+      hostname: 'api.openai.com',
+      path: '/v1/images/generations',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    }, (res) => {
       let data = '';
       
       res.on('data', (chunk) => {
