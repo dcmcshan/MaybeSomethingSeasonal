@@ -2798,22 +2798,32 @@ const App: React.FC = () => {
             
             // The description contains literal \n sequences (backslash-n as two characters)
             // Icon and Category are separated by \n\nIcon: and \nCategory:
+            // Image is now stored in X-IMAGE property, but we fall back to description parsing for compatibility
             let icon = '📅';
             let category = 'default';
+            let image = currentEvent.image; // Get from X-IMAGE property if set
             
             // Pattern 1: Match literal \n (backslash followed by n) - two characters
             const iconMatch1 = fullDescription.match(/\\n\\nIcon:\s*([^\n\\]+?)(?=\\n|$)/);
             const categoryMatch1 = fullDescription.match(/\\nCategory:\s*([^\n\\]+?)(?=\\n|$)/);
+            const imageMatch1 = fullDescription.match(/\\nImage:\s*([^\n\\]+?)(?=\\n|$)/);
             
             // Pattern 2: Match actual newline characters (in case file was processed)
             const iconMatch2 = fullDescription.match(/\n\nIcon:\s*([^\n]+?)(?=\n|$)/);
             const categoryMatch2 = fullDescription.match(/\nCategory:\s*([^\n]+?)(?=\n|$)/);
+            const imageMatch2 = fullDescription.match(/\nImage:\s*([^\n]+?)(?=\n|$)/);
             
             if (iconMatch1) icon = iconMatch1[1].trim();
             else if (iconMatch2) icon = iconMatch2[1].trim();
             
             if (categoryMatch1) category = categoryMatch1[1].trim();
             else if (categoryMatch2) category = categoryMatch2[1].trim();
+            
+            // Only use description-based image if X-IMAGE wasn't found
+            if (!image) {
+              if (imageMatch1) image = imageMatch1[1].trim();
+              else if (imageMatch2) image = imageMatch2[1].trim();
+            }
             
             if (currentEvent.title && currentEvent.date) {
               // Check if this is a multi-day event
@@ -2828,7 +2838,7 @@ const App: React.FC = () => {
                 description: currentEvent.description || '',
                 icon: icon,
                 category: category,
-                ...(currentEvent.image && { image: currentEvent.image })
+                ...(image && { image: image })
               });
             }
             
@@ -2882,6 +2892,12 @@ const App: React.FC = () => {
                 .replace(/\\;/g, ';')
                 .replace(/\\\\/g, '\\');
               currentEvent.description = mainDesc;
+            }
+          } else if (inEvent && trimmedLine.startsWith('X-IMAGE')) {
+            // Handle custom X-IMAGE property for image URLs
+            const colonIndex = trimmedLine.indexOf(':');
+            if (colonIndex >= 0) {
+              currentEvent.image = trimmedLine.substring(colonIndex + 1).trim();
             }
           } else if (inDescription && line.startsWith(' ')) {
             // Continuation line for description (ICS format uses leading space)
@@ -3031,23 +3047,46 @@ const App: React.FC = () => {
               const isCurrentMonth = isSameMonth(day, currentDate);
               const isToday = isSameDay(day, new Date());
 
+              // Get the primary event image for this day (first event with an image)
+              const primaryEvent = dayEvents.find(e => e.image) || dayEvents[0];
+              const backgroundImage = primaryEvent?.image;
+
               return (
                 <div
                   key={day.toISOString()}
-                  className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col ${
+                  className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
                     isCurrentMonth ? 'bg-white' : 'bg-gray-50'
                   } ${isToday ? 'ring-2 ring-green-500' : ''}`}
+                  style={{
+                    backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                  }}
                 >
-                  <div className={`text-xs font-medium mb-1 christmas-font ${
-                    isCurrentMonth ? 'text-gray-800' : 'text-gray-400'
-                  } ${isToday ? 'text-green-600' : ''}`}>
+                  {/* Overlay for text readability */}
+                  {backgroundImage && (
+                    <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+                  )}
+                  
+                  {/* Day number at top */}
+                  <div className={`text-xs font-medium mb-1 christmas-font relative z-10 ${
+                    isCurrentMonth ? (backgroundImage ? 'text-white drop-shadow-lg' : 'text-gray-800') : 'text-gray-400'
+                  } ${isToday ? 'text-green-600 font-bold' : ''}`}>
                     {format(day, 'd')}
                   </div>
-                  <div className="space-y-1">
+                  
+                  {/* Spacer to push events to bottom */}
+                  <div className="flex-1"></div>
+                  
+                  {/* Event labels at bottom */}
+                  <div className="space-y-1 relative z-10">
                     {dayEvents.slice(0, 3).map((event, index) => (
                       <div
                         key={index}
-                        className={`text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative ${getCategoryColor(event.category)}`}
+                        className={`text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative ${
+                          backgroundImage ? 'bg-black bg-opacity-50 text-white' : getCategoryColor(event.category)
+                        }`}
                         onMouseEnter={(e) => {
                           const tooltip = document.createElement('div');
                           tooltip.className = 'absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none';
@@ -3058,8 +3097,8 @@ const App: React.FC = () => {
                             ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ''}
                           `;
                           tooltip.style.left = '0';
-                          tooltip.style.top = '100%';
-                          tooltip.style.marginTop = '4px';
+                          tooltip.style.bottom = '100%';
+                          tooltip.style.marginBottom = '4px';
                           e.currentTarget.appendChild(tooltip);
                         }}
                         onMouseLeave={(e) => {
@@ -3069,26 +3108,30 @@ const App: React.FC = () => {
                           }
                         }}
                       >
-                        {event.image ? (
-                          <img 
-                            src={event.image} 
-                            alt={event.title}
-                            className="w-4 h-4 object-cover rounded mr-1 inline-block"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                              const nextSibling = e.currentTarget.nextElementSibling;
-                              if (nextSibling && nextSibling instanceof HTMLElement) {
-                                nextSibling.style.display = 'inline';
-                              }
-                            }}
-                          />
-                        ) : null}
-                        <span className="mr-1" style={{display: event.image ? 'none' : 'inline'}}>{event.icon}</span>
-                        <span className="truncate christmas-font text-xs">{event.title}</span>
+                        {!backgroundImage && (
+                          <>
+                            {event.image ? (
+                              <img 
+                                src={event.image} 
+                                alt={event.title}
+                                className="w-4 h-4 object-cover rounded mr-1 inline-block"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  const nextSibling = e.currentTarget.nextElementSibling;
+                                  if (nextSibling && nextSibling instanceof HTMLElement) {
+                                    nextSibling.style.display = 'inline';
+                                  }
+                                }}
+                              />
+                            ) : null}
+                            <span className="mr-1" style={{display: event.image ? 'none' : 'inline'}}>{event.icon}</span>
+                          </>
+                        )}
+                        <span className={`truncate christmas-font text-xs ${backgroundImage ? 'text-white' : ''}`}>{event.title}</span>
                       </div>
                     ))}
                     {dayEvents.length > 3 && (
-                      <div className="text-xs text-gray-500">
+                      <div className={`text-xs ${backgroundImage ? 'text-white' : 'text-gray-500'}`}>
                         +{dayEvents.length - 3} more
                       </div>
                     )}
