@@ -3071,19 +3071,19 @@ const App: React.FC = () => {
                   }`}
                   style={{
                     ...(backgroundImage ? {
-                      backgroundImage: `url("${backgroundImage}")`,
+                      backgroundImage: `url(${backgroundImage})`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
                       backgroundRepeat: 'no-repeat',
-                      backgroundColor: isCurrentMonth ? 'transparent' : '#f9fafb'
+                      backgroundColor: isCurrentMonth ? '#ffffff' : '#f9fafb'
                     } : {
                       backgroundColor: isCurrentMonth ? '#ffffff' : '#f9fafb'
                     })
                   }}
                 >
-                  {/* Overlay for text readability */}
+                  {/* Overlay for text readability - only show if image loads */}
                   {backgroundImage && (
-                    <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+                    <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
                   )}
                   
                   {/* Day number at top */}
