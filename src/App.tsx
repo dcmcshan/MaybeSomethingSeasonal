@@ -12,7 +12,8 @@ interface CalendarEvent {
   category: string;
 }
 
-// Curated calendar data focusing on culturally significant feast days and seasonal celebrations
+// Calendar data is now loaded from MSS.ics file (the source of truth)
+// This is kept for reference/fallback only
 const CALENDAR_DATA: CalendarEvent[] = [
   // January
   {
@@ -2356,6 +2357,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious"
   },
   {
+    title: "Handel Messiah",
+    date: "2025-11-29",
+    description: "Performance of Handel's Messiah oratorio.",
+    icon: "🎵",
+    category: "cultural"
+  },
+  {
     title: "St. Andrew",
     date: "2025-11-30",
     description: "Apostle and martyr, patron of Scotland.",
@@ -2741,6 +2749,7 @@ const App: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [downloadCatholicOnly, setDownloadCatholicOnly] = useState<boolean>(false);
+  const [showReligious, setShowReligious] = useState<boolean>(false);
 
   useEffect(() => {
     // Use embedded data directly to avoid fetch issues
@@ -2754,7 +2763,14 @@ const App: React.FC = () => {
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
 
   const getEventsForDate = (date: Date) => {
-    return events.filter(event => isSameDay(new Date(event.date), date));
+    return events.filter(event => {
+      const isSameDate = isSameDay(new Date(event.date), date);
+      // Filter out religious events if showReligious is false
+      if (!showReligious && event.category === 'religious') {
+        return false;
+      }
+      return isSameDate;
+    });
   };
 
   const getCategoryColor = (category: string) => {
@@ -2815,7 +2831,7 @@ const App: React.FC = () => {
 
   const handleDownloadICS = () => {
     if (downloadCatholicOnly) {
-      const catholicEvents = CALENDAR_DATA.filter((e) => e.category === 'religious');
+      const catholicEvents = events.filter((e) => e.category === 'religious');
       const icsContent = buildIcsFromEvents(
         catholicEvents,
         'Catholic Liturgical Calendar',
@@ -2834,6 +2850,7 @@ const App: React.FC = () => {
       return;
     }
 
+    // Download the source MSS.ics file
     const link = document.createElement('a');
     link.href = './MSS.ics';
     link.download = 'MSS.ics';
@@ -2873,6 +2890,14 @@ const App: React.FC = () => {
           
           {/* Action buttons in top right */}
           <div className="absolute top-0 right-0 flex items-center gap-3">
+            <label className="flex items-center gap-2 text-sm text-gray-700 bg-white/70 px-2 py-1 rounded-md border">
+              <input
+                type="checkbox"
+                checked={showReligious}
+                onChange={(e) => setShowReligious(e.target.checked)}
+              />
+              <span className="whitespace-nowrap">Show Liturgical</span>
+            </label>
             <label className="flex items-center gap-2 text-sm text-gray-700 bg-white/70 px-2 py-1 rounded-md border">
               <input
                 type="checkbox"
