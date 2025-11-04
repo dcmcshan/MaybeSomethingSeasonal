@@ -3058,7 +3058,7 @@ const App: React.FC = () => {
                     isCurrentMonth ? 'bg-white' : 'bg-gray-50'
                   } ${isToday ? 'ring-2 ring-green-500' : ''}`}
                   style={{
-                    backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
+                    backgroundImage: backgroundImage ? `url("${backgroundImage}")` : undefined,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat'
