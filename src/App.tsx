@@ -2752,10 +2752,93 @@ const App: React.FC = () => {
   const [showReligious, setShowReligious] = useState<boolean>(false);
 
   useEffect(() => {
-    // Use embedded data directly to avoid fetch issues
-    setEvents(CALENDAR_DATA);
-    setIsLoading(false);
-    console.log('Calendar data loaded:', CALENDAR_DATA.length, 'events');
+    // Parse MSS.ics file - it's the source of truth
+    const parseICS = async () => {
+      try {
+        const response = await fetch('./MSS.ics');
+        const icsText = await response.text();
+        
+        const events: CalendarEvent[] = [];
+        const lines = icsText.split(/\r?\n/);
+        
+        let currentEvent: Partial<CalendarEvent & { endDate?: string }> = {};
+        let inEvent = false;
+        let descriptionLines: string[] = [];
+        let inDescription = false;
+        
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i].trim();
+          
+          if (line === 'BEGIN:VEVENT') {
+            inEvent = true;
+            currentEvent = {};
+            descriptionLines = [];
+            inDescription = false;
+          } else if (line === 'END:VEVENT' && inEvent) {
+            // Parse description to extract icon and category
+            const fullDescription = descriptionLines.join('\\n');
+            const iconMatch = fullDescription.match(/Icon:\s*([^\n\\]+)/);
+            const categoryMatch = fullDescription.match(/Category:\s*([^\n\\]+)/);
+            
+            if (currentEvent.title && currentEvent.date) {
+              // Check if this is a multi-day event
+              const startDate = new Date(currentEvent.date);
+              const endDate = currentEvent.endDate ? new Date(currentEvent.endDate) : new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
+              const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
+              
+              events.push({
+                title: currentEvent.title,
+                date: currentEvent.date,
+                endDate: daysDiff > 1 ? currentEvent.endDate : undefined,
+                description: currentEvent.description || '',
+                icon: iconMatch ? iconMatch[1].trim() : 'GPT-5',
+                category: categoryMatch ? categoryMatch[1].trim() : 'default',
+                ...(currentEvent.image && { image: currentEvent.image })
+              });
+            }
+            
+            inEvent = false;
+            currentEvent = {};
+          } else if (inEvent && line.startsWith('SUMMARY:')) {
+            currentEvent.title = line.substring(8);
+          } else if (inEvent && line.startsWith('DTSTART:')) {
+            const dtStart = line.substring(8);
+            // Parse ICS date format: YYYYMMDDTHHMMSSZ
+            const year = dtStart.substring(0, 4);
+            const month = dtStart.substring(4, 6);
+            const day = dtStart.substring(6, 8);
+            currentEvent.date = `${year}-${month}-${day}`;
+          } else if (inEvent && line.startsWith('DTEND:')) {
+            const dtEnd = line.substring(6);
+            const year = dtEnd.substring(0, 4);
+            const month = dtEnd.substring(4, 6);
+            const day = dtEnd.substring(6, 8);
+            currentEvent.endDate = `${year}-${month}-${day}`;
+          } else if (inEvent && line.startsWith('DESCRIPTION:')) {
+            const desc = line.substring(12);
+            descriptionLines.push(desc);
+            inDescription = true;
+            // Extract main description (before Icon:)
+            const mainDesc = desc.split('\\n\\nIcon:')[0].replace(/\\n/g, ' ').replace(/\\,/g, ',').replace(/\\;/g, ';');
+            currentEvent.description = mainDesc;
+          } else if (inDescription && line.startsWith(' ')) {
+            // Continuation line for description
+            descriptionLines[descriptionLines.length - 1] += line.substring(1);
+          }
+        }
+        
+        setEvents(events);
+        setIsLoading(false);
+        console.log('Calendar data loaded from MSS.ics:', events.length, 'events');
+      } catch (error) {
+        console.error('Error loading MSS.ics:', error);
+        // Fallback to empty array
+        setEvents([]);
+        setIsLoading(false);
+      }
+    };
+    
+    parseICS();
   }, []);
 
   const monthStart = startOfMonth(currentDate);
@@ -2841,35 +2924,6 @@ const App: React.FC = () => {
     return ics;
   };
 
-  const handleDownloadICS = () => {
-    if (downloadCatholicOnly) {
-      const catholicEvents = events.filter((e) => e.category === 'religious');
-      const icsContent = buildIcsFromEvents(
-        catholicEvents,
-        'Catholic Liturgical Calendar',
-        'Catholic liturgical feasts and memorials'
-      );
-
-      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'Catholic.ics';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      return;
-    }
-
-    // Download the source MSS.ics file
-    const link = document.createElement('a');
-    link.href = './MSS.ics';
-    link.download = 'MSS.ics';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   const handlePrint = () => {
     window.print();
