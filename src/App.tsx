@@ -2764,13 +2764,25 @@ const App: React.FC = () => {
 
   const getEventsForDate = (date: Date) => {
     return events.filter(event => {
-      const isSameDate = isSameDay(new Date(event.date), date);
+      const eventStart = new Date(event.date);
+      const eventEnd = event.endDate ? new Date(event.endDate) : eventStart;
+      
+      // Check if date falls within the event range (inclusive start, exclusive end)
+      const isInRange = date >= eventStart && date < eventEnd;
+      const isSameDate = isSameDay(eventStart, date);
+      
       // Filter out religious events if showReligious is false
       if (!showReligious && event.category === 'religious') {
         return false;
       }
-      return isSameDate;
+      
+      return isSameDate || isInRange;
     });
+  };
+  
+  // Get multi-day events that span across days
+  const getMultiDayEvents = () => {
+    return events.filter(event => event.endDate && event.date !== event.endDate);
   };
 
   const getCategoryColor = (category: string) => {
