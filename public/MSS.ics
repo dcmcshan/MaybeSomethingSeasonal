@@ -469,6 +469,17 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:event-shab-e-yalda-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251221T190000Z
+DTEND:20251222T070000Z
+SUMMARY:Shab-e-Yalda
+DESCRIPTION:Yalda Night - Persian celebration of the winter solstice\, the longest night of the year.\n\nIcon: 🌙\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:event-noche-rabanos-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251223T070000Z
