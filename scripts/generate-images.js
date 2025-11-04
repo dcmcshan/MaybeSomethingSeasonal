@@ -2,9 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
+// API Keys - OpenRouter key can be used for prompt enhancement, but OpenAI key needed for image generation
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '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';
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY; // Fallback to OpenRouter key if OpenAI key not set
 const ICS_PATH = path.join(__dirname, '..', 'public', 'MSS.ics');
-const USE_OPENROUTER = true; // Use OpenRouter API instead of direct OpenAI
+const USE_PROMPT_ENHANCEMENT = true; // Use OpenRouter to enhance prompts before image generation
 
 // Read ICS file and extract events
 function extractEvents() {
@@ -41,51 +43,37 @@ function extractEvents() {
   return { events, lines };
 }
 
-// Generate image using OpenRouter API
-// OpenRouter doesn't have direct image generation, so we'll use their chat API to generate
-// a detailed prompt, then use a different image service
+// Generate image using OpenAI DALL-E API
+// Note: Requires an OpenAI API key (not OpenRouter key)
 async function generateImage(prompt, retries = 3) {
-  // First, use OpenRouter to enhance the prompt
-  const enhancedPrompt = await enhancePromptWithOpenRouter(prompt);
+  // First, enhance the prompt using OpenRouter's GPT if enabled
+  let finalPrompt = prompt;
+  if (USE_PROMPT_ENHANCEMENT) {
+    try {
+      finalPrompt = await enhancePromptWithOpenRouter(prompt);
+      console.log(`  Enhanced prompt: ${finalPrompt.substring(0, 80)}...`);
+    } catch (error) {
+      console.log(`  Prompt enhancement failed, using original prompt`);
+    }
+  }
   
-  // Then generate image using OpenAI API (we'll need a fallback if OpenRouter key doesn't work)
+  // Generate image using OpenAI DALL-E
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify({
       model: "dall-e-3",
-      prompt: enhancedPrompt,
+      prompt: finalPrompt,
       n: 1,
       size: "1024x1024",
       quality: "standard"
     });
     
-    // Try OpenRouter's proxy endpoint first
-    const options = {
-      hostname: 'openrouter.ai',
-      path: '/api/v1/chat/completions',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-        'HTTP-Referer': 'https://maybesomethingseasonal.com',
-        'X-Title': 'Maybe Something Seasonal Calendar',
-        'Content-Length': Buffer.byteLength(postData)
-      }
-    };
-    
-    // Actually, OpenRouter doesn't support image generation directly
-    // Let's use a hybrid approach: get enhanced prompt, then use direct OpenAI
-    // For now, let's try using the prompt directly with OpenAI's API
-    // The user's key might be an OpenAI key that works directly
-    
-    // Use OpenAI endpoint - the key format suggests it might work with OpenAI directly
-    // If not, we'll need to handle the error and suggest using OpenAI key instead
     const req = https.request({
       hostname: 'api.openai.com',
       path: '/v1/images/generations',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
         'Content-Length': Buffer.byteLength(postData)
       }
     }, (res) => {
