@@ -2920,6 +2920,26 @@ const App: React.FC = () => {
           console.warn('First 500 characters of ICS:', icsText.substring(0, 500));
         }
         
+        // Prefetch all event images for better performance
+        const imageUrls = new Set<string>();
+        events.forEach(event => {
+          if (event.image) {
+            imageUrls.add(event.image);
+          }
+        });
+        
+        console.log(`Prefetching ${imageUrls.size} unique images...`);
+        imageUrls.forEach(imageUrl => {
+          const img = new Image();
+          img.src = imageUrl;
+          img.onload = () => {
+            console.log(`✓ Prefetched: ${imageUrl.substring(0, 50)}...`);
+          };
+          img.onerror = () => {
+            console.warn(`✗ Failed to prefetch: ${imageUrl.substring(0, 50)}...`);
+          };
+        });
+        
         setEvents(events);
         setIsLoading(false);
       } catch (error) {
