@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
-import { ChevronLeft, ChevronRight, Download, Calendar, MapPin, Printer } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, Calendar, Printer } from 'lucide-react';
 import './App.css';
 
 interface CalendarEvent {
@@ -10,6 +10,7 @@ interface CalendarEvent {
   icon: string;
   image?: string;
   category: string;
+  endDate?: string;
 }
 
 // Calendar data is now loaded from MSS.ics file (the source of truth)
@@ -2746,18 +2747,18 @@ const CALENDAR_DATA: CalendarEvent[] = [
 const App: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [_selectedEvent, _setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [showReligious, setShowReligious] = useState<boolean>(false);
+  const [showReligious, _setShowReligious] = useState<boolean>(false);
 
   useEffect(() => {
     // Parse MSS.ics file - it's the source of truth
     const parseICS = async () => {
       try {
         // Try different paths for development and production
-        const basePath = import.meta.env.BASE_URL || '/';
+        const basePath = (import.meta.env as { BASE_URL?: string }).BASE_URL || '/';
         const icsPath = `${basePath}MSS.ics`;
-        console.log('Fetching ICS from:', icsPath, 'BASE_URL:', import.meta.env.BASE_URL);
+        console.log('Fetching ICS from:', icsPath, 'BASE_URL:', basePath);
         const response = await fetch(icsPath);
         if (!response.ok) {
           console.error(`Failed to fetch MSS.ics: ${response.status} ${response.statusText}`);
@@ -2959,11 +2960,6 @@ const App: React.FC = () => {
     });
   };
   
-  // Get multi-day events that span across days
-  const getMultiDayEvents = () => {
-    return events.filter(event => event.endDate && event.date !== event.endDate);
-  };
-
   const getCategoryColor = (category: string) => {
     const colors: { [key: string]: string } = {
       seasonal: 'bg-green-100 text-green-800 border-green-200',
@@ -2975,16 +2971,6 @@ const App: React.FC = () => {
     };
     return colors[category] || colors.default;
   };
-
-  const escapeIcsText = (value: string): string => {
-    return value
-      .replace(/\\/g, '\\\\')
-      .replace(/\n/g, '\\n')
-      .replace(/,/g, '\\,')
-      .replace(/;/g, '\\;');
-  };
-
-
 
   const handlePrint = () => {
     window.print();
@@ -3115,7 +3101,10 @@ const App: React.FC = () => {
                             className="w-4 h-4 object-cover rounded mr-1 inline-block"
                             onError={(e) => {
                               e.currentTarget.style.display = 'none';
-                              e.currentTarget.nextElementSibling.style.display = 'inline';
+                              const nextSibling = e.currentTarget.nextElementSibling;
+                              if (nextSibling && nextSibling instanceof HTMLElement) {
+                                nextSibling.style.display = 'inline';
+                              }
                             }}
                           />
                         ) : null}
