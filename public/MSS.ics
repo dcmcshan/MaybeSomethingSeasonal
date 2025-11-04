@@ -161,6 +161,17 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:event-st-nicholas-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251206T070000Z
+DTEND:20251207T070000Z
+SUMMARY:St. Nicholas Day
+DESCRIPTION:Feast of St. Nicholas\, bishop and patron saint of children and gift-giving.\n\nIcon: 🎁\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:event-sinterklaas-steams-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251111T190000Z
