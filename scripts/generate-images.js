@@ -2,11 +2,24 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
-// API Keys - OpenRouter key can be used for prompt enhancement, but OpenAI key needed for image generation
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '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';
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY; // Fallback to OpenRouter key if OpenAI key not set
+// API Keys - MUST be set via environment variables for security
+// Do NOT hardcode API keys in this file!
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const ICS_PATH = path.join(__dirname, '..', 'public', 'MSS.ics');
 const USE_PROMPT_ENHANCEMENT = true; // Use OpenRouter to enhance prompts before image generation
+
+// Validate API keys are set
+if (!OPENROUTER_API_KEY) {
+  console.error('? ERROR: OPENROUTER_API_KEY environment variable not set!');
+  console.error('   Set it with: export OPENROUTER_API_KEY=your-key-here');
+  process.exit(1);
+}
+
+if (!OPENAI_API_KEY) {
+  console.warn('??  WARNING: OPENAI_API_KEY not set. Image generation will fail.');
+  console.warn('   Set it with: export OPENAI_API_KEY=your-key-here');
+}
 
 // Read ICS file and extract events
 function extractEvents() {
