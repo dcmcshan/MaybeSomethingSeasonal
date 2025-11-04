@@ -4,6 +4,7 @@
   "description": "A seasonal calendar with ICS generation and React viewer",
   "main": "index.js",
   "scripts": {
+    "generate-images": "node scripts/generate-images.js",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
