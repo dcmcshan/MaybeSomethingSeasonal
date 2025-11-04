@@ -106,6 +106,28 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:event-angelitos-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251101T070000Z
+DTEND:20251102T070000Z
+SUMMARY:Día de los Angelitos
+DESCRIPTION:Day of the Little Angels - honoring deceased children.\n\nIcon: 👼\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:event-muertos-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251102T070000Z
+DTEND:20251103T070000Z
+SUMMARY:Día de los Muertos
+DESCRIPTION:Day of the Dead - celebration of deceased loved ones.\n\nIcon: 💀\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:event-martin-eve-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251110T070000Z
