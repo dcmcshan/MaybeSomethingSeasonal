@@ -2748,7 +2748,6 @@ const App: React.FC = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [downloadCatholicOnly, setDownloadCatholicOnly] = useState<boolean>(false);
   const [showReligious, setShowReligious] = useState<boolean>(false);
 
   useEffect(() => {
