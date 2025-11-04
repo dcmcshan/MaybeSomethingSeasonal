@@ -13,8 +13,8 @@ interface CalendarEvent {
   endDate?: string;
 }
 
-// Calendar data is now loaded from MSS.ics file (the source of truth)
-// This is kept for reference/fallback only
+// MSS.ics is the source of truth
+// This CALENDAR_DATA is kept as fallback only if MSS.ics fails to load
 const CALENDAR_DATA: CalendarEvent[] = [
   // January
   {
@@ -2766,7 +2766,6 @@ const App: React.FC = () => {
         }
         const icsText = await response.text();
         console.log('ICS file loaded, length:', icsText.length, 'characters');
-        console.log('First 200 chars:', icsText.substring(0, 200));
         
         const events: CalendarEvent[] = [];
         const lines = icsText.split(/\r?\n/);
@@ -2799,7 +2798,6 @@ const App: React.FC = () => {
             
             // The description contains literal \n sequences (backslash-n as two characters)
             // Icon and Category are separated by \n\nIcon: and \nCategory:
-            // Try multiple patterns to handle different formats
             let icon = '📅';
             let category = 'default';
             
@@ -2817,20 +2815,6 @@ const App: React.FC = () => {
             if (categoryMatch1) category = categoryMatch1[1].trim();
             else if (categoryMatch2) category = categoryMatch2[1].trim();
             
-            console.log(`Parsing event ${eventCount}:`, {
-              title: currentEvent.title,
-              date: currentEvent.date,
-              hasDescription: !!fullDescription,
-              descriptionLength: fullDescription.length,
-              descriptionPreview: fullDescription.substring(0, 150),
-              iconMatch1: iconMatch1 ? iconMatch1[1] : null,
-              categoryMatch1: categoryMatch1 ? categoryMatch1[1] : null,
-              iconMatch2: iconMatch2 ? iconMatch2[1] : null,
-              categoryMatch2: categoryMatch2 ? categoryMatch2[1] : null,
-              finalIcon: icon,
-              finalCategory: category
-            });
-            
             if (currentEvent.title && currentEvent.date) {
               // Check if this is a multi-day event
               const startDate = new Date(currentEvent.date);
@@ -2846,14 +2830,6 @@ const App: React.FC = () => {
                 category: category,
                 ...(currentEvent.image && { image: currentEvent.image })
               });
-              console.log(`✅ Added event: ${currentEvent.title}`);
-            } else {
-              console.warn('❌ Skipping event - missing title or date:', { 
-                title: currentEvent.title, 
-                date: currentEvent.date,
-                hasTitle: !!currentEvent.title,
-                hasDate: !!currentEvent.date
-              });
             }
             
             inEvent = false;
@@ -2865,7 +2841,6 @@ const App: React.FC = () => {
             const colonIndex = trimmedLine.indexOf(':');
             if (colonIndex >= 0) {
               currentEvent.title = trimmedLine.substring(colonIndex + 1);
-              console.log('Found SUMMARY:', currentEvent.title);
             }
           } else if (inEvent && trimmedLine.startsWith('DTSTART')) {
             // Handle DTSTART with or without parameters
@@ -2878,7 +2853,6 @@ const App: React.FC = () => {
               const month = datePart.substring(4, 6);
               const day = datePart.substring(6, 8);
               currentEvent.date = `${year}-${month}-${day}`;
-              console.log('Found DTSTART:', currentEvent.date);
             }
           } else if (inEvent && trimmedLine.startsWith('DTEND')) {
             // Handle DTEND with or without parameters
@@ -2908,7 +2882,6 @@ const App: React.FC = () => {
                 .replace(/\\;/g, ';')
                 .replace(/\\\\/g, '\\');
               currentEvent.description = mainDesc;
-              console.log('Found DESCRIPTION:', desc.substring(0, 100) + '...');
             }
           } else if (inDescription && line.startsWith(' ')) {
             // Continuation line for description (ICS format uses leading space)
@@ -2918,12 +2891,13 @@ const App: React.FC = () => {
         }
         
         console.log(`Found ${eventCount} BEGIN:VEVENT blocks, parsed ${events.length} events`);
-        
         console.log('Calendar data loaded from MSS.ics:', events.length, 'events');
+        
         if (events.length === 0) {
           console.warn('No events found in MSS.ics. ICS file content length:', icsText.length);
           console.warn('First 500 characters of ICS:', icsText.substring(0, 500));
         }
+        
         setEvents(events);
         setIsLoading(false);
       } catch (error) {
@@ -3004,9 +2978,9 @@ const App: React.FC = () => {
           {/* Action buttons in top right */}
           <div className="absolute top-0 right-0 flex items-center gap-3">
             <a
-              href="webcal://dcmcshan.github.io/MaybeSomethingSeasonal/MSS.ics"
+              href={`webcal://${window.location.host}${(import.meta.env as { BASE_URL?: string }).BASE_URL || '/'}MSS.ics`}
               className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              title="Add to Calendar (ics://)"
+              title="Add to Calendar (webcal://)"
             >
               <Download className="w-5 h-5" />
             </a>
