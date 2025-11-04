@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-// Read and extract CALENDAR_DATA from App.tsx
+// Read and extract CALENDAR_DATA from App_curated.tsx (curated list, not full liturgical calendar)
 function extractEvents() {
-  const appTsxPath = path.join(__dirname, '..', 'src', 'App.tsx');
+  const appTsxPath = path.join(__dirname, '..', 'src', 'App_curated.tsx');
   const appContent = fs.readFileSync(appTsxPath, 'utf8');
   
   const events = [];
@@ -78,9 +78,9 @@ function generateICS(events) {
 }
 
 // Main execution
-console.log('?? Extracting events from App.tsx...');
+console.log('?? Extracting curated events from App_curated.tsx...');
 const events = extractEvents();
-console.log(`? Found ${events.length} events`);
+console.log(`? Found ${events.length} curated events`);
 
 const icsContent = generateICS(events);
 const icsPath = path.join(__dirname, '..', 'public', 'MSS.ics');
