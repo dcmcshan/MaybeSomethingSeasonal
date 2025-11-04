@@ -229,10 +229,10 @@ END:VEVENT
 BEGIN:VEVENT
 UID:event-hanukkah-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
-DTSTART:20251215T070000Z
+DTSTART:20251215T190000Z
 DTEND:20251223T070000Z
 SUMMARY:Hanukkah
-DESCRIPTION:Festival of Lights - eight nights of celebration.\n\nIcon: 🕎\nCategory: cultural
+DESCRIPTION:Festival of Lights - eight nights of celebration\, starting at dusk on Dec 15.\n\nIcon: 🕎\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
