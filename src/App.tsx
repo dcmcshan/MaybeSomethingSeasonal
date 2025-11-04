@@ -2974,7 +2974,7 @@ const App: React.FC = () => {
               return (
                 <div
                   key={day.toISOString()}
-                  className={`min-h-[100px] p-2 border rounded-lg relative ${
+                  className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col ${
                     isCurrentMonth ? 'bg-white' : 'bg-gray-50'
                   } ${isToday ? 'ring-2 ring-green-500' : ''}`}
                 >
