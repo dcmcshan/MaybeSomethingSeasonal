@@ -161,12 +161,12 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:event-51-1762235928035@maybesomethingseasonal.com
+UID:event-sinterklaas-steams-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
-DTSTART:20251115T070000Z
-DTEND:20251116T070000Z
-SUMMARY:Sinterklaas Arrival
-DESCRIPTION:Arrival of Sinterklaas in the Netherlands.\n\nIcon: 🚢\nCategory: cultural
+DTSTART:20251111T070000Z
+DTEND:20251117T070000Z
+SUMMARY:Sinterklaas Steams
+DESCRIPTION:Traditional Dutch celebration period with Sinterklaas arriving by steamboat.\n\nIcon: 🚢\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
@@ -178,6 +178,28 @@ DTSTART:20251213T070000Z
 DTEND:20251214T070000Z
 SUMMARY:Lussi Day
 DESCRIPTION:Swedish celebration of light and St. Lucia.\n\nIcon: 🕯️\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:event-palmer-lake-yule-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251215T070000Z
+DTEND:20251216T070000Z
+SUMMARY:Palmer Lake Yule Log Hunt
+DESCRIPTION:Annual tradition in Palmer Lake\, Colorado: community yule log hunt and celebration.\n\nIcon: 🪵\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:event-hanukkah-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251215T070000Z
+DTEND:20251223T070000Z
+SUMMARY:Hanukkah
+DESCRIPTION:Festival of Lights - eight nights of celebration.\n\nIcon: 🕎\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
@@ -223,6 +245,28 @@ DTEND:20251226T070000Z
 SUMMARY:Christmas Day
 DESCRIPTION:Birth of Jesus Christ\, joy and celebration.\n\nIcon: 🎄\nCategory: celebration
 CATEGORIES:celebration
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:event-stefan-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251226T070000Z
+DTEND:20251227T070000Z
+SUMMARY:Feast of St. Stefan
+DESCRIPTION:Celebration of St. Stephen\, the first martyr.\n\nIcon: ⛪\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:event-childermas-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251227T070000Z
+DTEND:20251228T070000Z
+SUMMARY:Childermas
+DESCRIPTION:Feast of the Holy Innocents\, also known as Childermas.\n\nIcon: 👶\nCategory: cultural
+CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
