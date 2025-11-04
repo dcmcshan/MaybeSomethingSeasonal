@@ -2955,29 +2955,13 @@ const App: React.FC = () => {
           
           {/* Action buttons in top right */}
           <div className="absolute top-0 right-0 flex items-center gap-3">
-            <label className="flex items-center gap-2 text-sm text-gray-700 bg-white/70 px-2 py-1 rounded-md border">
-              <input
-                type="checkbox"
-                checked={showReligious}
-                onChange={(e) => setShowReligious(e.target.checked)}
-              />
-              <span className="whitespace-nowrap">Show Liturgical</span>
-            </label>
-            <label className="flex items-center gap-2 text-sm text-gray-700 bg-white/70 px-2 py-1 rounded-md border">
-              <input
-                type="checkbox"
-                checked={downloadCatholicOnly}
-                onChange={(e) => setDownloadCatholicOnly(e.target.checked)}
-              />
-              <span className="whitespace-nowrap">Catholic .ics</span>
-            </label>
-            <button
-              onClick={handleDownloadICS}
+            <a
+              href="webcal://dcmcshan.github.io/MaybeSomethingSeasonal/MSS.ics"
               className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              title={downloadCatholicOnly ? 'Download Catholic (.ics)' : 'Download Calendar (.ics)'}
+              title="Add to Calendar (ics://)"
             >
               <Download className="w-5 h-5" />
-            </button>
+            </a>
             <button
               onClick={handlePrint}
               className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
