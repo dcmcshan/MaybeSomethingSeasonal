@@ -2,8 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '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';
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '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';
 const ICS_PATH = path.join(__dirname, '..', 'public', 'MSS.ics');
+const USE_OPENROUTER = true; // Use OpenRouter API instead of direct OpenAI
 
 // Read ICS file and extract events
 function extractEvents() {
@@ -40,11 +41,11 @@ function extractEvents() {
   return { events, lines };
 }
 
-// Generate image using OpenAI DALL-E
+// Generate image using OpenRouter API (which routes to DALL-E or other image models)
 function generateImage(prompt, retries = 3) {
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify({
-      model: "dall-e-3",
+      model: "openai/dall-e-3",
       prompt: prompt,
       n: 1,
       size: "1024x1024",
@@ -52,12 +53,14 @@ function generateImage(prompt, retries = 3) {
     });
     
     const options = {
-      hostname: 'api.openai.com',
-      path: '/v1/images/generations',
+      hostname: 'openrouter.ai',
+      path: '/api/v1/images/generations',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+        'HTTP-Referer': 'https://maybesomethingseasonal.com',
+        'X-Title': 'Maybe Something Seasonal Calendar',
         'Content-Length': Buffer.byteLength(postData)
       }
     };
@@ -73,9 +76,14 @@ function generateImage(prompt, retries = 3) {
         if (res.statusCode === 200) {
           try {
             const response = JSON.parse(data);
+            // OpenRouter may wrap the response differently
             if (response.data && response.data[0] && response.data[0].url) {
               resolve(response.data[0].url);
+            } else if (response.url) {
+              // Direct URL response
+              resolve(response.url);
             } else {
+              console.error('Response structure:', JSON.stringify(response, null, 2));
               reject(new Error('No image URL in response'));
             }
           } catch (e) {
@@ -83,12 +91,14 @@ function generateImage(prompt, retries = 3) {
           }
         } else if (res.statusCode === 429 && retries > 0) {
           // Rate limited - wait and retry
-          console.log(`Rate limited, waiting 60 seconds before retry...`);
+          const retryAfter = res.headers['retry-after'] || 60;
+          console.log(`Rate limited, waiting ${retryAfter} seconds before retry...`);
           setTimeout(() => {
             generateImage(prompt, retries - 1).then(resolve).catch(reject);
-          }, 60000);
+          }, retryAfter * 1000);
         } else {
-          reject(new Error(`API error: ${res.statusCode} - ${data}`));
+          console.error(`API error response: ${data}`);
+          reject(new Error(`API error: ${res.statusCode} - ${data.substring(0, 200)}`));
         }
       });
     });
