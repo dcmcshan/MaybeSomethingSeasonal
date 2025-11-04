@@ -2978,9 +2978,10 @@ const App: React.FC = () => {
           {/* Action buttons in top right */}
           <div className="absolute top-0 right-0 flex items-center gap-3">
             <a
-              href={`webcal://${window.location.host}${(import.meta.env as { BASE_URL?: string }).BASE_URL || '/'}MSS.ics`}
+              href={`${(import.meta.env as { BASE_URL?: string }).BASE_URL || '/'}MSS.ics`}
+              download="MSS.ics"
               className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              title="Add to Calendar (webcal://)"
+              title="Download Calendar (editable .ics file - import to edit)"
             >
               <Download className="w-5 h-5" />
             </a>
