@@ -2591,6 +2591,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious"
   },
   {
+    title: "Hanukkah - Night 8",
+    date: "2025-12-22",
+    description: "Eighth and final night of Hanukkah - Festival of Lights concludes.",
+    icon: "🕎",
+    category: "religious"
+  },
+  {
     title: "St. John of Kanty",
     date: "2025-12-23",
     description: "Priest and saint, patron of Poland.",
