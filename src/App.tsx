@@ -12,16 +12,16 @@ interface CalendarEvent {
   category: string;
 }
 
-// Embedded calendar data with comprehensive Catholic liturgical calendar for 2025
+// Curated calendar data focusing on culturally significant feast days and seasonal celebrations
 const CALENDAR_DATA: CalendarEvent[] = [
   // January
   {
-    title: "Solemnity of Mary, Mother of God",
+    title: "New Year's Day",
     date: "2025-01-01",
-    description: "New Year's Day - Mary as Theotokos, God-bearer.",
-    icon: "👑",
+    description: "Celebration of the new year and fresh beginnings.",
+    icon: "🎊",
     image: "/images/image1.jpg",
-    category: "religious"
+    category: "celebration"
   },
   {
     title: "St. Basil & St. Gregory",
@@ -233,6 +233,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     title: "Presentation of the Lord",
     date: "2025-02-02",
     description: "Candlemas - Jesus presented in the Temple.",
+    icon: "🕯️",
+    category: "religious"
+  },
+  {
+    title: "Candlemas",
+    date: "2025-02-02",
+    description: "Feast of the Presentation of Jesus and blessing of candles.",
     icon: "🕯️",
     category: "religious"
   },
@@ -2138,6 +2145,14 @@ const CALENDAR_DATA: CalendarEvent[] = [
   
   // November
   {
+    title: "Día de los Muertos",
+    date: "2025-11-01",
+    description: "Day of the Dead - celebration of deceased loved ones.",
+    icon: "💀",
+    image: "/images/image6.png",
+    category: "cultural"
+  },
+  {
     title: "All Saints' Day",
     date: "2025-11-01",
     description: "Celebration of all the saints in heaven.",
@@ -2347,6 +2362,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     icon: "👥",
     category: "religious"
   },
+  {
+    title: "Desnudar al Niño Dios",
+    date: "2025-11-30",
+    description: "First Sunday of Advent - traditional ceremony of undressing the Baby Jesus figure.",
+    icon: "👶",
+    category: "cultural"
+  },
   
   // December
   {
@@ -2403,6 +2425,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     title: "Immaculate Conception",
     date: "2025-12-08",
     description: "Mary conceived without original sin.",
+    icon: "🌹",
+    category: "religious"
+  },
+  {
+    title: "Immaculada",
+    date: "2025-12-08",
+    description: "Feast of the Immaculate Conception.",
     icon: "🌹",
     category: "religious"
   },
@@ -2464,10 +2493,31 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious"
   },
   {
+    title: "Palmer Lake Yule Log Hunt",
+    date: "2025-12-15",
+    description: "Traditional community Yule log hunt celebration.",
+    icon: "🪵",
+    category: "cultural"
+  },
+  {
+    title: "Hanukkah - Night 1",
+    date: "2025-12-15",
+    description: "First night of Hanukkah - Festival of Lights begins.",
+    icon: "🕎",
+    category: "religious"
+  },
+  {
     title: "St. Adelaide",
     date: "2025-12-16",
     description: "Empress and saint, patron of abuse victims.",
     icon: "👑",
+    category: "religious"
+  },
+  {
+    title: "Hanukkah - Night 2",
+    date: "2025-12-16",
+    description: "Second night of Hanukkah - Festival of Lights.",
+    icon: "🕎",
     category: "religious"
   },
   {
@@ -2499,10 +2549,31 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious"
   },
   {
+    title: "Solstice Eve",
+    date: "2025-12-20",
+    description: "The evening before the winter solstice, preparing for the shortest day.",
+    icon: "🌙",
+    category: "seasonal"
+  },
+  {
+    title: "Hanukkah - Night 6",
+    date: "2025-12-20",
+    description: "Sixth night of Hanukkah - Festival of Lights.",
+    icon: "🕎",
+    category: "religious"
+  },
+  {
     title: "St. Peter Canisius",
     date: "2025-12-21",
     description: "Jesuit priest and Doctor of the Church.",
     icon: "🎓",
+    category: "religious"
+  },
+  {
+    title: "Hanukkah - Night 7",
+    date: "2025-12-21",
+    description: "Seventh night of Hanukkah - Festival of Lights.",
+    icon: "🕎",
     category: "religious"
   },
   {
@@ -2548,6 +2619,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious"
   },
   {
+    title: "Feast of St. Stefan",
+    date: "2025-12-26",
+    description: "Celebration of St. Stephen, the first martyr.",
+    icon: "⛪",
+    category: "religious"
+  },
+  {
     title: "St. John the Evangelist",
     date: "2025-12-27",
     description: "Apostle and evangelist, patron of writers.",
@@ -2560,6 +2638,13 @@ const CALENDAR_DATA: CalendarEvent[] = [
     description: "Commemoration of children killed by Herod.",
     icon: "👶",
     category: "religious"
+  },
+  {
+    title: "Dermas",
+    date: "2025-12-28",
+    description: "Traditional celebration.",
+    icon: "🎉",
+    category: "cultural"
   },
   {
     title: "St. Thomas Becket",
@@ -2743,8 +2828,8 @@ const App: React.FC = () => {
     }
 
     const link = document.createElement('a');
-    link.href = './MaybeSomethingSeasonal.ics';
-    link.download = 'MaybeSomethingSeasonal.ics';
+    link.href = './MSS.ics';
+    link.download = 'MSS.ics';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

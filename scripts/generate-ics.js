@@ -84,7 +84,7 @@ VERSION:2.0
 PRODID:-//MaybeSomethingSeasonal//Calendar//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Maybe Something Seasonal
+X-WR-CALNAME:MSS
 X-WR-CALDESC:A seasonal calendar celebrating nature's cycles
 X-WR-TIMEZONE:America/New_York
 `;
@@ -117,7 +117,7 @@ function generateCalendarData() {
   const icsContent = generateICS(seasonalEvents);
   
   // Write ICS file
-  fs.writeFileSync(path.join(__dirname, '..', 'public', 'MaybeSomethingSeasonal.ics'), icsContent);
+  fs.writeFileSync(path.join(__dirname, '..', 'public', 'MSS.ics'), icsContent);
   
   // Write JSON data for React app
   fs.writeFileSync(
@@ -125,7 +125,7 @@ function generateCalendarData() {
     JSON.stringify(seasonalEvents, null, 2)
   );
   
-  console.log('✅ Generated MaybeSomethingSeasonal.ics');
+  console.log('✅ Generated MSS.ics');
   console.log('✅ Generated calendar-data.json');
   console.log(`📅 Created ${seasonalEvents.length} seasonal events`);
 }
