@@ -34,12 +34,7 @@ cd MaybeSomethingSeasonal
 npm install
 ```
 
-3. Generate the ICS calendar file:
-```bash
-npm run generate-ics
-```
-
-4. Start the development server:
+3. Start the development server:
 ```bash
 npm run dev
 ```
@@ -52,7 +47,7 @@ npm run dev
 npm run build
 ```
 
-This will create a `dist` folder with the production build and generate the ICS file.
+This will create a `dist` folder with the production build. The `public/MSS.ics` file is copied to `dist/` during the build.
 
 ## Project Structure
 
@@ -64,10 +59,9 @@ MaybeSomethingSeasonal/
 │   ├── main.tsx         # React entry point
 │   └── index.css        # Global styles
 ├── scripts/
-│   └── generate-ics.js  # ICS calendar generator
-├── public/              # Static files (generated)
-│   ├── MaybeSomethingSeasonal.ics
-│   └── calendar-data.json
+│   └── generate-ics.js  # Legacy ICS generator (not used)
+├── public/              # Static files
+│   └── MSS.ics          # Calendar source file (edit directly)
 ├── .github/workflows/
 │   └── deploy.yml       # GitHub Pages deployment
 └── package.json
@@ -75,28 +69,37 @@ MaybeSomethingSeasonal/
 
 ## Customizing Events
 
-To add or modify events, edit the `seasonalEvents` array in `scripts/generate-ics.js`:
+**MSS.ics is the source of truth** - edit `public/MSS.ics` directly to add, modify, or remove events.
 
-```javascript
-const seasonalEvents = [
-  {
-    title: "Your Event Name",
-    date: "2024-MM-DD",
-    description: "Event description",
-    icon: "🎉",
-    category: "celebration"
-  }
-];
+The ICS file format includes:
+- `SUMMARY:` - Event title
+- `DTSTART:` - Event date (YYYYMMDDTHHMMSSZ format)
+- `DTEND:` - End date
+- `DESCRIPTION:` - Event description with embedded Icon and Category
+
+Example event structure:
+```
+BEGIN:VEVENT
+UID:event-0-1234567890@maybesomethingseasonal.com
+DTSTAMP:20250101T000000Z
+DTSTART:20250101T070000Z
+DTEND:20250102T070000Z
+SUMMARY:New Year's Day
+DESCRIPTION:Celebration of the new year.\n\nIcon: 🎊\nCategory: celebration
+CATEGORIES:celebration
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
 ```
 
-Then run `npm run generate-ics` to update the calendar files.
+After editing, commit and push the changes. The app will automatically parse and display the updated events.
 
 ## Deployment
 
 The project is automatically deployed to GitHub Pages when changes are pushed to the main branch. The deployment workflow:
 
 1. Builds the React application
-2. Generates the ICS calendar file
+2. Copies `public/MSS.ics` to `dist/`
 3. Deploys to GitHub Pages
 
 ## Technologies Used
