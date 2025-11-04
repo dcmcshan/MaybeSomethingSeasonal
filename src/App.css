@@ -1,11 +1,55 @@
 /* Additional custom styles for the calendar */
 .calendar-day {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
   transition: all 0.2s ease-in-out;
+  background-color: inherit;
+}
+
+.calendar-day::before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+  pointer-events: none;
 }
 
 .calendar-day:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-day-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  z-index: 2;
+}
+
+.calendar-day-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.calendar-day-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  pointer-events: none;
+  transition: background 0.2s ease-in-out;
+}
+
+.calendar-day:hover .calendar-day-overlay {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .event-card {
@@ -183,7 +227,15 @@
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
-    height: 100vh !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  :root {
+    --print-cell-gap: 2px;
+    --print-cell-size: calc((100vh - 1in - (5 * var(--print-cell-gap))) / 6);
   }
 
   /* Calendar header */
@@ -201,25 +253,35 @@
   .grid {
     display: grid !important;
     width: 100% !important;
-    height: calc(100vh - 40px) !important;
+    justify-content: center !important;
+    align-content: start !important;
   }
 
   .grid-cols-7 {
-    grid-template-columns: repeat(7, 1fr) !important;
-  }
-
-  .gap-2 {
-    gap: 0.5px !important;
+    grid-template-columns: repeat(7, var(--print-cell-size)) !important;
+    gap: var(--print-cell-gap) !important;
+    justify-content: center !important;
   }
 
   /* Calendar day cells */
-  .min-h-\[100px\] {
-    min-height: calc((100vh - 50px) / 6) !important;
-    max-height: calc((100vh - 50px) / 6) !important;
-    padding: 1px !important;
+  .calendar-day {
+    width: var(--print-cell-size) !important;
     border: 0.5px solid #000 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
     page-break-inside: avoid !important;
-    overflow: hidden !important;
+  }
+
+  .calendar-day::before {
+    padding-top: 100% !important;
+  }
+
+  .calendar-day-content {
+    padding: 2px !important;
+  }
+
+  .calendar-day-overlay {
+    background: rgba(0, 0, 0, 0.15) !important;
   }
 
   /* Day numbers */
@@ -230,7 +292,7 @@
 
   /* Events */
   .space-y-1 > * + * {
-    margin-top: 0.5px !important;
+    margin-top: 1px !important;
   }
 
   .text-xs.p-1 {
@@ -241,38 +303,38 @@
   }
 
   /* Event icons */
-  img {
+  .event-icon {
     width: 6px !important;
     height: 6px !important;
   }
 
-    .diagonal-event-wrapper {
-      min-height: calc((100vh - 50px) / 6 - 4px) !important;
-      border-width: 0.5px !important;
-    }
+  .diagonal-event-wrapper {
+    min-height: calc((100vh - 50px) / 6 - 4px) !important;
+    border-width: 0.5px !important;
+  }
 
-    .diagonal-event-label {
-      max-width: 100% !important;
-      font-size: 6px !important;
-      padding: 0.5px 1px !important;
-      gap: 0.5px !important;
-      backdrop-filter: none !important;
-      background-color: #ffffff !important;
-      border-radius: 0 !important;
-      color: #000000 !important;
-      font-weight: 700 !important;
-      border-color: #000000 !important;
-    }
+  .diagonal-event-label {
+    max-width: 100% !important;
+    font-size: 6px !important;
+    padding: 0.5px 1px !important;
+    gap: 0.5px !important;
+    backdrop-filter: none !important;
+    background-color: #ffffff !important;
+    border-radius: 0 !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+    border-color: #000000 !important;
+  }
 
-    .diagonal-event-label .event-title {
-      max-width: 90% !important;
-    }
+  .diagonal-event-label .event-title {
+    max-width: 90% !important;
+  }
 
-    .diagonal-event-label .event-icon-image {
-      width: 6px !important;
-      height: 6px !important;
-      border-radius: 0 !important;
-    }
+  .diagonal-event-label .event-icon-image {
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 0 !important;
+  }
 
   /* Event text */
   .truncate {
@@ -304,7 +366,8 @@
   }
 
   /* Force full width and height */
-  html, body {
+  html,
+  body {
     width: 100% !important;
     height: 100% !important;
     overflow: hidden !important;
