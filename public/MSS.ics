@@ -253,7 +253,7 @@ UID:event-martin-eve-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251110T070000Z
 DTEND:20251111T070000Z
-SUMMARY:St. Martin's Eve
+SUMMARY:Martinmas Eve
 DESCRIPTION:Evening before St. Martin's Day\, traditional celebration.\n\nIcon: 🪶\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -264,7 +264,7 @@ UID:event-martin-day-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251111T070000Z
 DTEND:20251112T070000Z
-SUMMARY:St. Martin's Day
+SUMMARY:Martinmas
 DESCRIPTION:Feast of St. Martin of Tours\, patron of soldiers and beggars.\n\nIcon: 🪶\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
