@@ -123,6 +123,75 @@ async function generateImage(prompt, retries = 3) {
   });
 }
 
+// Enhance prompt using OpenRouter's GPT-5 or GPT-4o API
+async function enhancePromptWithOpenRouter(originalPrompt) {
+  return new Promise((resolve, reject) => {
+    const postData = JSON.stringify({
+      model: "openai/gpt-4o", // Try GPT-5 if available: "openai/gpt-5" or "openai/o1-preview"
+      messages: [
+        {
+          role: "system",
+          content: "You are an expert at creating detailed, artistic image generation prompts for DALL-E 3. Create concise, detailed, visually rich prompts that will generate beautiful calendar illustrations. Focus on style, mood, colors, cultural elements, and visual composition."
+        },
+        {
+          role: "user",
+          content: `Create an enhanced, detailed image generation prompt optimized for DALL-E 3 based on this calendar event: ${originalPrompt}\n\nMake it specific, artistic, and visually descriptive. Include style, mood, colors, cultural elements, and composition. Keep it under 200 words.`
+        }
+      ],
+      max_tokens: 200,
+      temperature: 0.7
+    });
+    
+    const req = https.request({
+      hostname: 'openrouter.ai',
+      path: '/api/v1/chat/completions',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+        'HTTP-Referer': 'https://maybesomethingseasonal.com',
+        'X-Title': 'Maybe Something Seasonal Calendar',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    }, (res) => {
+      let data = '';
+      
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            const response = JSON.parse(data);
+            const enhanced = response.choices?.[0]?.message?.content?.trim();
+            if (enhanced && enhanced.length > 20) {
+              resolve(enhanced);
+            } else {
+              console.log('  OpenRouter returned empty/short response, using original prompt');
+              resolve(originalPrompt);
+            }
+          } catch (e) {
+            console.log('  Error parsing OpenRouter response, using original prompt');
+            resolve(originalPrompt); // Fallback to original
+          }
+        } else {
+          console.log(`  OpenRouter API error (${res.statusCode}), using original prompt`);
+          resolve(originalPrompt); // Fallback to original on error
+        }
+      });
+    });
+    
+    req.on('error', () => {
+      console.log('  Network error with OpenRouter, using original prompt');
+      resolve(originalPrompt); // Fallback to original on error
+    });
+    
+    req.write(postData);
+    req.end();
+  });
+}
+
 // Create prompt for event
 function createPrompt(event) {
   const description = event.description || '';
