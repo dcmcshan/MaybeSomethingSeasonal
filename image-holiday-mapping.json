@@ -1,0 +1,983 @@
+{
+  "holidays": [
+    "Banquet of Chestnuts",
+    "Keystone",
+    "Copper",
+    "el Día de Muertos",
+    "stMartin's Eve",
+    "Martinstag",
+    "Sinterklass Arrival",
+    "Life Day",
+    "Daniel is in Huntsville",
+    "McShan Grands Arrive",
+    "Thanksgiving",
+    "Andermas Eve",
+    "St Andrew's Day",
+    "McShan Grands Depart",
+    "Madrigal",
+    "Krampusnacht",
+    "St Nicks Day",
+    "1940s",
+    "Immaculada",
+    "Magic Flute",
+    "Gita Mahotsav",
+    "Virgin of Guadalupe",
+    "Lussi Day",
+    "Christmas Party",
+    "Yule Log",
+    "It's a Wonderful Life",
+    "Saturnalia",
+    "A Colorado Nutcracker",
+    "Solstice Eve",
+    "Solstice",
+    "Noche de Rábanos",
+    "Christmas Eve",
+    "Christmas",
+    "Feast of St. Stefan",
+    "St. John Evangelist",
+    "Childermas",
+    "Broadmoor Brunch",
+    "New Years Eve",
+    "New Years Day",
+    "Perchtag",
+    "12th Night",
+    "Día de los Reyes",
+    "Fête de l'âne",
+    "Dondoyaki",
+    "Old Twelfth Night",
+    "Bóndadagur",
+    "St Dwynwyn's Day",
+    "Chinese New Year",
+    "Imbolc Eve",
+    "Imbolc",
+    "Candelaria"
+  ],
+  "imageCellMap": [
+    {
+      "row": 3,
+      "col": "D",
+      "colNum": 3,
+      "imageName": "image25.png",
+      "rId": 1
+    },
+    {
+      "row": 3,
+      "col": "D",
+      "colNum": 3,
+      "imageName": "image8.jpg",
+      "rId": 2
+    },
+    {
+      "row": 3,
+      "col": "G",
+      "colNum": 6,
+      "imageName": "image1.jpg",
+      "rId": 3
+    },
+    {
+      "row": 9,
+      "col": "A",
+      "colNum": 0,
+      "imageName": "image5.png",
+      "rId": 4
+    },
+    {
+      "row": 9,
+      "col": "B",
+      "colNum": 1,
+      "imageName": "image32.png",
+      "rId": 5
+    },
+    {
+      "row": 9,
+      "col": "G",
+      "colNum": 6,
+      "imageName": "image24.png",
+      "rId": 6
+    },
+    {
+      "row": 12,
+      "col": "A",
+      "colNum": 0,
+      "imageName": "image7.jpg",
+      "rId": 7
+    },
+    {
+      "row": 15,
+      "col": "E",
+      "colNum": 4,
+      "imageName": "image4.jpg",
+      "rId": 8
+    },
+    {
+      "row": 15,
+      "col": "F",
+      "colNum": 5,
+      "imageName": "image12.jpg",
+      "rId": 9
+    },
+    {
+      "row": 15,
+      "col": "G",
+      "colNum": 6,
+      "imageName": "image14.png",
+      "rId": 10
+    },
+    {
+      "row": 19,
+      "col": "D",
+      "colNum": 3,
+      "imageName": "image39.jpg",
+      "rId": 11
+    },
+    {
+      "row": 19,
+      "col": "E",
+      "colNum": 4,
+      "imageName": "image10.jpg",
+      "rId": 12
+    },
+    {
+      "row": 19,
+      "col": "F",
+      "colNum": 5,
+      "imageName": "image44.jpg",
+      "rId": 13
+    },
+    {
+      "row": 19,
+      "col": "G",
+      "colNum": 6,
+      "imageName": "image11.jpg",
+      "rId": 14
+    },
+    {
+      "row": 22,
+      "col": "B",
+      "colNum": 1,
+      "imageName": "image36.jpg",
+      "rId": 15
+    },
+    {
+      "row": 22,
+      "col": "C",
+      "colNum": 2,
+      "imageName": "image27.jpg",
+      "rId": 16
+    },
+    {
+      "row": 22,
+      "col": "D",
+      "colNum": 3,
+      "imageName": "image43.png",
+      "rId": 17
+    },
+    {
+      "row": 22,
+      "col": "E",
+      "colNum": 4,
+      "imageName": "image3.jpg",
+      "rId": 18
+    },
+    {
+      "row": 22,
+      "col": "F",
+      "colNum": 5,
+      "imageName": "image6.png",
+      "rId": 19
+    },
+    {
+      "row": 22,
+      "col": "G",
+      "colNum": 6,
+      "imageName": "image46.png",
+      "rId": 20
+    },
+    {
+      "row": 25,
+      "col": "A",
+      "colNum": 0,
+      "imageName": "image9.jpg",
+      "rId": 21
+    },
+    {
+      "row": 25,
+      "col": "B",
+      "colNum": 1,
+      "imageName": "image34.jpg",
+      "rId": 22
+    },
+    {
+      "row": 25,
+      "col": "C",
+      "colNum": 2,
+      "imageName": "image30.png",
+      "rId": 23
+    },
+    {
+      "row": 25,
+      "col": "D",
+      "colNum": 3,
+      "imageName": "image17.jpg",
+      "rId": 24
+    },
+    {
+      "row": 25,
+      "col": "F",
+      "colNum": 5,
+      "imageName": "image2.jpg",
+      "rId": 25
+    },
+    {
+      "row": 25,
+      "col": "G",
+      "colNum": 6,
+      "imageName": "image13.jpg",
+      "rId": 26
+    },
+    {
+      "row": 28,
+      "col": "A",
+      "colNum": 0,
+      "imageName": "image18.jpg",
+      "rId": 27
+    },
+    {
+      "row": 28,
+      "col": "B",
+      "colNum": 1,
+      "imageName": "image20.jpg",
+      "rId": 28
+    },
+    {
+      "row": 28,
+      "col": "C",
+      "colNum": 2,
+      "imageName": "image15.jpg",
+      "rId": 29
+    },
+    {
+      "row": 28,
+      "col": "D",
+      "colNum": 3,
+      "imageName": "image19.png",
+      "rId": 30
+    },
+    {
+      "row": 28,
+      "col": "E",
+      "colNum": 4,
+      "imageName": "image21.png",
+      "rId": 31
+    },
+    {
+      "row": 28,
+      "col": "F",
+      "colNum": 5,
+      "imageName": "image16.jpg",
+      "rId": 32
+    },
+    {
+      "row": 28,
+      "col": "G",
+      "colNum": 6,
+      "imageName": "image35.jpg",
+      "rId": 33
+    },
+    {
+      "row": 32,
+      "col": "A",
+      "colNum": 0,
+      "imageName": "image29.jpg",
+      "rId": 34
+    },
+    {
+      "row": 32,
+      "col": "C",
+      "colNum": 2,
+      "imageName": "image22.png",
+      "rId": 35
+    },
+    {
+      "row": 32,
+      "col": "E",
+      "colNum": 4,
+      "imageName": "image40.png",
+      "rId": 36
+    },
+    {
+      "row": 35,
+      "col": "A",
+      "colNum": 0,
+      "imageName": "image23.png",
+      "rId": 37
+    },
+    {
+      "row": 35,
+      "col": "B",
+      "colNum": 1,
+      "imageName": "image31.png",
+      "rId": 38
+    },
+    {
+      "row": 38,
+      "col": "C",
+      "colNum": 2,
+      "imageName": "image45.png",
+      "rId": 39
+    },
+    {
+      "row": 38,
+      "col": "F",
+      "colNum": 5,
+      "imageName": "image26.png",
+      "rId": 40
+    },
+    {
+      "row": 41,
+      "col": "F",
+      "colNum": 5,
+      "imageName": "image41.png",
+      "rId": 41
+    },
+    {
+      "row": 41,
+      "col": "G",
+      "colNum": 6,
+      "imageName": "image42.png",
+      "rId": 42
+    },
+    {
+      "row": 44,
+      "col": "D",
+      "colNum": 3,
+      "imageName": "image37.png",
+      "rId": 43
+    },
+    {
+      "row": 44,
+      "col": "E",
+      "colNum": 4,
+      "imageName": "image33.png",
+      "rId": 44
+    },
+    {
+      "row": 44,
+      "col": "F",
+      "colNum": 5,
+      "imageName": "image28.png",
+      "rId": 45
+    },
+    {
+      "row": 44,
+      "col": "G",
+      "colNum": 6,
+      "imageName": "image38.jpg",
+      "rId": 46
+    }
+  ],
+  "holidayRows": {
+    "Keystone": [
+      {
+        "row": 4,
+        "col": "E"
+      }
+    ],
+    "Copper": [
+      {
+        "row": 4,
+        "col": "F"
+      }
+    ],
+    "el Día de Muertos": [
+      {
+        "row": 4,
+        "col": "G"
+      }
+    ],
+    "Martinstag": [
+      {
+        "row": 10,
+        "col": "B"
+      }
+    ],
+    "Andermas Eve": [
+      {
+        "row": 16,
+        "col": "F"
+      }
+    ],
+    "St Andrew's Day": [
+      {
+        "row": 16,
+        "col": "G"
+      }
+    ],
+    "Krampusnacht": [
+      {
+        "row": 20,
+        "col": "E"
+      }
+    ],
+    "St Nicks Day": [
+      {
+        "row": 20,
+        "col": "F"
+      }
+    ],
+    "1940s": [
+      {
+        "row": 20,
+        "col": "G"
+      }
+    ],
+    "Magic Flute": [
+      {
+        "row": 23,
+        "col": "C"
+      }
+    ],
+    "Gita Mahotsav": [
+      {
+        "row": 23,
+        "col": "D"
+      }
+    ],
+    "Virgin of Guadalupe": [
+      {
+        "row": 23,
+        "col": "E"
+      }
+    ],
+    "Lussi Day": [
+      {
+        "row": 23,
+        "col": "F"
+      }
+    ],
+    "Christmas Party": [
+      {
+        "row": 23,
+        "col": "G"
+      }
+    ],
+    "It's a Wonderful Life": [
+      {
+        "row": 26,
+        "col": "B"
+      }
+    ],
+    "Saturnalia": [
+      {
+        "row": 26,
+        "col": "C"
+      }
+    ],
+    "A Colorado Nutcracker": [
+      {
+        "row": 26,
+        "col": "D"
+      }
+    ],
+    "Solstice": [
+      {
+        "row": 26,
+        "col": "G"
+      }
+    ],
+    "Christmas Eve": [
+      {
+        "row": 29,
+        "col": "C"
+      }
+    ],
+    "Christmas": [
+      {
+        "row": 29,
+        "col": "D"
+      }
+    ],
+    "Feast of St. Stefan": [
+      {
+        "row": 29,
+        "col": "E"
+      }
+    ],
+    "St. John Evangelist": [
+      {
+        "row": 29,
+        "col": "F"
+      }
+    ],
+    "Childermas": [
+      {
+        "row": 29,
+        "col": "G"
+      }
+    ],
+    "New Years Day": [
+      {
+        "row": 33,
+        "col": "D"
+      }
+    ],
+    "Perchtag": [
+      {
+        "row": 33,
+        "col": "E"
+      }
+    ],
+    "Día de los Reyes": [
+      {
+        "row": 36,
+        "col": "B"
+      }
+    ],
+    "Dondoyaki": [
+      {
+        "row": 39,
+        "col": "D"
+      }
+    ],
+    "St Dwynwyn's Day": [
+      {
+        "row": 42,
+        "col": "G"
+      }
+    ],
+    "Imbolc Eve": [
+      {
+        "row": 45,
+        "col": "E"
+      }
+    ],
+    "Imbolc": [
+      {
+        "row": 45,
+        "col": "F"
+      }
+    ],
+    "Candelaria": [
+      {
+        "row": 45,
+        "col": "G"
+      }
+    ]
+  },
+  "holidayImageMap": [
+    {
+      "holiday": "Keystone",
+      "image": "image25.png",
+      "rowDiff": 1,
+      "imageRow": 3,
+      "imageCol": "D",
+      "holidayRow": 4,
+      "holidayCol": "E"
+    },
+    {
+      "holiday": "Keystone",
+      "image": "image8.jpg",
+      "rowDiff": 1,
+      "imageRow": 3,
+      "imageCol": "D",
+      "holidayRow": 4,
+      "holidayCol": "E"
+    },
+    {
+      "holiday": "Keystone",
+      "image": "image1.jpg",
+      "rowDiff": 1,
+      "imageRow": 3,
+      "imageCol": "G",
+      "holidayRow": 4,
+      "holidayCol": "E"
+    },
+    {
+      "holiday": "Martinstag",
+      "image": "image5.png",
+      "rowDiff": 1,
+      "imageRow": 9,
+      "imageCol": "A",
+      "holidayRow": 10,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "Martinstag",
+      "image": "image32.png",
+      "rowDiff": 1,
+      "imageRow": 9,
+      "imageCol": "B",
+      "holidayRow": 10,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "Martinstag",
+      "image": "image24.png",
+      "rowDiff": 1,
+      "imageRow": 9,
+      "imageCol": "G",
+      "holidayRow": 10,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "Martinstag",
+      "image": "image7.jpg",
+      "rowDiff": 2,
+      "imageRow": 12,
+      "imageCol": "A",
+      "holidayRow": 10,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "Andermas Eve",
+      "image": "image4.jpg",
+      "rowDiff": 1,
+      "imageRow": 15,
+      "imageCol": "E",
+      "holidayRow": 16,
+      "holidayCol": "F"
+    },
+    {
+      "holiday": "Andermas Eve",
+      "image": "image12.jpg",
+      "rowDiff": 1,
+      "imageRow": 15,
+      "imageCol": "F",
+      "holidayRow": 16,
+      "holidayCol": "F"
+    },
+    {
+      "holiday": "Andermas Eve",
+      "image": "image14.png",
+      "rowDiff": 1,
+      "imageRow": 15,
+      "imageCol": "G",
+      "holidayRow": 16,
+      "holidayCol": "F"
+    },
+    {
+      "holiday": "Krampusnacht",
+      "image": "image39.jpg",
+      "rowDiff": 1,
+      "imageRow": 19,
+      "imageCol": "D",
+      "holidayRow": 20,
+      "holidayCol": "E"
+    },
+    {
+      "holiday": "Krampusnacht",
+      "image": "image10.jpg",
+      "rowDiff": 1,
+      "imageRow": 19,
+      "imageCol": "E",
+      "holidayRow": 20,
+      "holidayCol": "E"
+    },
+    {
+      "holiday": "Krampusnacht",
+      "image": "image44.jpg",
+      "rowDiff": 1,
+      "imageRow": 19,
+      "imageCol": "F",
+      "holidayRow": 20,
+      "holidayCol": "E"
+    },
+    {
+      "holiday": "Krampusnacht",
+      "image": "image11.jpg",
+      "rowDiff": 1,
+      "imageRow": 19,
+      "imageCol": "G",
+      "holidayRow": 20,
+      "holidayCol": "E"
+    },
+    {
+      "holiday": "Magic Flute",
+      "image": "image36.jpg",
+      "rowDiff": 1,
+      "imageRow": 22,
+      "imageCol": "B",
+      "holidayRow": 23,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Magic Flute",
+      "image": "image27.jpg",
+      "rowDiff": 1,
+      "imageRow": 22,
+      "imageCol": "C",
+      "holidayRow": 23,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Magic Flute",
+      "image": "image43.png",
+      "rowDiff": 1,
+      "imageRow": 22,
+      "imageCol": "D",
+      "holidayRow": 23,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Magic Flute",
+      "image": "image3.jpg",
+      "rowDiff": 1,
+      "imageRow": 22,
+      "imageCol": "E",
+      "holidayRow": 23,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Magic Flute",
+      "image": "image6.png",
+      "rowDiff": 1,
+      "imageRow": 22,
+      "imageCol": "F",
+      "holidayRow": 23,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Magic Flute",
+      "image": "image46.png",
+      "rowDiff": 1,
+      "imageRow": 22,
+      "imageCol": "G",
+      "holidayRow": 23,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "It's a Wonderful Life",
+      "image": "image9.jpg",
+      "rowDiff": 1,
+      "imageRow": 25,
+      "imageCol": "A",
+      "holidayRow": 26,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "It's a Wonderful Life",
+      "image": "image34.jpg",
+      "rowDiff": 1,
+      "imageRow": 25,
+      "imageCol": "B",
+      "holidayRow": 26,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "It's a Wonderful Life",
+      "image": "image30.png",
+      "rowDiff": 1,
+      "imageRow": 25,
+      "imageCol": "C",
+      "holidayRow": 26,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "It's a Wonderful Life",
+      "image": "image17.jpg",
+      "rowDiff": 1,
+      "imageRow": 25,
+      "imageCol": "D",
+      "holidayRow": 26,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "It's a Wonderful Life",
+      "image": "image2.jpg",
+      "rowDiff": 1,
+      "imageRow": 25,
+      "imageCol": "F",
+      "holidayRow": 26,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "It's a Wonderful Life",
+      "image": "image13.jpg",
+      "rowDiff": 1,
+      "imageRow": 25,
+      "imageCol": "G",
+      "holidayRow": 26,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "Christmas Eve",
+      "image": "image18.jpg",
+      "rowDiff": 1,
+      "imageRow": 28,
+      "imageCol": "A",
+      "holidayRow": 29,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Christmas Eve",
+      "image": "image20.jpg",
+      "rowDiff": 1,
+      "imageRow": 28,
+      "imageCol": "B",
+      "holidayRow": 29,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Christmas Eve",
+      "image": "image15.jpg",
+      "rowDiff": 1,
+      "imageRow": 28,
+      "imageCol": "C",
+      "holidayRow": 29,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Christmas Eve",
+      "image": "image19.png",
+      "rowDiff": 1,
+      "imageRow": 28,
+      "imageCol": "D",
+      "holidayRow": 29,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Christmas Eve",
+      "image": "image21.png",
+      "rowDiff": 1,
+      "imageRow": 28,
+      "imageCol": "E",
+      "holidayRow": 29,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Christmas Eve",
+      "image": "image16.jpg",
+      "rowDiff": 1,
+      "imageRow": 28,
+      "imageCol": "F",
+      "holidayRow": 29,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "Christmas Eve",
+      "image": "image35.jpg",
+      "rowDiff": 1,
+      "imageRow": 28,
+      "imageCol": "G",
+      "holidayRow": 29,
+      "holidayCol": "C"
+    },
+    {
+      "holiday": "New Years Day",
+      "image": "image29.jpg",
+      "rowDiff": 1,
+      "imageRow": 32,
+      "imageCol": "A",
+      "holidayRow": 33,
+      "holidayCol": "D"
+    },
+    {
+      "holiday": "New Years Day",
+      "image": "image22.png",
+      "rowDiff": 1,
+      "imageRow": 32,
+      "imageCol": "C",
+      "holidayRow": 33,
+      "holidayCol": "D"
+    },
+    {
+      "holiday": "New Years Day",
+      "image": "image40.png",
+      "rowDiff": 1,
+      "imageRow": 32,
+      "imageCol": "E",
+      "holidayRow": 33,
+      "holidayCol": "D"
+    },
+    {
+      "holiday": "Día de los Reyes",
+      "image": "image23.png",
+      "rowDiff": 1,
+      "imageRow": 35,
+      "imageCol": "A",
+      "holidayRow": 36,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "Día de los Reyes",
+      "image": "image31.png",
+      "rowDiff": 1,
+      "imageRow": 35,
+      "imageCol": "B",
+      "holidayRow": 36,
+      "holidayCol": "B"
+    },
+    {
+      "holiday": "Dondoyaki",
+      "image": "image45.png",
+      "rowDiff": 1,
+      "imageRow": 38,
+      "imageCol": "C",
+      "holidayRow": 39,
+      "holidayCol": "D"
+    },
+    {
+      "holiday": "Dondoyaki",
+      "image": "image26.png",
+      "rowDiff": 1,
+      "imageRow": 38,
+      "imageCol": "F",
+      "holidayRow": 39,
+      "holidayCol": "D"
+    },
+    {
+      "holiday": "St Dwynwyn's Day",
+      "image": "image41.png",
+      "rowDiff": 1,
+      "imageRow": 41,
+      "imageCol": "F",
+      "holidayRow": 42,
+      "holidayCol": "G"
+    },
+    {
+      "holiday": "St Dwynwyn's Day",
+      "image": "image42.png",
+      "rowDiff": 1,
+      "imageRow": 41,
+      "imageCol": "G",
+      "holidayRow": 42,
+      "holidayCol": "G"
+    },
+    {
+      "holiday": "Imbolc Eve",
+      "image": "image37.png",
+      "rowDiff": 1,
+      "imageRow": 44,
+      "imageCol": "D",
+      "holidayRow": 45,
+      "holidayCol": "E"
+    },
+    {
+      "holiday": "Imbolc Eve",
+      "image": "image33.png",
+      "rowDiff": 1,
+      "imageRow": 44,
+      "imageCol": "E",
+      "holidayRow": 45,
+      "holidayCol": "E"
+    },
+    {
+      "holiday": "Imbolc Eve",
+      "image": "image28.png",
+      "rowDiff": 1,
+      "imageRow": 44,
+      "imageCol": "F",
+      "holidayRow": 45,
+      "holidayCol": "E"
+    },
+    {
+      "holiday": "Imbolc Eve",
+      "image": "image38.jpg",
+      "rowDiff": 1,
+      "imageRow": 44,
+      "imageCol": "G",
+      "holidayRow": 45,
+      "holidayCol": "E"
+    }
+  ]
+}

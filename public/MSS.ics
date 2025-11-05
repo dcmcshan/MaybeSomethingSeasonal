@@ -11,7 +11,6 @@ UID:event-0-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250101T070000Z
 DTEND:20250102T070000Z
-SUMMARY:New Year's Day
 DESCRIPTION:Celebration of the new year and fresh beginnings.\n\nIcon: 🎊\nCategory: celebration
 CATEGORIES:celebration
 STATUS:CONFIRMED
@@ -23,7 +22,6 @@ UID:event-perchtag-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250102T070000Z
 DTEND:20250103T070000Z
-SUMMARY:Perchtag
 DESCRIPTION:Austrian and Bavarian tradition\, Perchta Day.\n\nIcon: 🎭\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -35,7 +33,6 @@ UID:event-candelaria-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250102T070000Z
 DTEND:20250103T070000Z
-SUMMARY:Candelaria
 DESCRIPTION:Candlemas - Feast of the Presentation of Jesus and blessing of candles.\n\nIcon: 🕯️\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -47,7 +44,6 @@ UID:event-12th-night-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250105T070000Z
 DTEND:20250106T070000Z
-SUMMARY:12th Night
 DESCRIPTION:Twelfth Night - end of the Christmas season.\n\nIcon: 🎭\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -59,7 +55,6 @@ UID:event-reyes-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250106T070000Z
 DTEND:20250107T070000Z
-SUMMARY:Día de los Reyes
 DESCRIPTION:Epiphany - Three Kings Day\, celebration of the Magi.\n\nIcon: 👑\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -71,7 +66,6 @@ UID:event-fete-vodoun-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250110T070000Z
 DTEND:20250111T070000Z
-SUMMARY:Fête du Vodoun
 DESCRIPTION:Vodoun Festival - traditional celebration in Benin honoring Vodoun spirituality and culture.\n\nIcon: 🎭\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -83,7 +77,6 @@ UID:event-fete-ane-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250114T070000Z
 DTEND:20250115T070000Z
-SUMMARY:Fête de l'âne
 DESCRIPTION:Feast of the Ass - medieval festival celebrating the Flight into Egypt.\n\nIcon: 🐴\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -95,7 +88,6 @@ UID:event-dondoyaki-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250115T070000Z
 DTEND:20250116T070000Z
-SUMMARY:Dondoyaki
 DESCRIPTION:Japanese New Year tradition of burning New Year decorations.\n\nIcon: 🔥\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -107,7 +99,6 @@ UID:event-old-twelfth-night-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250117T070000Z
 DTEND:20250118T070000Z
-SUMMARY:Old Twelfth Night
 DESCRIPTION:Old Twelfth Night - traditional date before calendar reform.\n\nIcon: 🌟\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -119,7 +110,6 @@ UID:event-burns-night-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250125T070000Z
 DTEND:20250126T070000Z
-SUMMARY:Burns Night
 DESCRIPTION:Scottish celebration of the poet Robert Burns with poetry, haggis, and whisky.\n\nIcon: 🏴󠁧󠁢󠁳󠁣󠁴󠁿\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -131,7 +121,6 @@ UID:event-3-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250129T070000Z
 DTEND:20250130T070000Z
-SUMMARY:Chinese New Year
 DESCRIPTION:Lunar New Year celebration.\n\nIcon: 🐉\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -143,7 +132,6 @@ UID:event-losar-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250129T070000Z
 DTEND:20250130T070000Z
-SUMMARY:Losar
 DESCRIPTION:Tibetan New Year - celebration of the lunar new year in Tibetan culture.\n\nIcon: 🏔️\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -155,7 +143,6 @@ UID:event-imbolc-eve-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250130T070000Z
 DTEND:20250131T070000Z
-SUMMARY:Imbolc Eve
 DESCRIPTION:Eve of Imbolc\, the Celtic festival marking the beginning of spring.\n\nIcon: 🌙\nCategory: seasonal
 CATEGORIES:seasonal
 STATUS:CONFIRMED
@@ -167,7 +154,6 @@ UID:event-4-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250201T070000Z
 DTEND:20250202T070000Z
-SUMMARY:Imbolc
 DESCRIPTION:Celtic festival marking the beginning of spring.\n\nIcon: 🌱\nCategory: seasonal
 CATEGORIES:seasonal
 STATUS:CONFIRMED
@@ -179,7 +165,6 @@ UID:event-7-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250214T070000Z
 DTEND:20250215T070000Z
-SUMMARY:St. Valentine
 DESCRIPTION:Patron saint of love and romance.\n\nIcon: 💕\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -191,7 +176,6 @@ UID:event-8-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250317T060000Z
 DTEND:20250318T060000Z
-SUMMARY:St. Patrick
 DESCRIPTION:Patron saint of Ireland - celebrated worldwide.\n\nIcon: ☘️\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -203,7 +187,6 @@ UID:event-12-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250422T060000Z
 DTEND:20250423T060000Z
-SUMMARY:Earth Day
 DESCRIPTION:Celebrate our planet and environmental awareness.\n\nIcon: 🌍\nCategory: environmental
 CATEGORIES:environmental
 STATUS:CONFIRMED
@@ -215,7 +198,6 @@ UID:event-21-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250704T060000Z
 DTEND:20250705T060000Z
-SUMMARY:Independence Day
 DESCRIPTION:Celebration of American independence.\n\nIcon: 🇺🇸\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -227,7 +209,6 @@ UID:event-32-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20250922T060000Z
 DTEND:20250923T060000Z
-SUMMARY:Autumn Equinox
 DESCRIPTION:Fall begins - time for harvest and reflection.\n\nIcon: 🍂\nCategory: seasonal
 CATEGORIES:seasonal
 STATUS:CONFIRMED
@@ -239,7 +220,6 @@ UID:event-38-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251031T060000Z
 DTEND:20251101T060000Z
-SUMMARY:Halloween
 DESCRIPTION:All Hallows' Eve\, celebration of saints and departed souls.\n\nIcon: 🎃\nCategory: celebration
 CATEGORIES:celebration
 STATUS:CONFIRMED
@@ -251,151 +231,138 @@ UID:event-angelitos-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251101T070000Z
 DTEND:20251102T070000Z
-SUMMARY:Día de los Angelitos
 DESCRIPTION:Day of the Little Angels - honoring deceased children.\n\nIcon: 👼\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image21.jpg
+X-IMAGE:/images/image3.jpg
 END:VEVENT
 BEGIN:VEVENT
 UID:event-muertos-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251102T070000Z
 DTEND:20251103T070000Z
-SUMMARY:Día de los Muertos
 DESCRIPTION:Day of the Dead - celebration of deceased loved ones.\n\nIcon: 💀\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image22.jpg
+X-IMAGE:/images/image4.jpg
 END:VEVENT
 BEGIN:VEVENT
 UID:event-martin-eve-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251110T070000Z
 DTEND:20251111T070000Z
-SUMMARY:Martinmas Eve
 DESCRIPTION:Evening before St. Martin's Day\, traditional celebration.\n\nIcon: 🪶\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image23.jpg
+X-IMAGE:/images/image5.jpg
 END:VEVENT
 BEGIN:VEVENT
 UID:event-martin-day-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251111T070000Z
 DTEND:20251112T070000Z
-SUMMARY:Martinmas
 DESCRIPTION:Feast of St. Martin of Tours\, patron of soldiers and beggars.\n\nIcon: 🪶\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image24.jpg
+X-IMAGE:/images/image7.jpg
 END:VEVENT
 BEGIN:VEVENT
 UID:event-life-day-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251117T070000Z
 DTEND:20251118T070000Z
-SUMMARY:Star Wars Life Day
 DESCRIPTION:Wookiee celebration from the Star Wars universe.\n\nIcon: ⭐\nCategory: cultural
-CATEGORIES:cultural
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:/images/image26.jpg
-END:VEVENT
-BEGIN:VEVENT
-UID:event-43-1762235928035@maybesomethingseasonal.com
-DTSTAMP:20251104T055848Z
-DTSTART:20251127T070000Z
-DTEND:20251128T070000Z
-SUMMARY:Thanksgiving
-DESCRIPTION:Gratitude for the harvest and blessings of the year.\n\nIcon: 🦃\nCategory: celebration
-CATEGORIES:celebration
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:/images/image27.jpg
-END:VEVENT
-BEGIN:VEVENT
-UID:event-andermas-eve-2025@maybesomethingseasonal.com
-DTSTAMP:20251104T055848Z
-DTSTART:20251129T070000Z
-DTEND:20251130T070000Z
-SUMMARY:Andermas Eve
-DESCRIPTION:Eve of St. Andrew's Day\, traditional celebration.\n\nIcon: ⚓\nCategory: cultural
-CATEGORIES:cultural
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:/images/image28.jpg
-END:VEVENT
-BEGIN:VEVENT
-UID:event-st-andrew-2025@maybesomethingseasonal.com
-DTSTAMP:20251104T055848Z
-DTSTART:20251130T070000Z
-DTEND:20251201T070000Z
-SUMMARY:St Andrew's Day
-DESCRIPTION:Feast of St. Andrew\, patron saint of Scotland.\n\nIcon: 🏴󠁧󠁢󠁳󠁣󠁴󠁿\nCategory: cultural
-CATEGORIES:cultural
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:/images/image29.jpg
-END:VEVENT
-BEGIN:VEVENT
-UID:event-advent-1-2025@maybesomethingseasonal.com
-DTSTAMP:20251104T055848Z
-DTSTART:20251130T070000Z
-DTEND:20251201T070000Z
-SUMMARY:1st Sunday of Advent
-DESCRIPTION:First Sunday of Advent - the beginning of the liturgical year and preparation for Christmas.\n\nIcon: 🕯️\nCategory: cultural
-CATEGORIES:cultural
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:/images/image30.jpg
-END:VEVENT
-BEGIN:VEVENT
-UID:event-50-1762235928035@maybesomethingseasonal.com
-DTSTAMP:20251104T055848Z
-DTSTART:20251205T070000Z
-DTEND:20251206T070000Z
-SUMMARY:Krampusnacht
-DESCRIPTION:Krampus Night - the dark companion of St. Nicholas.\n\nIcon: 👹\nCategory: cultural
-CATEGORIES:cultural
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:/images/image31.jpg
-END:VEVENT
-BEGIN:VEVENT
-UID:event-st-nicholas-2025@maybesomethingseasonal.com
-DTSTAMP:20251104T055848Z
-DTSTART:20251206T070000Z
-DTEND:20251207T070000Z
-SUMMARY:St. Nicholas Day
-DESCRIPTION:Feast of St. Nicholas\, bishop and patron saint of children and gift-giving.\n\nIcon: 🎁\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image32.jpg
 END:VEVENT
 BEGIN:VEVENT
+UID:event-43-1762235928035@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251127T070000Z
+DTEND:20251128T070000Z
+DESCRIPTION:Gratitude for the harvest and blessings of the year.\n\nIcon: 🦃\nCategory: celebration
+CATEGORIES:celebration
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/image9.jpg
+END:VEVENT
+BEGIN:VEVENT
+UID:event-andermas-eve-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251129T070000Z
+DTEND:20251130T070000Z
+DESCRIPTION:Eve of St. Andrew's Day\, traditional celebration.\n\nIcon: ⚓\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/image10.jpg
+END:VEVENT
+BEGIN:VEVENT
+UID:event-st-andrew-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251130T070000Z
+DTEND:20251201T070000Z
+DESCRIPTION:Feast of St. Andrew\, patron saint of Scotland.\n\nIcon: 🏴󠁧󠁢󠁳󠁣󠁴󠁿\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/image44.jpg
+END:VEVENT
+BEGIN:VEVENT
+UID:event-advent-1-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251130T070000Z
+DTEND:20251201T070000Z
+DESCRIPTION:First Sunday of Advent - the beginning of the liturgical year and preparation for Christmas.\n\nIcon: 🕯️\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/image12.jpg
+END:VEVENT
+BEGIN:VEVENT
+UID:event-50-1762235928035@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251205T070000Z
+DTEND:20251206T070000Z
+DESCRIPTION:Krampus Night - the dark companion of St. Nicholas.\n\nIcon: 👹\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/image13.jpg
+END:VEVENT
+BEGIN:VEVENT
+UID:event-st-nicholas-2025@maybesomethingseasonal.com
+DTSTAMP:20251104T055848Z
+DTSTART:20251206T070000Z
+DTEND:20251207T070000Z
+DESCRIPTION:Feast of St. Nicholas\, bishop and patron saint of children and gift-giving.\n\nIcon: 🎁\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/image14.jpg
+END:VEVENT
+BEGIN:VEVENT
 UID:event-advent-2-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251207T070000Z
 DTEND:20251208T070000Z
-SUMMARY:2nd Sunday of Advent
 DESCRIPTION:Second Sunday of Advent - preparation and anticipation.\n\nIcon: 🕯️\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image33.jpg
+X-IMAGE:/images/image17.jpg
 END:VEVENT
 BEGIN:VEVENT
 UID:event-sinterklaas-steams-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251111T190000Z
 DTEND:20251116T070000Z
-SUMMARY:Sinterklaas Steams
 DESCRIPTION:Traditional Dutch celebration period with Sinterklaas arriving by steamboat\, starting from dusk on St. Martin's Day.\n\nIcon: 🚢\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -407,7 +374,6 @@ UID:event-lussevaka-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251211T070000Z
 DTEND:20251213T070000Z
-SUMMARY:Lussevaka
 DESCRIPTION:St. Lucia's vigil - from dusk on Dec 11 until dawn on Dec 12.\n\nIcon: 🌙\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -419,7 +385,6 @@ UID:event-lussinatt-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251212T070000Z
 DTEND:20251213T070000Z
-SUMMARY:Lussinatt
 DESCRIPTION:St. Lucia's Night - Dec 12th.\n\nIcon: 🌙\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -431,7 +396,6 @@ UID:event-virgin-guadalupe-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251212T070000Z
 DTEND:20251213T070000Z
-SUMMARY:Virgin of Guadalupe
 DESCRIPTION:Feast of Our Lady of Guadalupe\, patroness of the Americas.\n\nIcon: 🌹\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -443,7 +407,6 @@ UID:event-52-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251213T070000Z
 DTEND:20251214T070000Z
-SUMMARY:Lussi Day
 DESCRIPTION:Swedish celebration of light and St. Lucia.\n\nIcon: 🕯️\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -455,7 +418,6 @@ UID:event-palmer-lake-yule-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251215T070000Z
 DTEND:20251216T070000Z
-SUMMARY:Palmer Lake Yule Log Hunt
 DESCRIPTION:Annual tradition in Palmer Lake\, Colorado: community yule log hunt and celebration.\n\nIcon: 🪵\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -467,7 +429,6 @@ UID:event-advent-3-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251214T070000Z
 DTEND:20251215T070000Z
-SUMMARY:3rd Sunday of Advent
 DESCRIPTION:Third Sunday of Advent (Gaudete Sunday) - joy and rejoicing.\n\nIcon: 🕯️\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -479,7 +440,6 @@ UID:event-hanukkah-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251215T190000Z
 DTEND:20251223T070000Z
-SUMMARY:Hanukkah
 DESCRIPTION:Festival of Lights - eight nights of celebration\, starting at dusk on Dec 15.\n\nIcon: 🕎\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -491,7 +451,6 @@ UID:event-53-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251217T070000Z
 DTEND:20251218T070000Z
-SUMMARY:Saturnalia
 DESCRIPTION:Ancient Roman festival of Saturn.\n\nIcon: 🏛️\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -503,7 +462,6 @@ UID:event-solstice-eve-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251220T070000Z
 DTEND:20251221T070000Z
-SUMMARY:Solstice Eve
 DESCRIPTION:Eve of the winter solstice\, the longest night.\n\nIcon: 🌙\nCategory: seasonal
 CATEGORIES:seasonal
 STATUS:CONFIRMED
@@ -515,7 +473,6 @@ UID:event-advent-4-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251221T070000Z
 DTEND:20251222T070000Z
-SUMMARY:4th Sunday of Advent
 DESCRIPTION:Fourth Sunday of Advent - final preparation before Christmas.\n\nIcon: 🕯️\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -527,7 +484,6 @@ UID:event-54-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251221T070000Z
 DTEND:20251222T070000Z
-SUMMARY:Winter Solstice
 DESCRIPTION:The shortest day - embrace the darkness and prepare for renewal.\n\nIcon: ❄️\nCategory: seasonal
 CATEGORIES:seasonal
 STATUS:CONFIRMED
@@ -539,7 +495,6 @@ UID:event-shab-e-yalda-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251221T190000Z
 DTEND:20251222T070000Z
-SUMMARY:Shab-e-Yalda
 DESCRIPTION:Yalda Night - Persian celebration of the winter solstice\, the longest night of the year.\n\nIcon: 🌙\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -551,7 +506,6 @@ UID:event-noche-rabanos-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251223T070000Z
 DTEND:20251224T070000Z
-SUMMARY:Noche de Rábanos
 DESCRIPTION:Night of the Radishes - traditional Oaxacan festival.\n\nIcon: 🥕\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -563,7 +517,6 @@ UID:event-55-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251224T070000Z
 DTEND:20251225T070000Z
-SUMMARY:Christmas Eve
 DESCRIPTION:Vigil of the Nativity\, anticipation of Christ's birth.\n\nIcon: 🌟\nCategory: religious
 CATEGORIES:religious
 STATUS:CONFIRMED
@@ -575,7 +528,6 @@ UID:event-56-1762235928035@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251225T070000Z
 DTEND:20251226T070000Z
-SUMMARY:Christmas Day
 DESCRIPTION:Birth of Jesus Christ\, joy and celebration.\n\nIcon: 🎄\nCategory: celebration
 CATEGORIES:celebration
 STATUS:CONFIRMED
@@ -587,7 +539,6 @@ UID:event-stefan-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251226T070000Z
 DTEND:20251227T070000Z
-SUMMARY:Feast of St. Stefan
 DESCRIPTION:Celebration of St. Stephen\, the first martyr.\n\nIcon: ⛪\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -599,7 +550,6 @@ UID:event-childermas-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251227T070000Z
 DTEND:20251228T070000Z
-SUMMARY:Childermas
 DESCRIPTION:Feast of the Holy Innocents\, also known as Childermas.\n\nIcon: 👶\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED

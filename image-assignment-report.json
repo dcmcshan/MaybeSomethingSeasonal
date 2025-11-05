@@ -1,0 +1,209 @@
+{
+  "assignments": [
+    {
+      "excelHoliday": "St Andrew's Day",
+      "eventTitle": "Eve of St. Andrew's Day\\, traditional celebration.\n\nIcon: ⚓\nCategory: cultural",
+      "eventDate": "2025-11-29",
+      "image": "/images/image14.png",
+      "hadExistingImage": true
+    },
+    {
+      "excelHoliday": "Solstice",
+      "eventTitle": "Eve of the winter solstice\\, the longest night.\n\nIcon: 🌙\nCategory: seasonal",
+      "eventDate": "2025-12-20",
+      "image": "/images/image2.jpg",
+      "hadExistingImage": true
+    },
+    {
+      "excelHoliday": "Christmas Eve",
+      "eventTitle": "Twelfth Night - end of the Christmas season.\n\nIcon: 🎭\nCategory: cultural",
+      "eventDate": "2025-01-05",
+      "image": "/images/image18.jpg",
+      "hadExistingImage": true
+    },
+    {
+      "excelHoliday": "Christmas",
+      "eventTitle": "Twelfth Night - end of the Christmas season.\n\nIcon: 🎭\nCategory: cultural",
+      "eventDate": "2025-01-05",
+      "image": "/images/image19.png",
+      "hadExistingImage": true
+    },
+    {
+      "excelHoliday": "Childermas",
+      "eventTitle": "Feast of the Holy Innocents\\, also known as Childermas.\n\nIcon: 👶\nCategory: cultural",
+      "eventDate": "2025-12-27",
+      "image": "/images/image35.jpg",
+      "hadExistingImage": true
+    },
+    {
+      "excelHoliday": "Imbolc Eve",
+      "eventTitle": "Eve of Imbolc\\, the Celtic festival marking the beginning of spring.\n\nIcon: 🌙\nCategory: seasonal",
+      "eventDate": "2025-01-30",
+      "image": "/images/image37.png",
+      "hadExistingImage": true
+    },
+    {
+      "excelHoliday": "Imbolc",
+      "eventTitle": "Eve of Imbolc\\, the Celtic festival marking the beginning of spring.\n\nIcon: 🌙\nCategory: seasonal",
+      "eventDate": "2025-01-30",
+      "image": "/images/image28.png",
+      "hadExistingImage": true
+    }
+  ],
+  "unmatchedImages": [
+    {
+      "excelHoliday": "Keystone",
+      "images": [
+        "/images/image25.png",
+        "/images/image8.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "el Día de Muertos",
+      "images": [
+        "/images/image1.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "Martinstag",
+      "images": [
+        "/images/image5.png",
+        "/images/image32.png",
+        "/images/image24.png"
+      ]
+    },
+    {
+      "excelHoliday": "Andermas Eve",
+      "images": [
+        "/images/image4.jpg",
+        "/images/image12.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "Krampusnacht",
+      "images": [
+        "/images/image39.jpg",
+        "/images/image10.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "St Nicks Day",
+      "images": [
+        "/images/image44.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "1940s",
+      "images": [
+        "/images/image11.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "Magic Flute",
+      "images": [
+        "/images/image36.jpg",
+        "/images/image27.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "Gita Mahotsav",
+      "images": [
+        "/images/image43.png"
+      ]
+    },
+    {
+      "excelHoliday": "Virgin of Guadalupe",
+      "images": [
+        "/images/image3.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "Lussi Day",
+      "images": [
+        "/images/image6.png"
+      ]
+    },
+    {
+      "excelHoliday": "Christmas Party",
+      "images": [
+        "/images/image46.png"
+      ]
+    },
+    {
+      "excelHoliday": "It's a Wonderful Life",
+      "images": [
+        "/images/image9.jpg",
+        "/images/image34.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "Saturnalia",
+      "images": [
+        "/images/image30.png"
+      ]
+    },
+    {
+      "excelHoliday": "A Colorado Nutcracker",
+      "images": [
+        "/images/image17.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "Feast of St. Stefan",
+      "images": [
+        "/images/image21.png"
+      ]
+    },
+    {
+      "excelHoliday": "St. John Evangelist",
+      "images": [
+        "/images/image16.jpg"
+      ]
+    },
+    {
+      "excelHoliday": "New Years Day",
+      "images": [
+        "/images/image29.jpg",
+        "/images/image22.png"
+      ]
+    },
+    {
+      "excelHoliday": "Perchtag",
+      "images": [
+        "/images/image40.png"
+      ]
+    },
+    {
+      "excelHoliday": "Día de los Reyes",
+      "images": [
+        "/images/image23.png",
+        "/images/image31.png"
+      ]
+    },
+    {
+      "excelHoliday": "Dondoyaki",
+      "images": [
+        "/images/image45.png",
+        "/images/image26.png"
+      ]
+    },
+    {
+      "excelHoliday": "St Dwynwyn's Day",
+      "images": [
+        "/images/image41.png",
+        "/images/image42.png"
+      ]
+    },
+    {
+      "excelHoliday": "Candelaria",
+      "images": [
+        "/images/image38.jpg"
+      ]
+    }
+  ],
+  "summary": {
+    "totalAssignments": 7,
+    "totalUnmatched": 23,
+    "eventsWithImages": 5
+  }
+}
