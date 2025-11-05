@@ -2796,6 +2796,22 @@ const App: React.FC = () => {
             // Parse description to extract icon and category
             const fullDescription = descriptionLines.join('');
             
+            // If no title was set from SUMMARY, extract it from description (first line before \n\nIcon:)
+            if (!currentEvent.title && fullDescription) {
+              // Extract title from first part before \n\nIcon: or \n\nCategory: or end of string
+              const titleMatch = fullDescription.match(/^([^\\\n]+?)(?:\\n\\n(?:Icon|Category):|$)/);
+              if (titleMatch) {
+                const title = titleMatch[1]
+                  .replace(/\\,/g, ',')
+                  .replace(/\\;/g, ';')
+                  .replace(/\\\\/g, '\\')
+                  .trim();
+                if (title) {
+                  currentEvent.title = title;
+                }
+              }
+            }
+            
             // The description contains literal \n sequences (backslash-n as two characters)
             // Icon and Category are separated by \n\nIcon: and \nCategory:
             // Image is now stored in X-IMAGE property, but we fall back to description parsing for compatibility
@@ -2889,6 +2905,22 @@ const App: React.FC = () => {
               const desc = trimmedLine.substring(colonIndex + 1);
               descriptionLines.push(desc);
               inDescription = true;
+              
+              // Extract title from first line of description if no SUMMARY field exists
+              // The title is the first part before \n\nIcon: or \n\nCategory:
+              const titleMatch = desc.match(/^([^\\\n]+?)(?:\\n\\n(?:Icon|Category):|$)/);
+              if (titleMatch && !currentEvent.title) {
+                // Use first line as title, clean up escaped characters
+                const title = titleMatch[1]
+                  .replace(/\\,/g, ',')
+                  .replace(/\\;/g, ';')
+                  .replace(/\\\\/g, '\\')
+                  .trim();
+                if (title) {
+                  currentEvent.title = title;
+                }
+              }
+              
               // Extract main description (before \n\nIcon:)
               // Handle both literal \n sequences (backslash-n) and actual newlines
               const mainDesc = desc.split(/\\n\\nIcon:/)[0]
