@@ -2921,10 +2921,33 @@ const App: React.FC = () => {
         }
         
         // Prefetch all event images for better performance
+        // Helper function to resolve image URLs with base path
+        const resolveImageUrl = (imagePath: string): string => {
+          if (!imagePath) return imagePath;
+          // If it's already an absolute URL (http/https), return as-is
+          if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+          }
+          // If it starts with /, it's an absolute path - prepend base path
+          if (imagePath.startsWith('/')) {
+            const basePath = (import.meta.env as { BASE_URL?: string }).BASE_URL || '/';
+            // Remove trailing slash from basePath if present, then add image path
+            const cleanBase = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+            return `${cleanBase}${imagePath}`;
+          }
+          // Relative path - prepend base path
+          const basePath = (import.meta.env as { BASE_URL?: string }).BASE_URL || '/';
+          const cleanBase = basePath.endsWith('/') ? basePath : `${basePath}/`;
+          return `${cleanBase}${imagePath}`;
+        };
+        
         const imageUrls = new Set<string>();
         events.forEach(event => {
           if (event.image) {
-            imageUrls.add(event.image);
+            const resolvedUrl = resolveImageUrl(event.image);
+            imageUrls.add(resolvedUrl);
+            // Update the event's image path to the resolved URL for consistent usage
+            event.image = resolvedUrl;
           }
         });
         
@@ -2933,10 +2956,17 @@ const App: React.FC = () => {
           const img = new Image();
           img.src = imageUrl;
           img.onload = () => {
-            console.log(`✓ Prefetched: ${imageUrl.substring(0, 50)}...`);
+            // Only log success in development to reduce console noise
+            if (import.meta.env.DEV) {
+              console.log(`✓ Prefetched: ${imageUrl.substring(0, 50)}...`);
+            }
           };
           img.onerror = () => {
-            console.warn(`✗ Failed to prefetch: ${imageUrl.substring(0, 50)}...`);
+            // Silently fail for Unsplash URLs (they often fail due to redirects/CORS)
+            // Only log failures for local images in development
+            if (!imageUrl.includes('unsplash.com') && import.meta.env.DEV) {
+              console.warn(`✗ Failed to prefetch: ${imageUrl.substring(0, 50)}...`);
+            }
           };
         });
         
