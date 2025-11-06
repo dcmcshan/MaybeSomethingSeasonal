@@ -8,7 +8,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build"
+    "deploy": "npm run build",
+    "validate": "node scripts/validate-ics.js",
+    "fix:ics-format": "node scripts/fix-ics-format.js",
+    "fix:images": "node scripts/fix-missing-images.js",
+    "test:local": "npm run validate && npm run build && npm run preview",
+    "precommit": "npm run validate"
   },
   "dependencies": {
     "date-fns": "^2.30.0",
