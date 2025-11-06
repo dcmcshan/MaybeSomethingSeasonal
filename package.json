@@ -13,7 +13,8 @@
     "fix:ics-format": "node scripts/fix-ics-format.js",
     "fix:images": "node scripts/fix-missing-images.js",
     "test:local": "npm run validate && npm run build && npm run preview",
-    "precommit": "npm run validate"
+    "precommit": "npm run validate",
+    "prepare": "npx simple-git-hooks"
   },
   "dependencies": {
     "date-fns": "^2.30.0",
@@ -28,6 +29,7 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
     "sharp": "^0.34.4",
+    "simple-git-hooks": "^2.13.1",
     "tailwindcss": "^3.3.6",
     "typescript": "^5.2.2",
     "vite": "^5.0.0"
@@ -39,5 +41,8 @@
     "react"
   ],
   "author": "Daniel McShan",
-  "license": "MIT"
+  "license": "MIT",
+  "simple-git-hooks": {
+    "pre-push": "npm run validate"
+  }
 }
