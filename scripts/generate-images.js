@@ -248,6 +248,21 @@ async function generateImage(prompt, retries = 3) {
               }
             }
             
+            // Check for base64 encoded images in response
+            if (message.content) {
+              const contentStr = typeof message.content === 'string' 
+                ? message.content 
+                : JSON.stringify(message.content);
+              
+              // Look for base64 image data
+              const base64Match = contentStr.match(/data:image\/([^;]+);base64,([A-Za-z0-9+\/=]+)/);
+              if (base64Match) {
+                // Return base64 data URI - downloadImage will handle it
+                resolve(base64Match[0]);
+                return;
+              }
+            }
+            
             // Check the entire response JSON for any image URLs
             const fullResponseText = JSON.stringify(response);
             const urlMatches = fullResponseText.match(/https?:\/\/[^\s"']+\.(jpg|jpeg|png|webp|gif)/gi);
@@ -255,11 +270,12 @@ async function generateImage(prompt, retries = 3) {
               // Filter out known non-image URLs (like openrouter.ai, api endpoints, etc.)
               const imageUrls = urlMatches.filter(url => 
                 !url.includes('openrouter.ai') && 
-                !url.includes('api') &&
-                !url.includes('openai.com') &&
+                !url.includes('/api/') &&
+                !url.includes('openai.com/api') &&
                 (url.includes('oaidalleapiprodscus') || 
                  url.includes('cdn.openai.com') ||
                  url.includes('replicate.delivery') ||
+                 url.includes('storage.googleapis.com') ||
                  url.match(/\.(jpg|jpeg|png|webp|gif)/i))
               );
               if (imageUrls.length > 0) {
@@ -273,8 +289,8 @@ async function generateImage(prompt, retries = 3) {
               console.warn('  Response was truncated (max_tokens reached), image might still be generating...');
             }
             
-            // Debug: log the response structure
-            console.error('Response structure:', JSON.stringify(response, null, 2).substring(0, 2000));
+            // Debug: log the response structure (first 3000 chars)
+            console.error('Response structure:', JSON.stringify(response, null, 2).substring(0, 3000));
             reject(new Error('No image URL found in OpenRouter response. Response may be incomplete or image generation failed.'));
           } catch (e) {
             reject(e);
@@ -381,9 +397,25 @@ function createPrompt(event) {
   return `A beautiful, seasonal calendar illustration for "${summary}". ${cleanDesc}. Style: warm, inviting, traditional, cultural celebration. High quality, detailed, suitable for a calendar background.`;
 }
 
-// Download image from URL
+// Download image from URL or base64 data URI
 function downloadImage(imageUrl) {
   return new Promise((resolve, reject) => {
+    // Handle base64 data URIs
+    if (imageUrl.startsWith('data:image/')) {
+      const base64Match = imageUrl.match(/data:image\/[^;]+;base64,(.+)/);
+      if (base64Match) {
+        try {
+          const buffer = Buffer.from(base64Match[1], 'base64');
+          resolve(buffer);
+          return;
+        } catch (error) {
+          reject(new Error(`Failed to decode base64 image: ${error.message}`));
+          return;
+        }
+      }
+    }
+    
+    // Handle regular URLs
     const parsedUrl = url.parse(imageUrl);
     const isHttps = parsedUrl.protocol === 'https:';
     const client = isHttps ? https : http;
@@ -423,32 +455,35 @@ async function resizeImageToCalendarCell(imageBuffer) {
 
 // Generate filename for event image
 function generateImageFilename(event, index) {
-  // Try to extract image number from existing X-IMAGE path if available
+  // Try to extract filename from existing X-IMAGE path if available
   if (event.currentImage) {
-    const match = event.currentImage.match(/image(\d+)\.(jpg|jpeg|png)/i);
+    const match = event.currentImage.match(/\/([^\/]+\.(jpg|jpeg|png))$/i);
     if (match) {
-      return `image${match[1]}.jpg`;
+      return match[1];
     }
   }
   
-  // Otherwise, generate a new filename based on event summary
-  const sanitized = (event.summary || `event-${index}`)
+  // Generate filename based on event description (first line before Icon/Category)
+  let baseText = '';
+  if (event.description) {
+    const firstLine = event.description.split('\\n')[0].trim();
+    baseText = firstLine || event.summary || `event-${index}`;
+  } else if (event.summary) {
+    baseText = event.summary;
+  } else {
+    baseText = `event-${index}`;
+  }
+  
+  // Convert to kebab-case filename
+  const sanitized = baseText
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .substring(0, 50);
+    .replace(/[^a-z0-9\s]+/g, '') // Remove special chars
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with single
+    .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
+    .substring(0, 100); // Limit length
   
-  // Find next available image number
-  const existingImages = fs.readdirSync(IMAGES_DIR).filter(f => 
-    f.match(/^image\d+\.(jpg|jpeg|png)$/i)
-  );
-  const existingNumbers = existingImages.map(f => {
-    const match = f.match(/image(\d+)/i);
-    return match ? parseInt(match[1]) : 0;
-  });
-  const nextNumber = existingNumbers.length > 0 ? Math.max(...existingNumbers) + 1 : index + 1;
-  
-  return `image${nextNumber}.jpg`;
+  return `${sanitized}.jpg`;
 }
 
 // Save image to local directory
@@ -501,7 +536,7 @@ function updateICSFile(eventsWithImages, originalLines) {
 
 // Main execution
 async function main() {
-  console.log('?? Starting image generation for calendar events...\n');
+  console.log('🎨 Starting image generation for calendar events...\n');
   
   const { events, lines } = extractEvents();
   console.log(`Found ${events.length} events to generate images for\n`);
@@ -509,11 +544,24 @@ async function main() {
   const eventsWithImages = [];
   let successCount = 0;
   let failCount = 0;
+  let skipCount = 0;
   
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
     const eventTitle = event.summary || event.description?.split('\\n')[0] || `Event ${i + 1}`;
+    const filename = generateImageFilename(event, i);
+    const filePath = path.join(IMAGES_DIR, filename);
+    
+    // Check if image already exists
+    if (fs.existsSync(filePath) && event.currentImage) {
+      console.log(`[${i + 1}/${events.length}] Skipping "${eventTitle}" - image already exists: ${filename}`);
+      eventsWithImages.push({ event, imageUrl: event.currentImage });
+      skipCount++;
+      continue;
+    }
+    
     console.log(`[${i + 1}/${events.length}] Generating image for: "${eventTitle}"`);
+    console.log(`  Target filename: ${filename}`);
     
     try {
       const prompt = createPrompt(event);
@@ -521,20 +569,19 @@ async function main() {
       
       // Generate image URL
       const imageUrl = await generateImage(prompt);
-      console.log(`  ? Generated URL: ${imageUrl.substring(0, 60)}...`);
+      console.log(`  ✅ Generated URL: ${imageUrl.substring(0, 60)}...`);
       
       // Download image
-      console.log(`  ?? Downloading image...`);
+      console.log(`  ⬇️  Downloading image...`);
       const imageBuffer = await downloadImage(imageUrl);
       
       // Resize to calendar cell size
-      console.log(`  ?? Resizing to ${CALENDAR_CELL_WIDTH}x${CALENDAR_CELL_HEIGHT}px...`);
+      console.log(`  🔄 Resizing to ${CALENDAR_CELL_WIDTH}x${CALENDAR_CELL_HEIGHT}px...`);
       const resizedBuffer = await resizeImageToCalendarCell(imageBuffer);
       
-      // Generate filename and save locally
-      const filename = generateImageFilename(event, i);
+      // Save locally
       const localPath = await saveImageToLocal(resizedBuffer, filename);
-      console.log(`  ?? Saved to: ${localPath}\n`);
+      console.log(`  💾 Saved to: ${localPath}\n`);
       
       eventsWithImages.push({ event, imageUrl: localPath });
       successCount++;
@@ -544,7 +591,7 @@ async function main() {
         await new Promise(resolve => setTimeout(resolve, 2000));
       }
     } catch (error) {
-      console.error(`  ? Failed: ${error.message}\n`);
+      console.error(`  ❌ Failed: ${error.message}\n`);
       failCount++;
       
       // Continue with next event even if one fails
@@ -555,9 +602,10 @@ async function main() {
     }
   }
   
-  console.log(`\n?? Summary:`);
-  console.log(`  ? Successfully generated: ${successCount}`);
-  console.log(`  ? Failed: ${failCount}`);
+  console.log(`\n📊 Summary:`);
+  console.log(`  ✅ Successfully generated: ${successCount}`);
+  console.log(`  ⏭️  Skipped (already exists): ${skipCount}`);
+  console.log(`  ❌ Failed: ${failCount}`);
   
   if (eventsWithImages.length > 0) {
     updateICSFile(eventsWithImages, lines);
