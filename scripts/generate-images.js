@@ -5,23 +5,42 @@ const http = require('http');
 const url = require('url');
 const sharp = require('sharp');
 
-// Load environment variables from .env.local if it exists
-const envLocalPath = path.join(__dirname, '..', '.env.local');
-if (fs.existsSync(envLocalPath)) {
-  const envContent = fs.readFileSync(envLocalPath, 'utf8');
-  envContent.split('\n').forEach(line => {
-    const trimmed = line.trim();
-    if (trimmed && !trimmed.startsWith('#')) {
-      const [key, ...valueParts] = trimmed.split('=');
-      if (key && valueParts.length > 0) {
-        const value = valueParts.join('=').trim();
-        if (!process.env[key]) {
-          process.env[key] = value;
+// Load environment variables from .env.local and ~/.env if present
+function loadEnvFile(envFilePath, label) {
+  try {
+    if (fs.existsSync(envFilePath)) {
+      const envContent = fs.readFileSync(envFilePath, 'utf8');
+      envContent.split('\n').forEach(line => {
+        const trimmed = line.trim();
+        if (trimmed && !trimmed.startsWith('#')) {
+          const [key, ...valueParts] = trimmed.split('=');
+          if (key && valueParts.length > 0) {
+            const value = valueParts.join('=')
+              .trim()
+              .replace(/^\"|\"$/g, '')
+              .replace(/^'|'$/g, '');
+            if (!process.env[key]) {
+              process.env[key] = value;
+            }
+          }
         }
-      }
+      });
+      console.log(`✅ Loaded environment variables from ${label}`);
+      return true;
     }
-  });
-  console.log('? Loaded environment variables from .env.local');
+  } catch (err) {
+    console.warn(`⚠️  Failed to load ${label}: ${err.message}`);
+  }
+  return false;
+}
+
+const envLocalPath = path.join(__dirname, '..', '.env.local');
+const homeEnvPath = path.join(process.env.HOME || process.env.USERPROFILE || '', '.env');
+
+// Prefer project-local file, then fallback to ~/.env
+const loadedLocal = loadEnvFile(envLocalPath, '.env.local');
+if (!loadedLocal) {
+  loadEnvFile(homeEnvPath, '~/.env');
 }
 
 // API Keys - MUST be set via environment variables for security
