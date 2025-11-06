@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const http = require('http');
+const url = require('url');
+const sharp = require('sharp');
 
 // Load environment variables from .env.local if it exists
 const envLocalPath = path.join(__dirname, '..', '.env.local');
@@ -26,7 +29,10 @@ if (fs.existsSync(envLocalPath)) {
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const ICS_PATH = path.join(__dirname, '..', 'public', 'MSS.ics');
+const IMAGES_DIR = path.join(__dirname, '..', 'public', 'images');
 const USE_PROMPT_ENHANCEMENT = true; // Use OpenRouter to enhance prompts before image generation
+const CALENDAR_CELL_WIDTH = 400; // Calendar cell image width in pixels
+const CALENDAR_CELL_HEIGHT = 300; // Calendar cell image height in pixels
 
 // Validate API keys are set
 if (!OPENROUTER_API_KEY) {
@@ -56,7 +62,13 @@ function extractEvents() {
       inEvent = true;
       currentEvent = {};
     } else if (line.trim() === 'END:VEVENT' && inEvent) {
-      if (currentEvent.summary) {
+      // Extract title from description if summary doesn't exist
+      if (!currentEvent.summary && currentEvent.description) {
+        const firstLine = currentEvent.description.split('\\n')[0].trim();
+        currentEvent.summary = firstLine || 'Untitled Event';
+      }
+      
+      if (currentEvent.summary || currentEvent.description) {
         events.push({ ...currentEvent });
       }
       inEvent = false;
@@ -66,6 +78,9 @@ function extractEvents() {
       currentEvent.summaryLineIndex = i;
     } else if (inEvent && line.startsWith('DESCRIPTION:')) {
       currentEvent.description = line.replace('DESCRIPTION:', '').trim();
+      if (!currentEvent.summaryLineIndex) {
+        currentEvent.summaryLineIndex = i; // Use description line as fallback
+      }
     } else if (inEvent && line.startsWith('X-IMAGE:')) {
       currentEvent.imageIndex = i;
       currentEvent.currentImage = line.replace('X-IMAGE:', '').trim();
@@ -90,10 +105,10 @@ async function generateImage(prompt, retries = 3) {
   }
   
   // Use OpenRouter's image generation via chat completions API
-  // Models that support image generation: black-forest-labs/flux-1.1-pro, stability-ai/stable-diffusion-xl, etc.
+  // Models that support image generation: openai/gpt-5-image, google/gemini-2.5-flash-image
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify({
-      model: "black-forest-labs/flux-1.1-pro", // High-quality image generation model
+      model: "openai/gpt-5-image", // GPT-5 Image generation model via OpenRouter
       messages: [
         {
           role: "user",
@@ -101,7 +116,8 @@ async function generateImage(prompt, retries = 3) {
         }
       ],
       modalities: ["image", "text"], // Request image generation
-      max_tokens: 1000
+      max_tokens: 4000, // Increase tokens for image generation
+      stream: false // Non-streaming to get complete response
     });
     
     const req = https.request({
@@ -127,19 +143,24 @@ async function generateImage(prompt, retries = 3) {
           try {
             const response = JSON.parse(data);
             // OpenRouter returns images in the response
-            // Check for image URL in the response structure
+            // GPT-5 Image may return images in different formats
             if (response.choices && response.choices[0]) {
               const choice = response.choices[0];
+              const message = choice.message;
               
-              // Image might be in message.content as URL or base64
-              if (choice.message && choice.message.content) {
-                const content = choice.message.content;
+              // Check message.content - might be array or string
+              if (message.content) {
+                const content = message.content;
                 
                 // If content is an array, look for image objects
                 if (Array.isArray(content)) {
-                  const imageItem = content.find(item => item.type === 'image' || item.image_url);
+                  const imageItem = content.find(item => 
+                    item.type === 'image' || 
+                    item.image_url || 
+                    (item.type === 'image_url' && item.image_url?.url)
+                  );
                   if (imageItem) {
-                    const imageUrl = imageItem.image_url?.url || imageItem.url;
+                    const imageUrl = imageItem.image_url?.url || imageItem.url || imageItem.image_url;
                     if (imageUrl) {
                       resolve(imageUrl);
                       return;
@@ -147,30 +168,114 @@ async function generateImage(prompt, retries = 3) {
                   }
                 }
                 
-                // If content is a string URL
-                if (typeof content === 'string' && (content.startsWith('http://') || content.startsWith('https://'))) {
-                  resolve(content);
+                // If content is a string, check for URL
+                if (typeof content === 'string') {
+                  if (content.startsWith('http://') || content.startsWith('https://')) {
+                    resolve(content.trim());
+                    return;
+                  }
+                  // Try to extract URL from text
+                  const urlMatch = content.match(/https?:\/\/[^\s\)]+/);
+                  if (urlMatch) {
+                    resolve(urlMatch[0]);
+                    return;
+                  }
+                }
+              }
+              
+              // Check for images in response.data
+              if (response.data && Array.isArray(response.data)) {
+                const imageData = response.data.find(item => item.url || item.b64_json);
+                if (imageData?.url) {
+                  resolve(imageData.url);
                   return;
                 }
-                
-                // Try to extract URL from content
-                const urlMatch = content.match(/https?:\/\/[^\s]+/);
+              }
+              
+              // Check for image in other response fields
+              if (response.image_url || response.url) {
+                resolve(response.image_url || response.url);
+                return;
+              }
+              
+              // Check reasoning_details for image references
+              if (message.reasoning_details) {
+                const reasoningText = JSON.stringify(message.reasoning_details);
+                const urlMatch = reasoningText.match(/https?:\/\/[^\s"']+\.(jpg|jpeg|png|webp|gif)/i);
                 if (urlMatch) {
                   resolve(urlMatch[0]);
                   return;
                 }
               }
               
-              // Check for image in response.data or other structures
-              if (response.data && response.data[0] && response.data[0].url) {
-                resolve(response.data[0].url);
+              // Check reasoning text (if it's a string property)
+              if (message.reasoning) {
+                const urlMatch = message.reasoning.match(/https?:\/\/[^\s\)]+\.(jpg|jpeg|png|webp|gif)/i);
+                if (urlMatch) {
+                  resolve(urlMatch[0]);
+                  return;
+                }
+              }
+              
+              // Check tool_calls for image generation results
+              if (message.tool_calls && Array.isArray(message.tool_calls)) {
+                for (const toolCall of message.tool_calls) {
+                  if (toolCall.function && toolCall.function.arguments) {
+                    try {
+                      const args = JSON.parse(toolCall.function.arguments);
+                      if (args.url || args.image_url || args.image) {
+                        resolve(args.url || args.image_url || args.image);
+                        return;
+                      }
+                    } catch (e) {
+                      // Not JSON, try regex
+                      const urlMatch = toolCall.function.arguments.match(/https?:\/\/[^\s"']+\.(jpg|jpeg|png|webp|gif)/i);
+                      if (urlMatch) {
+                        resolve(urlMatch[0]);
+                        return;
+                      }
+                    }
+                  }
+                  // Check tool call response
+                  if (toolCall.response) {
+                    const urlMatch = JSON.stringify(toolCall.response).match(/https?:\/\/[^\s"']+\.(jpg|jpeg|png|webp|gif)/i);
+                    if (urlMatch) {
+                      resolve(urlMatch[0]);
+                      return;
+                    }
+                  }
+                }
+              }
+            }
+            
+            // Check the entire response JSON for any image URLs
+            const fullResponseText = JSON.stringify(response);
+            const urlMatches = fullResponseText.match(/https?:\/\/[^\s"']+\.(jpg|jpeg|png|webp|gif)/gi);
+            if (urlMatches && urlMatches.length > 0) {
+              // Filter out known non-image URLs (like openrouter.ai, api endpoints, etc.)
+              const imageUrls = urlMatches.filter(url => 
+                !url.includes('openrouter.ai') && 
+                !url.includes('api') &&
+                !url.includes('openai.com') &&
+                (url.includes('oaidalleapiprodscus') || 
+                 url.includes('cdn.openai.com') ||
+                 url.includes('replicate.delivery') ||
+                 url.match(/\.(jpg|jpeg|png|webp|gif)/i))
+              );
+              if (imageUrls.length > 0) {
+                resolve(imageUrls[0]);
                 return;
               }
             }
             
+            // If finish_reason is "length", the response might be incomplete
+            if (response.choices?.[0]?.finish_reason === 'length') {
+              console.warn('  Response was truncated (max_tokens reached), image might still be generating...');
+            }
+            
             // Debug: log the response structure
-            console.error('Response structure:', JSON.stringify(response, null, 2).substring(0, 500));
-            reject(new Error('No image URL found in OpenRouter response'));
+            console.error('Response structure:', JSON.stringify(response, null, 2).substring(0, 2000));
+            reject(new Error('No image URL found in OpenRouter response. Response may be incomplete or image generation failed.'));
           } catch (e) {
             reject(e);
           }
@@ -269,10 +374,93 @@ async function enhancePromptWithOpenRouter(originalPrompt) {
 // Create prompt for event
 function createPrompt(event) {
   const description = event.description || '';
+  const summary = event.summary || 'Calendar Event';
   // Clean description (remove icon/category markers)
   const cleanDesc = description.split('\\n\\nIcon:')[0].replace(/\\n/g, ' ').trim();
   
-  return `A beautiful, seasonal calendar illustration for "${event.summary}". ${cleanDesc}. Style: warm, inviting, traditional, cultural celebration. High quality, detailed, suitable for a calendar background.`;
+  return `A beautiful, seasonal calendar illustration for "${summary}". ${cleanDesc}. Style: warm, inviting, traditional, cultural celebration. High quality, detailed, suitable for a calendar background.`;
+}
+
+// Download image from URL
+function downloadImage(imageUrl) {
+  return new Promise((resolve, reject) => {
+    const parsedUrl = url.parse(imageUrl);
+    const isHttps = parsedUrl.protocol === 'https:';
+    const client = isHttps ? https : http;
+    
+    client.get(imageUrl, (response) => {
+      if (response.statusCode !== 200) {
+        reject(new Error(`Failed to download image: ${response.statusCode}`));
+        return;
+      }
+      
+      const chunks = [];
+      response.on('data', (chunk) => chunks.push(chunk));
+      response.on('end', () => {
+        const buffer = Buffer.concat(chunks);
+        resolve(buffer);
+      });
+      response.on('error', reject);
+    }).on('error', reject);
+  });
+}
+
+// Resize image to calendar cell size
+async function resizeImageToCalendarCell(imageBuffer) {
+  try {
+    const resizedBuffer = await sharp(imageBuffer)
+      .resize(CALENDAR_CELL_WIDTH, CALENDAR_CELL_HEIGHT, {
+        fit: 'cover',
+        position: 'center'
+      })
+      .jpeg({ quality: 85 })
+      .toBuffer();
+    return resizedBuffer;
+  } catch (error) {
+    throw new Error(`Failed to resize image: ${error.message}`);
+  }
+}
+
+// Generate filename for event image
+function generateImageFilename(event, index) {
+  // Try to extract image number from existing X-IMAGE path if available
+  if (event.currentImage) {
+    const match = event.currentImage.match(/image(\d+)\.(jpg|jpeg|png)/i);
+    if (match) {
+      return `image${match[1]}.jpg`;
+    }
+  }
+  
+  // Otherwise, generate a new filename based on event summary
+  const sanitized = (event.summary || `event-${index}`)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 50);
+  
+  // Find next available image number
+  const existingImages = fs.readdirSync(IMAGES_DIR).filter(f => 
+    f.match(/^image\d+\.(jpg|jpeg|png)$/i)
+  );
+  const existingNumbers = existingImages.map(f => {
+    const match = f.match(/image(\d+)/i);
+    return match ? parseInt(match[1]) : 0;
+  });
+  const nextNumber = existingNumbers.length > 0 ? Math.max(...existingNumbers) + 1 : index + 1;
+  
+  return `image${nextNumber}.jpg`;
+}
+
+// Save image to local directory
+async function saveImageToLocal(imageBuffer, filename) {
+  // Ensure images directory exists
+  if (!fs.existsSync(IMAGES_DIR)) {
+    fs.mkdirSync(IMAGES_DIR, { recursive: true });
+  }
+  
+  const filePath = path.join(IMAGES_DIR, filename);
+  fs.writeFileSync(filePath, imageBuffer);
+  return `/images/${filename}`;
 }
 
 // Update ICS file with new image URLs
@@ -324,16 +512,31 @@ async function main() {
   
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
-    console.log(`[${i + 1}/${events.length}] Generating image for: "${event.summary}"`);
+    const eventTitle = event.summary || event.description?.split('\\n')[0] || `Event ${i + 1}`;
+    console.log(`[${i + 1}/${events.length}] Generating image for: "${eventTitle}"`);
     
     try {
       const prompt = createPrompt(event);
       console.log(`  Prompt: ${prompt.substring(0, 100)}...`);
       
+      // Generate image URL
       const imageUrl = await generateImage(prompt);
-      console.log(`  ? Generated: ${imageUrl.substring(0, 60)}...\n`);
+      console.log(`  ? Generated URL: ${imageUrl.substring(0, 60)}...`);
       
-      eventsWithImages.push({ event, imageUrl });
+      // Download image
+      console.log(`  ?? Downloading image...`);
+      const imageBuffer = await downloadImage(imageUrl);
+      
+      // Resize to calendar cell size
+      console.log(`  ?? Resizing to ${CALENDAR_CELL_WIDTH}x${CALENDAR_CELL_HEIGHT}px...`);
+      const resizedBuffer = await resizeImageToCalendarCell(imageBuffer);
+      
+      // Generate filename and save locally
+      const filename = generateImageFilename(event, i);
+      const localPath = await saveImageToLocal(resizedBuffer, filename);
+      console.log(`  ?? Saved to: ${localPath}\n`);
+      
+      eventsWithImages.push({ event, imageUrl: localPath });
       successCount++;
       
       // Rate limiting: wait 2 seconds between requests to avoid rate limits

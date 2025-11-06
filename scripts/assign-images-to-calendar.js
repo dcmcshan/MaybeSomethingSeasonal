@@ -177,6 +177,12 @@ async function generateImage(prompt, retries = 3) {
         if (res.statusCode === 200) {
           try {
             const response = JSON.parse(data);
+            
+            // Debug: log response structure for troubleshooting
+            if (process.env.DEBUG) {
+              console.log('  Response structure:', JSON.stringify(response, null, 2).substring(0, 500));
+            }
+            
             if (response.choices && response.choices[0]) {
               const choice = response.choices[0];
               const message = choice.message;
@@ -187,6 +193,7 @@ async function generateImage(prompt, retries = 3) {
                 if (Array.isArray(content)) {
                   const imageItem = content.find(item => 
                     item.type === 'image' || 
+                    item.type === 'image_url' ||
                     item.image_url || 
                     (item.type === 'image_url' && item.image_url?.url)
                   );
@@ -204,6 +211,7 @@ async function generateImage(prompt, retries = 3) {
                     resolve(content.trim());
                     return;
                   }
+                  // Try to extract URL from text
                   const urlMatch = content.match(/https?:\/\/[^\s\)]+/);
                   if (urlMatch) {
                     resolve(urlMatch[0]);
@@ -212,6 +220,7 @@ async function generateImage(prompt, retries = 3) {
                 }
               }
               
+              // Check for images in response.data
               if (response.data && Array.isArray(response.data)) {
                 const imageData = response.data.find(item => item.url || item.b64_json);
                 if (imageData?.url) {
@@ -220,11 +229,25 @@ async function generateImage(prompt, retries = 3) {
                 }
               }
               
+              // Check for image in other response fields
               if (response.image_url || response.url) {
                 resolve(response.image_url || response.url);
                 return;
               }
               
+              // Check reasoning field (GPT-5 often puts info in reasoning)
+              if (message.reasoning) {
+                const reasoningText = typeof message.reasoning === 'string' 
+                  ? message.reasoning 
+                  : JSON.stringify(message.reasoning);
+                const urlMatch = reasoningText.match(/https?:\/\/[^\s"'\\)]+\.(jpg|jpeg|png|webp|webm)/i);
+                if (urlMatch) {
+                  resolve(urlMatch[0]);
+                  return;
+                }
+              }
+              
+              // Check reasoning_details for image references
               if (message.reasoning_details) {
                 const reasoningText = JSON.stringify(message.reasoning_details);
                 const urlMatch = reasoningText.match(/https?:\/\/[^\s"']+\.(jpg|jpeg|png|webp)/);
@@ -233,9 +256,46 @@ async function generateImage(prompt, retries = 3) {
                   return;
                 }
               }
+              
+              // Check for image in tool_calls or other nested structures
+              if (message.tool_calls) {
+                for (const toolCall of message.tool_calls) {
+                  if (toolCall.function?.arguments) {
+                    try {
+                      const args = JSON.parse(toolCall.function.arguments);
+                      if (args.image_url || args.url) {
+                        resolve(args.image_url || args.url);
+                        return;
+                      }
+                    } catch (e) {
+                      // Not JSON
+                    }
+                  }
+                }
+              }
+              
+              // Check for image in attachments or media
+              if (message.attachments) {
+                for (const attachment of message.attachments) {
+                  if (attachment.url || attachment.image_url) {
+                    resolve(attachment.url || attachment.image_url);
+                    return;
+                  }
+                }
+              }
             }
             
-            reject(new Error('No image URL found in OpenRouter response.'));
+            // Check if response has image_url at top level
+            if (response.image_url || response.image) {
+              resolve(response.image_url || response.image);
+              return;
+            }
+            
+            // Log the full response for debugging if it fails
+            const responsePreview = JSON.stringify(response, null, 2);
+            console.error('  Response structure (first 1500 chars):', responsePreview.substring(0, 1500));
+            console.error('  Full message content:', JSON.stringify(message, null, 2).substring(0, 500));
+            reject(new Error('No image URL found in OpenRouter response. The model may not support image generation in this format.'));
           } catch (e) {
             reject(e);
           }
@@ -424,129 +484,87 @@ function extractEventsFromICS() {
 
 // Main function
 async function assignImages() {
-  console.log('🎨 Assigning images to calendar events...\n');
+  console.log('🎨 Generating images for all calendar events...\n');
+  
+  if (!OPENROUTER_API_KEY) {
+    console.error('❌ ERROR: OPENROUTER_API_KEY environment variable not set!');
+    console.error('   Set it with: export OPENROUTER_API_KEY=your-key-here');
+    process.exit(1);
+  }
   
   // Get all events from ICS
   const events = extractEventsFromICS();
   console.log(`Found ${events.length} events in calendar\n`);
   
-  // Create a map of all image-to-holiday mappings (including duplicates)
-  const imageHolidayMap = {};
-  completeMappingData.mappings.forEach(m => {
-    if (m.holiday !== 'UNMATCHED') {
-      const imagePath = `/images/${m.image}`;
-      if (!imageHolidayMap[m.holiday]) {
-        imageHolidayMap[m.holiday] = [];
-      }
-      // Only add if not already in list (avoid duplicates)
-      if (!imageHolidayMap[m.holiday].includes(imagePath)) {
-        imageHolidayMap[m.holiday].push(imagePath);
-      }
-    }
-  });
+  if (events.length === 0) {
+    console.error('❌ No events found in calendar!');
+    process.exit(1);
+  }
   
-  // Match and assign images
+  // Generate images for all events (skip Excel matching)
   const assignments = [];
-  const unmatchedImages = [];
-  
-  Object.keys(imageHolidayMap).forEach(excelHoliday => {
-    const matchingTitle = findMatchingEventTitle(excelHoliday, events);
-    
-    if (matchingTitle) {
-      const images = imageHolidayMap[excelHoliday];
-      const matchingEvents = events.filter(e => e.title === matchingTitle);
-      
-      matchingEvents.forEach((event, idx) => {
-        // Use the first image, or cycle through if multiple events
-        const imageIndex = idx % images.length;
-        const imagePath = images[imageIndex];
-        
-        assignments.push({
-          excelHoliday,
-          eventTitle: event.title,
-          eventDate: event.date,
-          image: imagePath,
-          hadExistingImage: !!event.image
-        });
-      });
-      
-      console.log(`✅ ${excelHoliday} → ${matchingTitle} (${images.length} image(s), ${matchingEvents.length} event(s))`);
-    } else {
-      unmatchedImages.push({
-        excelHoliday,
-        images: imageHolidayMap[excelHoliday]
-      });
-      console.log(`⚠️  ${excelHoliday} → NO MATCH FOUND`);
-    }
-  });
-  
-  // Find events without images and generate them
   const generatedImages = [];
   let generatedCount = 0;
   let failedCount = 0;
   
-  if (OPENROUTER_API_KEY) {
-    console.log('\n🖼️  Generating images for events without assigned images...\n');
-    const eventsNeedingImages = events.filter(event => {
-      // Check if this event has an assignment
-      const hasAssignment = assignments.some(a => a.eventTitle === event.title);
-      // Check if event already has an image
-      const hasExistingImage = !!event.image;
-      // Return true if event needs an image
-      return !hasAssignment && !hasExistingImage;
-    });
+  console.log('🖼️  Generating images for all events...\n');
+  
+  // Generate images for ALL events (regenerate all)
+  // Filter to get all events that need new images
+  const eventsNeedingImages = events.filter(event => {
+    // Generate for all events (will replace existing images)
+    return true;
+  });
     
-    console.log(`Found ${eventsNeedingImages.length} events without images`);
-    
-    if (eventsNeedingImages.length > 0) {
-      for (let i = 0; i < eventsNeedingImages.length; i++) {
-        const event = eventsNeedingImages[i];
-        console.log(`[${i + 1}/${eventsNeedingImages.length}] Generating image for: "${event.title}"`);
-        
-        try {
-          const prompt = createPrompt(event);
-          console.log(`  Prompt: ${prompt.substring(0, 100)}...`);
-          
-          const imageUrl = await generateImage(prompt);
-          console.log(`  ✅ Generated: ${imageUrl.substring(0, 60)}...\n`);
-          
-          generatedImages.push({
-            eventTitle: event.title,
-            eventDate: event.date,
-            image: imageUrl,
-            generated: true
-          });
-          
-          generatedCount++;
-          
-          // Add to assignments
-          assignments.push({
-            excelHoliday: null,
-            eventTitle: event.title,
-            eventDate: event.date,
-            image: imageUrl,
-            generated: true
-          });
-          
-          // Rate limiting: wait 2 seconds between requests
-          if (i < eventsNeedingImages.length - 1) {
-            await new Promise(resolve => setTimeout(resolve, 2000));
-          }
-        } catch (error) {
-          console.error(`  ❌ Failed: ${error.message}\n`);
-          failedCount++;
-        }
-      }
-      
-      console.log(`\n📊 Image Generation Summary:`);
-      console.log(`   Generated: ${generatedCount}`);
-      console.log(`   Failed: ${failedCount}`);
-    } else {
-      console.log('\n✅ All events already have images assigned!\n');
-    }
+  console.log(`Found ${eventsNeedingImages.length} events to generate images for`);
+  
+  if (eventsNeedingImages.length === 0) {
+    console.log('⚠️  No events found!\n');
   } else {
-    console.log('\n⚠️  OPENROUTER_API_KEY not set - skipping image generation');
-    console.log('   Set it with: export OPENROUTER_API_KEY=your-key-here\n');
+    console.log(`Generating images for ${eventsNeedingImages.length} events...\n`);
+    
+    for (let i = 0; i < eventsNeedingImages.length; i++) {
+      const event = eventsNeedingImages[i];
+      console.log(`[${i + 1}/${eventsNeedingImages.length}] Generating image for: "${event.title}"`);
+      
+      try {
+        const prompt = createPrompt(event);
+        console.log(`  Prompt: ${prompt.substring(0, 100)}...`);
+        
+        const imageUrl = await generateImage(prompt);
+        console.log(`  ✅ Generated: ${imageUrl.substring(0, 60)}...\n`);
+        
+        generatedImages.push({
+          eventTitle: event.title,
+          eventDate: event.date,
+          image: imageUrl,
+          generated: true
+        });
+        
+        generatedCount++;
+        
+        // Add to assignments
+        assignments.push({
+          excelHoliday: null,
+          eventTitle: event.title,
+          eventDate: event.date,
+          image: imageUrl,
+          generated: true
+        });
+        
+        // Rate limiting: wait 2 seconds between requests
+        if (i < eventsNeedingImages.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+      } catch (error) {
+        console.error(`  ❌ Failed: ${error.message}\n`);
+        failedCount++;
+      }
+    }
+    
+    console.log(`\n📊 Image Generation Summary:`);
+    console.log(`   Generated: ${generatedCount}`);
+    console.log(`   Failed: ${failedCount}`);
   }
   
   // Update ICS file with image assignments
@@ -609,11 +627,10 @@ async function assignImages() {
   // Save assignment report
   const report = {
     assignments,
-    unmatchedImages,
     generatedImages,
     summary: {
+      totalEvents: events.length,
       totalAssignments: assignments.length,
-      totalUnmatched: unmatchedImages.length,
       eventsWithImages: new Set(assignments.map(a => a.eventTitle)).size,
       generatedCount,
       failedCount
@@ -626,13 +643,10 @@ async function assignImages() {
   );
   
   console.log(`\n📊 Summary:`);
-  console.log(`   Assignments made: ${report.summary.totalAssignments}`);
+  console.log(`   Total events: ${report.summary.totalEvents}`);
+  console.log(`   Images generated: ${report.summary.generatedCount}`);
+  console.log(`   Generation failures: ${report.summary.failedCount}`);
   console.log(`   Events with images: ${report.summary.eventsWithImages}`);
-  console.log(`   Unmatched Excel holidays: ${report.summary.totalUnmatched}`);
-  if (generatedCount > 0) {
-    console.log(`   Images generated: ${report.summary.generatedCount}`);
-    console.log(`   Generation failures: ${report.summary.failedCount}`);
-  }
   console.log(`\n✅ Updated ICS file: ${icsPath}`);
   console.log(`✅ Assignment report: image-assignment-report.json`);
   

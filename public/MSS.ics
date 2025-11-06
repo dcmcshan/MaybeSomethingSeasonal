@@ -231,7 +231,7 @@ UID:event-angelitos-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251101T070000Z
 DTEND:20251102T070000Z
-DESCRIPTION:Day of the Little Angels - honoring deceased children.\n\nIcon: 👼\nCategory: cultural
+DESCRIPTION:Día de los Angelitos - honoring deceased children.\n\nIcon: 👼\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
@@ -242,7 +242,7 @@ UID:event-muertos-2025@maybesomethingseasonal.com
 DTSTAMP:20251104T055848Z
 DTSTART:20251102T070000Z
 DTEND:20251103T070000Z
-DESCRIPTION:Day of the Dead - celebration of deceased loved ones.\n\nIcon: 💀\nCategory: cultural
+DESCRIPTION:Día de los Muertos - celebration of deceased loved ones.\n\nIcon: 💀\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
