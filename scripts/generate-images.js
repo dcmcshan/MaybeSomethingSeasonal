@@ -19,9 +19,8 @@ function loadEnvFile(envFilePath, label) {
               .trim()
               .replace(/^\"|\"$/g, '')
               .replace(/^'|'$/g, '');
-            if (!process.env[key]) {
-              process.env[key] = value;
-            }
+            // Always set (allows .env.local to override ~/.env)
+            process.env[key] = value;
           }
         }
       });
@@ -37,11 +36,10 @@ function loadEnvFile(envFilePath, label) {
 const envLocalPath = path.join(__dirname, '..', '.env.local');
 const homeEnvPath = path.join(process.env.HOME || process.env.USERPROFILE || '', '.env');
 
-// Prefer project-local file, then fallback to ~/.env
-const loadedLocal = loadEnvFile(envLocalPath, '.env.local');
-if (!loadedLocal) {
-  loadEnvFile(homeEnvPath, '~/.env');
-}
+// Load from ~/.env first (as base), then .env.local (overrides)
+// This allows ~/.env to be the default with project-specific overrides
+loadEnvFile(homeEnvPath, '~/.env');
+loadEnvFile(envLocalPath, '.env.local');
 
 // API Keys - MUST be set via environment variables for security
 // Do NOT hardcode API keys in this file!
