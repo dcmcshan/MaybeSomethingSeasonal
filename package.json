@@ -12,6 +12,7 @@
     "validate": "node scripts/validate-ics.js",
     "fix:ics-format": "node scripts/fix-ics-format.js",
     "fix:images": "node scripts/fix-missing-images.js",
+    "smoke": "node scripts/smoke-test.js",
     "test:local": "npm run validate && npm run build && npm run preview",
     "precommit": "npm run validate",
     "prepare": "npx simple-git-hooks"
@@ -43,6 +44,6 @@
   "author": "Daniel McShan",
   "license": "MIT",
   "simple-git-hooks": {
-    "pre-push": "npm run validate"
+    "pre-push": "npm run validate && npm run build && npm run smoke"
   }
 }
