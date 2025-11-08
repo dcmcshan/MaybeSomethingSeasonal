@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MSS Calendar Events</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        background-color: #f6f7fb;
+        color: #1f2933;
+      }
+      body {
+        margin: 0;
+        padding: 2.5rem 1.5rem 3rem;
+      }
+      header {
+        max-width: 75rem;
+        margin: 0 auto 2rem;
+      }
+      h1 {
+        font-size: clamp(1.75rem, 2.2vw, 2.5rem);
+        margin-bottom: 0.25rem;
+        color: #0b7285;
+      }
+      p.lead {
+        margin: 0;
+        color: #475569;
+        font-size: clamp(1rem, 1.4vw, 1.15rem);
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        align-items: center;
+      }
+      .controls label {
+        font-weight: 600;
+        color: #1f2933;
+      }
+      .controls input {
+        padding: 0.45rem 0.65rem;
+        border-radius: 6px;
+        border: 1px solid #cbd5e1;
+        font-size: 0.95rem;
+        min-width: 14rem;
+      }
+      .table-wrapper {
+        max-width: 75rem;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 640px;
+      }
+      thead {
+        background: #0b7285;
+        color: #f8fafc;
+      }
+      th,
+      td {
+        padding: 0.85rem 1rem;
+        text-align: left;
+        vertical-align: top;
+        font-size: 0.95rem;
+      }
+      th {
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+      tbody tr:nth-child(even) {
+        background: #f1f5f9;
+      }
+      tbody tr:nth-child(odd) {
+        background: #ffffff;
+      }
+      tbody tr:hover {
+        background: #e0f2fe;
+      }
+      td.date {
+        white-space: nowrap;
+        font-weight: 600;
+        color: #0b7285;
+      }
+      td.icon {
+        font-size: 1.25rem;
+      }
+      td.description {
+        white-space: pre-wrap;
+        line-height: 1.45;
+      }
+      td.category {
+        font-weight: 600;
+        color: #7c3aed;
+        text-transform: capitalize;
+      }
+      caption {
+        text-align: left;
+        padding: 1.25rem 1rem;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #475569;
+      }
+      #status {
+        margin-top: 0.75rem;
+        font-size: 0.9rem;
+        color: #64748b;
+      }
+      .hidden {
+        display: none !important;
+      }
+      @media (max-width: 900px) {
+        .table-wrapper {
+          overflow-x: auto;
+        }
+        table {
+          min-width: 720px;
+        }
+      }
+      @media (max-width: 640px) {
+        body {
+          padding: 1.75rem 1rem 2.25rem;
+        }
+        .controls {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .controls input {
+          width: 100%;
+        }
+        caption {
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Maybe Something Seasonal – MSS.ics Index</h1>
+      <p class="lead">
+        This page lists every event currently published in <code>MSS.ics</code>
+        so you can review titles, dates, icons, categories, and descriptions at a
+        glance.
+      </p>
+      <div class="controls">
+        <label for="search">Filter events</label>
+        <input
+          id="search"
+          type="search"
+          placeholder="Search by title, date, category, or description…"
+          aria-label="Search events"
+        />
+        <span id="status" role="status">Loading events…</span>
+      </div>
+    </header>
+
+    <div class="table-wrapper hidden" id="table-container">
+      <table>
+        <caption id="table-caption">Calendar Events</caption>
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Title</th>
+            <th scope="col">Icon</th>
+            <th scope="col">Category</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody id="events-body"></tbody>
+      </table>
+    </div>
+
+    <template id="row-template">
+      <tr>
+        <td class="date"></td>
+        <td class="title"></td>
+        <td class="icon"></td>
+        <td class="category"></td>
+        <td class="description"></td>
+      </tr>
+    </template>
+
+    <script>
+      const statusEl = document.getElementById("status");
+      const tableContainer = document.getElementById("table-container");
+      const tableCaption = document.getElementById("table-caption");
+      const tbody = document.getElementById("events-body");
+      const rowTemplate = document.getElementById("row-template");
+      const searchInput = document.getElementById("search");
+
+      const unescapeText = (value = "") =>
+        value
+          .replace(/\\\\n/g, "\n")
+          .replace(/\\n/g, "\n")
+          .replace(/\\\\,/g, ",")
+          .replace(/\\,/g, ",")
+          .replace(/\\\\;/g, ";")
+          .replace(/\\;/g, ";")
+          .replace(/\\\\/g, "\\");
+
+      const toDateLabel = (value = "") => {
+        const basic = value.trim();
+        if (!basic) return "";
+        const dateOnly = basic.slice(0, 8);
+        const year = dateOnly.slice(0, 4);
+        const month = dateOnly.slice(4, 6);
+        const day = dateOnly.slice(6, 8);
+        if (!year || !month || !day) return basic;
+        const iso = `${year}-${month}-${day}`;
+        const date = new Date(`${iso}T00:00:00`);
+        if (Number.isNaN(date.getTime())) return iso;
+        return date.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      };
+
+      const extractMetaFromDescription = (raw) => {
+        const description = unescapeText(raw || "");
+        const parts = description.split(/\n\nIcon:/);
+        const main = parts[0]?.trim() ?? "";
+
+        let icon = "";
+        let category = "";
+
+        const iconMatch =
+          description.match(/\n\nIcon:\s*([^\n]+)/) ||
+          description.match(/Icon:\s*([^\n]+)/);
+        if (iconMatch) icon = iconMatch[1].trim();
+
+        const categoryMatch =
+          description.match(/\nCategory:\s*([^\n]+)/) ||
+          description.match(/Category:\s*([^\n]+)/);
+        if (categoryMatch) category = categoryMatch[1].trim();
+
+        return {
+          summary: main,
+          icon: icon,
+          category: category,
+        };
+      };
+
+      const parseIcs = (icsText) => {
+        const lines = icsText.split(/\r?\n/);
+        const events = [];
+        let current = null;
+        let lastKey = null;
+
+        for (const line of lines) {
+          if (line === "BEGIN:VEVENT") {
+            current = {};
+            lastKey = null;
+            continue;
+          }
+          if (line === "END:VEVENT") {
+            if (current) events.push(current);
+            current = null;
+            lastKey = null;
+            continue;
+          }
+          if (!current) continue;
+
+          if (line.startsWith(" ") && lastKey) {
+            current[lastKey] = (current[lastKey] || "") + line.slice(1);
+            continue;
+          }
+
+          const splitIndex = line.indexOf(":");
+          if (splitIndex === -1) continue;
+          const keyPart = line.slice(0, splitIndex);
+          const value = line.slice(splitIndex + 1);
+          const key = keyPart.split(";")[0];
+
+          current[key] = value;
+          lastKey = key;
+        }
+
+        return events.map((event) => {
+          const { SUMMARY, DTSTART, DESCRIPTION, CATEGORIES } = event;
+          const meta = extractMetaFromDescription(DESCRIPTION);
+          const category =
+            meta.category || unescapeText(CATEGORIES || "").trim();
+          const icon = meta.icon || "";
+          const description =
+            meta.summary ||
+            unescapeText(DESCRIPTION || "").replace(/\n{2,}/g, "\n").trim();
+
+          return {
+            date: toDateLabel(DTSTART),
+            rawDate: DTSTART,
+            title: unescapeText(SUMMARY || "").trim() || "(Untitled Event)",
+            icon,
+            category: category || "uncategorized",
+            description,
+          };
+        });
+      };
+
+      const renderTable = (events) => {
+        tbody.innerHTML = "";
+        const fragment = document.createDocumentFragment();
+
+        events.forEach((event) => {
+          const clone = rowTemplate.content.firstElementChild.cloneNode(true);
+          clone.querySelector(".date").textContent = event.date || "—";
+          clone.querySelector(".title").textContent = event.title;
+          clone.querySelector(".icon").textContent = event.icon || "—";
+          clone.querySelector(".category").textContent = event.category;
+          clone.querySelector(".description").textContent =
+            event.description || "—";
+          fragment.appendChild(clone);
+        });
+
+        tbody.appendChild(fragment);
+        tableCaption.textContent = `Calendar Events (${events.length.toLocaleString()} items)`;
+      };
+
+      const applyFilter = (events) => {
+        const term = searchInput.value.trim().toLowerCase();
+        if (!term) return events;
+        return events.filter((event) => {
+          const haystack = [
+            event.title,
+            event.date,
+            event.category,
+            event.icon,
+            event.description,
+          ]
+            .join(" ")
+            .toLowerCase();
+          return haystack.includes(term);
+        });
+      };
+
+      const attachSearch = (events) => {
+        searchInput.addEventListener("input", () => {
+          const filtered = applyFilter(events);
+          renderTable(filtered);
+          statusEl.textContent =
+            filtered.length === events.length
+              ? "Showing all events."
+              : `Showing ${filtered.length.toLocaleString()} of ${events.length.toLocaleString()} events.`;
+        });
+      };
+
+      const initialise = async () => {
+        try {
+          const response = await fetch("../MSS.ics", { cache: "no-store" });
+          if (!response.ok)
+            throw new Error(
+              `Request failed: ${response.status} ${response.statusText}`
+            );
+
+          const text = await response.text();
+          const parsed = parseIcs(text).sort((a, b) => {
+            if (!a.rawDate) return 1;
+            if (!b.rawDate) return -1;
+            return a.rawDate.localeCompare(b.rawDate);
+          });
+
+          renderTable(parsed);
+          attachSearch(parsed);
+
+          tableContainer.classList.remove("hidden");
+          statusEl.textContent = `Loaded ${parsed.length.toLocaleString()} events.`;
+        } catch (error) {
+          statusEl.textContent = `Failed to load events: ${error.message}`;
+          tableContainer.classList.add("hidden");
+        }
+      };
+
+      initialise();
+    </script>
+  </body>
+</html>

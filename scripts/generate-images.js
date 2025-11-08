@@ -57,7 +57,7 @@ const IMAGES_DIR = path.join(__dirname, '..', 'public', 'images');
 const LOGS_DIR = path.join(__dirname, '..', 'logs');
 const USE_PROMPT_ENHANCEMENT = process.env.USE_PROMPT_ENHANCEMENT !== 'false';
 const REPLICATE_MODEL = process.env.REPLICATE_MODEL || 'black-forest-labs/flux-schnell';
-const REPLICATE_ASPECT_RATIO = process.env.REPLICATE_ASPECT_RATIO || '4:3';
+const REPLICATE_ASPECT_RATIO = process.env.REPLICATE_ASPECT_RATIO || '1:1';
 const REPLICATE_NUM_OUTPUTS = Math.max(
   1,
   Number.parseInt(process.env.REPLICATE_NUM_OUTPUTS || '1', 10) || 1
@@ -68,8 +68,9 @@ const REPLICATE_POLL_INTERVAL_MS = Math.max(
 );
 const REPLICATE_API_BASE = process.env.REPLICATE_API_BASE || 'https://api.replicate.com';
 
-const CALENDAR_CELL_WIDTH = 400; // Calendar cell image width in pixels
-const CALENDAR_CELL_HEIGHT = 300; // Calendar cell image height in pixels
+const CALENDAR_CELL_SIZE = Number.parseInt(process.env.CALENDAR_ICON_SIZE || '512', 10) || 512;
+const CALENDAR_CELL_WIDTH = CALENDAR_CELL_SIZE; // Calendar icon width in pixels
+const CALENDAR_CELL_HEIGHT = CALENDAR_CELL_SIZE; // Calendar icon height in pixels
 
 // CLI flags / env toggles
 const args = process.argv.slice(2);
@@ -339,7 +340,17 @@ function createPrompt(event) {
   // Clean description (remove icon/category markers)
   const cleanDesc = description.split('\\n\\nIcon:')[0].replace(/\\n/g, ' ').trim();
   
-  return `A beautiful, seasonal calendar illustration for "${summary}". ${cleanDesc}. Style: warm, inviting, traditional, cultural celebration. High quality, detailed, suitable for a calendar background.`;
+  const details = [
+    `Create a clean, high-contrast icon for "${summary}".`,
+    cleanDesc ? `${cleanDesc}.` : '',
+    'Focus on a single symbolic object, centered composition, minimal shadow.',
+    'Render on a crisp white or transparent background with no scenery or text.',
+    'Style: polished vector, flat illustration, subtle gradients welcome.'
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return details;
 }
 
 // Download image from URL or base64 data URI
@@ -381,10 +392,13 @@ async function resizeImageToCalendarCell(imageBuffer) {
   try {
     const resizedBuffer = await sharp(imageBuffer)
       .resize(CALENDAR_CELL_WIDTH, CALENDAR_CELL_HEIGHT, {
-        fit: 'cover',
-        position: 'center'
+        fit: 'contain',
+        background: { r: 255, g: 255, b: 255, alpha: 0 }
       })
-      .jpeg({ quality: 85 })
+      .png({
+        compressionLevel: 9,
+        adaptiveFiltering: true
+      })
       .toBuffer();
     return resizedBuffer;
   } catch (error) {
@@ -418,7 +432,10 @@ async function createPlaceholderImage(eventTitle) {
   `;
 
   return sharp(Buffer.from(svg))
-    .jpeg({ quality: 80 })
+    .png({
+      compressionLevel: 9,
+      adaptiveFiltering: true
+    })
     .toBuffer();
 }
 
@@ -474,9 +491,13 @@ function escapeForSvg(text) {
 function generateImageFilename(event, index) {
   // Try to extract filename from existing X-IMAGE path if available
   if (event.currentImage) {
-    const match = event.currentImage.match(/\/([^\/]+\.(jpg|jpeg|png))$/i);
-    if (match) {
-      return match[1];
+    try {
+      const parsed = path.parse(event.currentImage.trim());
+      if (parsed && parsed.name) {
+        return `${parsed.name}.png`;
+      }
+    } catch (error) {
+      console.warn(`  ⚠️  Could not parse existing image path "${event.currentImage}": ${error.message}`);
     }
   }
   
@@ -500,7 +521,8 @@ function generateImageFilename(event, index) {
     .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
     .substring(0, 100); // Limit length
   
-  return `${sanitized}.jpg`;
+  const baseName = sanitized || `event-${index + 1}`;
+  return `${baseName}.png`;
 }
 
 // Save image to local directory

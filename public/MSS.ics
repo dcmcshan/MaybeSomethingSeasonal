@@ -14,7 +14,7 @@ DESCRIPTION:Celebration of the new year and fresh beginnings.\n\nIcon: 🎊\nCat
 CATEGORIES:celebration
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/celebration-of-the-new-year-and-fresh-beginnings.jpg
+X-IMAGE:/images/celebration-of-the-new-year-and-fresh-beginnings.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -24,7 +24,7 @@ DESCRIPTION:Austrian and Bavarian tradition\, Perchta Day.\n\nIcon: 🎭\nCatego
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/austrian-and-bavarian-tradition-perchta-day.jpg
+X-IMAGE:/images/austrian-and-bavarian-tradition-perchta-day.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -34,7 +34,7 @@ DESCRIPTION:Candlemas - Feast of the Presentation of Jesus and blessing of candl
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/candlemas-feast-of-the-presentation-of-jesus-and-blessing-of-candles.jpg
+X-IMAGE:/images/candlemas-feast-of-the-presentation-of-jesus-and-blessing-of-candles.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -44,7 +44,7 @@ DESCRIPTION:Twelfth Night - end of the Christmas season.\n\nIcon: 🎭\nCategory
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/twelfth-night-end-of-the-christmas-season.jpg
+X-IMAGE:/images/twelfth-night-end-of-the-christmas-season.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -54,7 +54,7 @@ DESCRIPTION:Epiphany - Three Kings Day\, celebration of the Magi.\n\nIcon: 👑\
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/epiphany-three-kings-day-celebration-of-the-magi.jpg
+X-IMAGE:/images/epiphany-three-kings-day-celebration-of-the-magi.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -64,7 +64,7 @@ DESCRIPTION:Vodoun Festival - traditional celebration in Benin honoring Vodoun s
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/vodoun-festival-traditional-celebration-in-benin-honoring-vodoun-spirituality-an.jpg
+X-IMAGE:/images/vodoun-festival-traditional-celebration-in-benin-honoring-vodoun-spirituality-an.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -74,7 +74,7 @@ DESCRIPTION:Feast of the Ass - medieval festival celebrating the Flight into Egy
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/feast-of-the-ass-medieval-festival-celebrating-the-flight-into-egypt.jpg
+X-IMAGE:/images/feast-of-the-ass-medieval-festival-celebrating-the-flight-into-egypt.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -84,7 +84,7 @@ DESCRIPTION:Japanese New Year tradition of burning New Year decorations.\n\nIcon
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/japanese-new-year-tradition-of-burning-new-year-decorations.jpg
+X-IMAGE:/images/japanese-new-year-tradition-of-burning-new-year-decorations.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -94,7 +94,7 @@ DESCRIPTION:Old Twelfth Night - traditional date before calendar reform.\n\nIcon
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/old-twelfth-night-traditional-date-before-calendar-reform.jpg
+X-IMAGE:/images/old-twelfth-night-traditional-date-before-calendar-reform.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -104,7 +104,7 @@ DESCRIPTION:Scottish celebration of the poet Robert Burns with poetry, haggis, a
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/scottish-celebration-of-the-poet-robert-burns-with-poetry-haggis-and-whisky.jpg
+X-IMAGE:/images/scottish-celebration-of-the-poet-robert-burns-with-poetry-haggis-and-whisky.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -114,7 +114,7 @@ DESCRIPTION:Lunar New Year celebration.\n\nIcon: 🐉\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/lunar-new-year-celebration.jpg
+X-IMAGE:/images/lunar-new-year-celebration.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -124,7 +124,7 @@ DESCRIPTION:Tibetan New Year - celebration of the lunar new year in Tibetan cult
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/tibetan-new-year-celebration-of-the-lunar-new-year-in-tibetan-culture.jpg
+X-IMAGE:/images/tibetan-new-year-celebration-of-the-lunar-new-year-in-tibetan-culture.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -134,7 +134,7 @@ DESCRIPTION:Eve of Imbolc\, the Celtic festival marking the beginning of spring.
 CATEGORIES:seasonal
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/eve-of-imbolc-the-celtic-festival-marking-the-beginning-of-spring.jpg
+X-IMAGE:/images/eve-of-imbolc-the-celtic-festival-marking-the-beginning-of-spring.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -144,7 +144,7 @@ DESCRIPTION:Celtic festival marking the beginning of spring.\n\nIcon: 🌱\nCate
 CATEGORIES:seasonal
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/eve-of-imbolc-the-celtic-festival-marking-the-beginning-of-spring.jpg
+X-IMAGE:/images/eve-of-imbolc-the-celtic-festival-marking-the-beginning-of-spring.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -154,7 +154,7 @@ DESCRIPTION:Patron saint of love and romance.\n\nIcon: 💕\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/patron-saint-of-love-and-romance.jpg
+X-IMAGE:/images/patron-saint-of-love-and-romance.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -164,7 +164,7 @@ DESCRIPTION:Patron saint of Ireland - celebrated worldwide.\n\nIcon: ☘️\nCat
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/patron-saint-of-ireland-celebrated-worldwide.jpg
+X-IMAGE:/images/patron-saint-of-ireland-celebrated-worldwide.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -174,7 +174,7 @@ DESCRIPTION:Celebrate our planet and environmental awareness.\n\nIcon: 🌍\nCat
 CATEGORIES:environmental
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/celebrate-our-planet-and-environmental-awareness.jpg
+X-IMAGE:/images/celebrate-our-planet-and-environmental-awareness.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -184,7 +184,7 @@ DESCRIPTION:Celebration of American independence.\n\nIcon: 🇺🇸\nCategory: c
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/celebration-of-american-independence.jpg
+X-IMAGE:/images/celebration-of-american-independence.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -194,7 +194,7 @@ DESCRIPTION:Fall begins - time for harvest and reflection.\n\nIcon: 🍂\nCatego
 CATEGORIES:seasonal
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/fall-begins-time-for-harvest-and-reflection.jpg
+X-IMAGE:/images/fall-begins-time-for-harvest-and-reflection.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -204,7 +204,7 @@ DESCRIPTION:All Hallows' Eve\, celebration of saints and departed souls.\n\nIcon
 CATEGORIES:celebration
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/all-hallows-eve-celebration-of-saints-and-departed-souls.jpg
+X-IMAGE:/images/all-hallows-eve-celebration-of-saints-and-departed-souls.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -214,7 +214,7 @@ DESCRIPTION:Día de los Angelitos - honoring deceased children.\n\nIcon: 👼\nC
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image22.jpg
+X-IMAGE:/images/image22.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -224,7 +224,7 @@ DESCRIPTION:Día de los Muertos - celebration of deceased loved ones.\n\nIcon: �
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image21.jpg
+X-IMAGE:/images/image21.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -234,7 +234,7 @@ DESCRIPTION:Evening before St. Martin's Day\, traditional celebration.\n\nIcon: 
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image23.jpg
+X-IMAGE:/images/image23.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -244,7 +244,7 @@ DESCRIPTION:Feast of St. Martin of Tours\, patron of soldiers and beggars.\n\nIc
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image24.jpg
+X-IMAGE:/images/image24.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -254,7 +254,7 @@ DESCRIPTION:Wookiee celebration from the Star Wars universe.\n\nIcon: ⭐\nCateg
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/wookiee-celebration-from-the-star-wars-universe.jpg
+X-IMAGE:/images/wookiee-celebration-from-the-star-wars-universe.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -264,7 +264,7 @@ DESCRIPTION:Gratitude for the harvest and blessings of the year.\n\nIcon: 🦃\n
 CATEGORIES:celebration
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image26.jpg
+X-IMAGE:/images/image26.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -274,7 +274,7 @@ DESCRIPTION:Eve of St. Andrew's Day\, traditional celebration.\n\nIcon: ⚓\nCat
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image27.jpg
+X-IMAGE:/images/image27.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -284,7 +284,7 @@ DESCRIPTION:Feast of St. Andrew\, patron saint of Scotland.\n\nIcon: 🏴󠁧�
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/feast-of-st-andrew-patron-saint-of-scotland.jpg
+X-IMAGE:/images/feast-of-st-andrew-patron-saint-of-scotland.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -294,7 +294,7 @@ DESCRIPTION:First Sunday of Advent - the beginning of the liturgical year and pr
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image28.jpg
+X-IMAGE:/images/image28.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -304,7 +304,7 @@ DESCRIPTION:Krampus Night - the dark companion of St. Nicholas.\n\nIcon: 👹\nC
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image29.jpg
+X-IMAGE:/images/image29.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -314,7 +314,7 @@ DESCRIPTION:Feast of St. Nicholas\, bishop and patron saint of children and gift
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image30.jpg
+X-IMAGE:/images/image30.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -324,7 +324,7 @@ DESCRIPTION:Second Sunday of Advent - preparation and anticipation.\n\nIcon: �
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image31.jpg
+X-IMAGE:/images/image31.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -334,7 +334,7 @@ DESCRIPTION:Traditional Dutch celebration period with Sinterklaas arriving by st
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/traditional-dutch-celebration-period-with-sinterklaas-arriving-by-steamboat-star.jpg
+X-IMAGE:/images/traditional-dutch-celebration-period-with-sinterklaas-arriving-by-steamboat-star.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -344,7 +344,7 @@ DESCRIPTION:St. Lucia's vigil - from dusk on Dec 11 until dawn on Dec 12.\n\nIco
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/st-lucia-s-vigil-from-dusk-on-dec-11-until-dawn-on-dec-12.jpg
+X-IMAGE:/images/st-lucia-s-vigil-from-dusk-on-dec-11-until-dawn-on-dec-12.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -354,7 +354,7 @@ DESCRIPTION:St. Lucia's Night - Dec 12th.\n\nIcon: 🌙\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/st-lucia-s-night-dec-12th.jpg
+X-IMAGE:/images/st-lucia-s-night-dec-12th.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -364,7 +364,7 @@ DESCRIPTION:Feast of Our Lady of Guadalupe\, patroness of the Americas.\n\nIcon:
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/feast-of-our-lady-of-guadalupe-patroness-of-the-americas.jpg
+X-IMAGE:/images/feast-of-our-lady-of-guadalupe-patroness-of-the-americas.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -374,7 +374,7 @@ DESCRIPTION:Swedish celebration of light and St. Lucia.\n\nIcon: 🕯️\nCatego
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/swedish-celebration-of-light-and-st-lucia.jpg
+X-IMAGE:/images/swedish-celebration-of-light-and-st-lucia.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -384,7 +384,7 @@ DESCRIPTION:Annual tradition in Palmer Lake\, Colorado: community yule log hunt 
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/annual-tradition-in-palmer-lake-colorado-community-yule-log-hunt-and-celebration.jpg
+X-IMAGE:/images/annual-tradition-in-palmer-lake-colorado-community-yule-log-hunt-and-celebration.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -394,7 +394,7 @@ DESCRIPTION:Third Sunday of Advent (Gaudete Sunday) - joy and rejoicing.\n\nIcon
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/third-sunday-of-advent-gaudete-sunday-joy-and-rejoicing.jpg
+X-IMAGE:/images/third-sunday-of-advent-gaudete-sunday-joy-and-rejoicing.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -404,7 +404,7 @@ DESCRIPTION:Festival of Lights - eight nights of celebration\, starting at dusk 
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/festival-of-lights-eight-nights-of-celebration-starting-at-dusk-on-dec-15.jpg
+X-IMAGE:/images/festival-of-lights-eight-nights-of-celebration-starting-at-dusk-on-dec-15.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -414,7 +414,7 @@ DESCRIPTION:Ancient Roman festival of Saturn.\n\nIcon: 🏛️\nCategory: cultur
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/ancient-roman-festival-of-saturn.jpg
+X-IMAGE:/images/ancient-roman-festival-of-saturn.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -424,7 +424,7 @@ DESCRIPTION:Eve of the winter solstice\, the longest night.\n\nIcon: 🌙\nCateg
 CATEGORIES:seasonal
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/eve-of-the-winter-solstice-the-longest-night.jpg
+X-IMAGE:/images/eve-of-the-winter-solstice-the-longest-night.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -434,7 +434,7 @@ DESCRIPTION:Fourth Sunday of Advent - final preparation before Christmas.\n\nIco
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/fourth-sunday-of-advent-final-preparation-before-christmas.jpg
+X-IMAGE:/images/fourth-sunday-of-advent-final-preparation-before-christmas.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -444,7 +444,7 @@ DESCRIPTION:The shortest day - embrace the darkness and prepare for renewal.\n\n
 CATEGORIES:seasonal
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/eve-of-the-winter-solstice-the-longest-night.jpg
+X-IMAGE:/images/eve-of-the-winter-solstice-the-longest-night.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -454,7 +454,7 @@ DESCRIPTION:Yalda Night - Persian celebration of the winter solstice\, the longe
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/eve-of-the-winter-solstice-the-longest-night.jpg
+X-IMAGE:/images/eve-of-the-winter-solstice-the-longest-night.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -464,7 +464,7 @@ DESCRIPTION:Night of the Radishes - traditional Oaxacan festival.\n\nIcon: 🥕\
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/night-of-the-radishes-traditional-oaxacan-festival.jpg
+X-IMAGE:/images/night-of-the-radishes-traditional-oaxacan-festival.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -474,7 +474,7 @@ DESCRIPTION:Vigil of the Nativity\, anticipation of Christ's birth.\n\nIcon: �
 CATEGORIES:religious
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image33.jpg
+X-IMAGE:/images/image33.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -484,7 +484,7 @@ DESCRIPTION:Birth of Jesus Christ\, joy and celebration.\n\nIcon: 🎄\nCategory
 CATEGORIES:celebration
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image21.jpg
+X-IMAGE:/images/image21.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -494,7 +494,7 @@ DESCRIPTION:Celebration of St. Stephen\, the first martyr.\n\nIcon: ⛪\nCategor
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image21.jpg
+X-IMAGE:/images/image21.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -504,6 +504,6 @@ DESCRIPTION:Feast of the Holy Innocents\, also known as Childermas.\n\nIcon: �
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:/images/image22.jpg
+X-IMAGE:/images/image22.png
 END:VEVENT
 END:VCALENDAR
