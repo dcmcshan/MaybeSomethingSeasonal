@@ -102,6 +102,28 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20260110T070000Z
 DTEND:20260111T070000Z
+SUMMARY:Fete de Papa Zaka - Feast of the Farmer Loa
+DESCRIPTION:History: Haitian Vodou communities honour Papa Zaka, the kindly fa
+ rmer lwa, during January gatherings to thank him for guarding crops and labou
+ ring families.\nTraditions: Altars are dressed with straw hats, ears of corn,
+  bowls of grain, rum, and pipe tobacco while drummers, singers, and vodouisan
+ ts petition Zaka for fertile fields before sharing food with neighbours.\nFea
+ sting: Aperitifs pour clairin ti punch, kleren anisette, and pumpkin-spice ju
+ s giraumon; first courses carry soup joumou, accra de morue with pikliz, and 
+ mayi moulen ak sos pwa; mains feature poulet nan sos, griot de porc, legim na
+ n diri, and red beans with rice; sides bring bannann peze, pain mayi, and jar
+ s of pikliz; desserts finish with pen patat, bonbons sirop, tropical fruits, 
+ and altar offerings of roasted corn, a grain-filled straw hat, and a shot of 
+ rum with pipe tobacco.\nDay: Saturday\n\nIcon: 🌾\\\\\\\\\\\\\\\nCategory: cul
+ tural\\\\\\
+CATEGORIES:cultural\\\\\\
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20260110T070000Z
+DTEND:20260111T070000Z
 SUMMARY:Fete du Vodoun (Benin Vodoun Festival)
 DESCRIPTION:History: Benin recognised Vodoun as a national religion in 1996
  \, formalising annual January gatherings that honour ancestral spirits and 
