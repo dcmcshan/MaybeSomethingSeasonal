@@ -3215,153 +3215,199 @@ const App: React.FC = () => {
               >
                 {day}
               </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          <div className="grid grid-cols-7 gap-2">
-            {daysInMonth.map((day) => {
-              const dayEvents = getEventsForDate(day);
-              const isCurrentMonth = isSameMonth(day, currentDate);
-              const isToday = isSameDay(day, new Date());
+            <div className="grid grid-cols-7 gap-2">
+              {daysInMonth.map((day) => {
+                const dayEvents = getEventsForDate(day);
+                const isCurrentMonth = isSameMonth(day, currentDate);
+                const isToday = isSameDay(day, new Date());
 
-              // Get the primary event image for this day (first event with an image)
-              const primaryEvent =
-                dayEvents.find((e) => e.image) || dayEvents[0];
-              const backgroundImage = primaryEvent?.image;
+                const dayEventsWithMeta = dayEvents.map((event) => {
+                  const eventStart = toLocalDate(event.date);
+                  const hasValidStart = !Number.isNaN(eventStart.getTime());
+                  const eventEndExclusive = event.endDate
+                    ? toLocalDate(event.endDate)
+                    : addDays(eventStart, 1);
+                  const hasValidEnd = !Number.isNaN(eventEndExclusive.getTime());
+                  const daysSinceStart = hasValidStart
+                    ? differenceInCalendarDays(day, eventStart)
+                    : 0;
+                  const isContinuation =
+                    hasValidStart &&
+                    daysSinceStart > 0 &&
+                    (!event.endDate ||
+                      (hasValidEnd && day < eventEndExclusive));
+                  const isFirstDay = hasValidStart && daysSinceStart === 0;
+                  return {
+                    event,
+                    isContinuation,
+                    isFirstDay,
+                  };
+                });
 
-              // Debug log
-              if (
-                backgroundImage &&
-                isSameDay(day, toLocalDate("2025-01-01"))
-              ) {
-                console.log("Background image for Jan 1:", backgroundImage);
-                console.log("Primary event:", primaryEvent);
-              }
+                // Only use the full card background on the first day of the event
+                const backgroundImage =
+                  dayEventsWithMeta.find(
+                    ({ event, isFirstDay }) => isFirstDay && event.image,
+                  )?.event.image || undefined;
 
-              return (
-                <div
-                  key={day.toISOString()}
-                  className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
-                    isToday ? "ring-2 ring-green-500" : ""
-                  }`}
-                  style={{
-                    ...(backgroundImage
-                      ? {
-                          backgroundImage: `url(${backgroundImage})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                          backgroundRepeat: "no-repeat",
-                          backgroundColor: isCurrentMonth
-                            ? "#ffffff"
-                            : "#f9fafb",
-                        }
-                      : {
-                          backgroundColor: isCurrentMonth
-                            ? "#ffffff"
-                            : "#f9fafb",
-                        }),
-                  }}
-                >
-                  {/* Overlay for text readability - only show if image loads */}
-                  {backgroundImage && (
-                    <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
-                  )}
+                const continuationImageSources = dayEventsWithMeta
+                  .filter(
+                    ({ event, isContinuation }) =>
+                      isContinuation && event.image,
+                  )
+                  .map(({ event }) => event.image!);
+                const continuationImages = continuationImageSources.slice(0, 3);
 
-                  {/* Day number at top */}
+                return (
                   <div
-                    className={`text-xs font-medium mb-1 christmas-font relative z-10 ${
-                      isCurrentMonth
-                        ? backgroundImage
-                          ? "text-white drop-shadow-lg"
-                          : "text-gray-800"
-                        : "text-gray-400"
-                    } ${isToday ? "text-green-600 font-bold" : ""}`}
+                    key={day.toISOString()}
+                    className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
+                      isToday ? "ring-2 ring-green-500" : ""
+                    }`}
+                    style={{
+                      ...(backgroundImage
+                        ? {
+                            backgroundImage: `url(${backgroundImage})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat",
+                            backgroundColor: isCurrentMonth
+                              ? "#ffffff"
+                              : "#f9fafb",
+                          }
+                        : {
+                            backgroundColor: isCurrentMonth
+                              ? "#ffffff"
+                              : "#f9fafb",
+                          }),
+                    }}
                   >
-                    {format(day, "d")}
-                  </div>
+                    {/* Overlay for text readability - only show if image loads */}
+                    {backgroundImage && (
+                      <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
+                    )}
 
-                  {/* Spacer to push events to bottom */}
-                  <div className="flex-1"></div>
+                    {/* Continuation images for multi-day events */}
+                    {continuationImages.length > 0 && (
+                      <div className="absolute top-2 right-2 flex flex-col gap-1 items-end z-10 pointer-events-none">
+                        {continuationImages.map((image, index) => (
+                          <img
+                            key={`${image}-${index}`}
+                            src={image}
+                            alt=""
+                            aria-hidden="true"
+                            className="w-10 h-10 object-cover rounded shadow ring-2 ring-white"
+                          />
+                        ))}
+                        {continuationImageSources.length >
+                          continuationImages.length && (
+                          <div className="w-10 h-10 rounded bg-black bg-opacity-50 text-white text-[10px] flex items-center justify-center shadow ring-2 ring-white">
+                            +
+                            {continuationImageSources.length -
+                              continuationImages.length}
+                          </div>
+                        )}
+                      </div>
+                    )}
 
-                  {/* Event labels at bottom */}
-                  <div className="space-y-1 relative z-10">
-                    {dayEvents.slice(0, 3).map((event, index) => (
-                      <div
-                        key={index}
-                        className={`text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative ${
-                          backgroundImage
-                            ? "bg-black bg-opacity-50 text-white"
-                            : getCategoryColor(event.category)
-                        }`}
-                        onMouseEnter={(e) => {
-                            const tooltip = document.createElement("div");
-                            tooltip.className =
-                              "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
-                            tooltip.innerHTML = `
+                    {/* Day number at top */}
+                    <div
+                      className={`text-xs font-medium mb-1 christmas-font relative z-10 ${
+                        isCurrentMonth
+                          ? backgroundImage
+                            ? "text-white drop-shadow-lg"
+                            : "text-gray-800"
+                          : "text-gray-400"
+                      } ${isToday ? "text-green-600 font-bold" : ""}`}
+                    >
+                      {format(day, "d")}
+                    </div>
+
+                    {/* Spacer to push events to bottom */}
+                    <div className="flex-1"></div>
+
+                    {/* Event labels at bottom */}
+                    <div className="space-y-1 relative z-10">
+                      {dayEventsWithMeta.slice(0, 3).map(
+                        ({ event, isContinuation }, index) => {
+                          const showInlineImage =
+                            !backgroundImage && !isContinuation && !!event.image;
+                          return (
+                            <div
+                              key={index}
+                              className={`text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative ${
+                                backgroundImage
+                                  ? "bg-black bg-opacity-50 text-white"
+                                  : getCategoryColor(event.category)
+                              }`}
+                              onMouseEnter={(e) => {
+                                const tooltip = document.createElement("div");
+                                tooltip.className =
+                                  "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
+                                tooltip.innerHTML = `
                               <div class="font-semibold mb-1">${event.title}</div>
                               <div class="text-gray-300 mb-2">${format(toLocalDate(event.date), "MMMM d, yyyy")}</div>
                               <div class="text-gray-200">${event.description}</div>
                               ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ""}
                             `;
-                          tooltip.style.left = "0";
-                          tooltip.style.bottom = "100%";
-                          tooltip.style.marginBottom = "4px";
-                          e.currentTarget.appendChild(tooltip);
-                        }}
-                        onMouseLeave={(e) => {
-                          const tooltip = e.currentTarget.querySelector(
-                            'div[class*="absolute z-50"]',
-                          );
-                          if (tooltip) {
-                            tooltip.remove();
-                          }
-                        }}
-                      >
-                        {!backgroundImage && (
-                          <>
-                            {event.image ? (
-                              <img
-                                src={event.image}
-                                alt={event.title}
-                                className="w-4 h-4 object-cover rounded mr-1 inline-block"
-                                onError={(e) => {
-                                  e.currentTarget.style.display = "none";
-                                  const nextSibling =
-                                    e.currentTarget.nextElementSibling;
-                                  if (
-                                    nextSibling &&
-                                    nextSibling instanceof HTMLElement
-                                  ) {
-                                    nextSibling.style.display = "inline";
-                                  }
-                                }}
-                              />
-                            ) : null}
-                            <span
-                              className="mr-1"
-                              style={{
-                                display: event.image ? "none" : "inline",
+                                tooltip.style.left = "0";
+                                tooltip.style.bottom = "100%";
+                                tooltip.style.marginBottom = "4px";
+                                e.currentTarget.appendChild(tooltip);
+                              }}
+                              onMouseLeave={(e) => {
+                                const tooltip = e.currentTarget.querySelector(
+                                  'div[class*="absolute z-50"]',
+                                );
+                                if (tooltip) {
+                                  tooltip.remove();
+                                }
                               }}
                             >
-                              {event.icon}
-                            </span>
-                          </>
-                        )}
-                        <span
-                          className={`truncate christmas-font text-xs ${backgroundImage ? "text-white" : ""}`}
+                              {!backgroundImage && (
+                                <>
+                                  {showInlineImage ? (
+                                    <img
+                                      src={event.image}
+                                      alt={event.title}
+                                      className="w-4 h-4 object-cover rounded mr-1 inline-block"
+                                      onError={(e) => {
+                                        e.currentTarget.style.display = "none";
+                                        const nextSibling =
+                                          e.currentTarget.nextElementSibling;
+                                        if (
+                                          nextSibling &&
+                                          nextSibling instanceof HTMLElement
+                                        ) {
+                                          nextSibling.style.display = "inline";
+                                        }
+                                      }}
+                                    />
+                                  ) : (
+                                    <span className="mr-1">{event.icon}</span>
+                                  )}
+                                </>
+                              )}
+                              <span
+                                className={`truncate christmas-font text-xs ${backgroundImage ? "text-white" : ""}`}
+                              >
+                                {event.title}
+                              </span>
+                            </div>
+                          );
+                        },
+                      )}
+                      {dayEvents.length > 3 && (
+                        <div
+                          className={`text-xs ${backgroundImage ? "text-white" : "text-gray-500"}`}
                         >
-                          {event.title}
-                        </span>
-                      </div>
-                    ))}
-                    {dayEvents.length > 3 && (
-                      <div
-                        className={`text-xs ${backgroundImage ? "text-white" : "text-gray-500"}`}
-                      >
-                        +{dayEvents.length - 3} more
-                      </div>
-                    )}
-                  </div>
+                          +{dayEvents.length - 3} more
+                        </div>
+                      )}
+                    </div>
                 </div>
               );
             })}
