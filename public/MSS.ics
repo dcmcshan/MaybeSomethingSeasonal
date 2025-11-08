@@ -591,6 +591,24 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/traditional-dut
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
+DTSTART:20251210T070000Z
+DTEND:20251211T070000Z
+SUMMARY:Magic Flute
+DESCRIPTION:History: Mozart's Singspiel Die Zauberflote premiered in 1791 
+ in Vienna\, enchanting winter audiences with a blend of fairy tale and Enli
+ ghtenment ideals.\nTraditions: Opera houses stage festive productions with 
+ elaborate stagecraft\, families dress for a holiday night out\, and communi
+ ties host singalong overtures that keep the spirits bright.\nFeasting: Patr
+ ons toast with sparkling wine\, nibble on Viennese pastries\, sip rich hot 
+ chocolate\, and linger over late suppertime conversations after the curtain
+ call.\nDay: Wednesday\n\nIcon: 🎵\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
+CATEGORIES:cultural\\\\\\
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image27.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
 DTSTART:20251211T070000Z
 DTEND:20251213T070000Z
 SUMMARY:Lussinatta (St. Lucia's Vigil)
