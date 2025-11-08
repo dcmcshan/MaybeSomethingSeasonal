@@ -3,6 +3,9 @@ const path = require('path');
 
 const ICS_PATH = path.join(__dirname, '..', 'public', 'MSS.ics');
 const DIST_ICS_PATH = path.join(__dirname, '..', 'dist', 'MSS.ics');
+const IMAGE_BASE_URL =
+  process.env.IMAGE_BASE_URL ||
+  'https://dcmcshan.github.io/MaybeSomethingSeasonal';
 
 /**
  * Helper to escape text for ICS properties.
@@ -85,6 +88,18 @@ function buildDescription({ history, traditions, feasting }, icon, category) {
     `Category: ${category}`,
   ];
   return parts.join('\n');
+}
+
+function toAbsoluteImage(pathValue = '') {
+  if (!pathValue) {
+    return '';
+  }
+  if (/^https?:\/\//i.test(pathValue)) {
+    return pathValue;
+  }
+  const cleanBase = IMAGE_BASE_URL.replace(/\/$/, '');
+  const cleanPath = pathValue.startsWith('/') ? pathValue.slice(1) : pathValue;
+  return `${cleanBase}/${cleanPath}`;
 }
 
 /**
@@ -415,21 +430,21 @@ function enrich() {
     const icon = iconMatch ? iconMatch[1].trim() : '';
     const category = categoryMatch ? categoryMatch[1].trim() : (event.CATEGORIES || '').trim();
 
-    const description = buildDescription(details, icon, category);
+      const description = buildDescription(details, icon, category);
 
-    updatedLines.push('BEGIN:VEVENT');
-    updatedLines.push(foldLine(`DTSTAMP:${event.DTSTAMP}`));
-    updatedLines.push(foldLine(`DTSTART:${event.DTSTART}`));
-    updatedLines.push(foldLine(`DTEND:${event.DTEND}`));
-    updatedLines.push(foldLine(`SUMMARY:${escapeIcs(details.title)}`));
-    updatedLines.push(foldLine(`DESCRIPTION:${escapeIcs(description)}`));
-    updatedLines.push(foldLine(`CATEGORIES:${escapeIcs(category)}`));
-    updatedLines.push('STATUS:CONFIRMED');
-    updatedLines.push('TRANSP:TRANSPARENT');
-    if (event['X-IMAGE']) {
-      updatedLines.push(`X-IMAGE:${event['X-IMAGE']}`);
-    }
-    updatedLines.push('END:VEVENT');
+      updatedLines.push('BEGIN:VEVENT');
+      updatedLines.push(foldLine(`DTSTAMP:${event.DTSTAMP}`));
+      updatedLines.push(foldLine(`DTSTART:${event.DTSTART}`));
+      updatedLines.push(foldLine(`DTEND:${event.DTEND}`));
+      updatedLines.push(foldLine(`SUMMARY:${escapeIcs(details.title)}`));
+      updatedLines.push(foldLine(`DESCRIPTION:${escapeIcs(description)}`));
+      updatedLines.push(foldLine(`CATEGORIES:${escapeIcs(category)}`));
+      updatedLines.push('STATUS:CONFIRMED');
+      updatedLines.push('TRANSP:TRANSPARENT');
+      if (event['X-IMAGE']) {
+        updatedLines.push(`X-IMAGE:${toAbsoluteImage(event['X-IMAGE'])}`);
+      }
+      updatedLines.push('END:VEVENT');
   });
 
   const finalContent = `${updatedLines.join('\n')}\nEND:VCALENDAR`;

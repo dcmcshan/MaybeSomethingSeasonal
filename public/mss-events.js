@@ -9,6 +9,15 @@ const hoverMessage =
   "Hover a row to see history, traditions, foods, and imagery.";
 let activeTooltip = null;
 
+const directoryBase = new URL(".", document.baseURI).href;
+
+const resolveImageSrc = (value = "") => {
+  if (!value) return "";
+  if (/^https?:\/\//i.test(value)) return value;
+  const trimmed = value.startsWith("/") ? value.slice(1) : value;
+  return new URL(trimmed, directoryBase).href;
+};
+
 const unescapeText = (value = "") =>
   value
     .replace(/\\\\n/g, "\n")
@@ -119,7 +128,7 @@ const parseIcs = (icsText) => {
       unescapeText(SUMMARY || "").trim() ||
       meta.summary ||
       (DTSTART ? `Event on ${toDateLabel(DTSTART)}` : "Untitled Event");
-    const image = event["X-IMAGE"] ? event["X-IMAGE"].trim() : "";
+    const imagePath = event["X-IMAGE"] ? event["X-IMAGE"].trim() : "";
     return {
       date: toDateLabel(DTSTART),
       rawDate: DTSTART,
@@ -130,7 +139,7 @@ const parseIcs = (icsText) => {
       history: meta.sections.history,
       traditions: meta.sections.traditions,
       feasting: meta.sections.feasting,
-      image,
+      image: resolveImageSrc(imagePath),
     };
   });
 };
@@ -178,11 +187,11 @@ const showTooltip = (target, eventData) => {
     <div class="tooltip-meta">
       ${eventData.date || "Date TBC"} • ${eventData.category}
     </div>
-    ${
-      eventData.image
-        ? `<div class="tooltip-image"><img src="${eventData.image}" alt="${eventData.fullTitle}"></div>`
-        : ""
-    }
+      ${
+        eventData.image
+          ? `<div class="tooltip-image"><img src="${eventData.image}" alt="${eventData.fullTitle}"></div>`
+          : ""
+      }
     <div class="tooltip-section">
       <strong style="background: rgba(255,255,255,0.9); color: #0f172a; padding: 0.05rem 0.4rem; border-radius: 6px; display: inline-block;">History</strong>
       <p>${eventData.history || "No details provided yet."}</p>
