@@ -12,6 +12,12 @@ interface CalendarEvent {
   category: string;
 }
 
+interface CategoryPalette {
+  background: string;
+  text: string;
+  accent: string;
+}
+
 // Curated calendar data focusing on culturally significant feast days and seasonal celebrations
 const CALENDAR_DATA: CalendarEvent[] = [
   // January
@@ -465,6 +471,18 @@ const CALENDAR_DATA: CalendarEvent[] = [
   }
 ];
 
+const CATEGORY_PALETTES: Record<string, CategoryPalette> = {
+  seasonal: { background: '#d1fae5', text: '#166534', accent: '#bbf7d0' },
+  environmental: { background: '#dbeafe', text: '#1d4ed8', accent: '#bfdbfe' },
+  celebration: { background: '#ede9fe', text: '#5b21b6', accent: '#ddd6fe' },
+  religious: { background: '#fef3c7', text: '#92400e', accent: '#fde68a' },
+  cultural: { background: '#fce7f3', text: '#9d174d', accent: '#fbcfe8' },
+  default: { background: '#f3f4f6', text: '#374151', accent: '#e5e7eb' }
+};
+
+const getCategoryPalette = (category: string): CategoryPalette =>
+  CATEGORY_PALETTES[category] || CATEGORY_PALETTES.default;
+
 const App: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -492,12 +510,12 @@ const App: React.FC = () => {
 
   const getCategoryColor = (category: string) => {
     const colors: { [key: string]: string } = {
-      seasonal: 'bg-green-100 text-green-800 border-green-200',
-      environmental: 'bg-blue-100 text-blue-800 border-blue-200',
-      celebration: 'bg-purple-100 text-purple-800 border-purple-200',
-      religious: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      cultural: 'bg-pink-100 text-pink-800 border-pink-200',
-      default: 'bg-gray-100 text-gray-800 border-gray-200'
+        seasonal: 'bg-green-100 text-green-800 border border-green-200',
+        environmental: 'bg-blue-100 text-blue-800 border border-blue-200',
+        celebration: 'bg-purple-100 text-purple-800 border border-purple-200',
+        religious: 'bg-yellow-100 text-yellow-800 border border-yellow-200',
+        cultural: 'bg-pink-100 text-pink-800 border border-pink-200',
+        default: 'bg-gray-100 text-gray-800 border border-gray-200'
     };
     return colors[category] || colors.default;
   };
@@ -513,6 +531,112 @@ const App: React.FC = () => {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const showEventTooltip = (target: HTMLDivElement, eventData: CalendarEvent) => {
+    const tooltip = document.createElement('div');
+    tooltip.dataset.tooltip = 'true';
+    tooltip.className = 'absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none';
+    tooltip.innerHTML = `
+      <div class="font-semibold mb-1">${eventData.title}</div>
+      <div class="text-gray-300 mb-2">${format(new Date(eventData.date), 'MMMM d, yyyy')}</div>
+      <div class="text-gray-200">${eventData.description}</div>
+      ${eventData.image ? `<img src="${eventData.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ''}
+    `;
+    tooltip.style.left = '0';
+    tooltip.style.top = '100%';
+    tooltip.style.marginTop = '4px';
+    target.appendChild(tooltip);
+  };
+
+  const hideEventTooltip = (target: HTMLDivElement) => {
+    const tooltip = target.querySelector('[data-tooltip="true"]');
+    if (tooltip) {
+      tooltip.remove();
+    }
+  };
+
+  const renderEventBadge = (
+    eventItem: CalendarEvent,
+    index: number,
+    variant?: 'diagonal-top' | 'diagonal-bottom',
+    paletteOverride?: CategoryPalette
+  ): React.ReactNode => {
+    const key = `${eventItem.date}-${eventItem.title}-${index}`;
+
+    if (variant) {
+      const palette = paletteOverride || getCategoryPalette(eventItem.category);
+      const positionClass = variant === 'diagonal-top' ? 'top' : 'bottom';
+
+      return (
+        <div
+          key={key}
+          className={`diagonal-event-label ${positionClass}`}
+          style={{ color: palette.text, borderColor: palette.accent }}
+          onMouseEnter={(e) => showEventTooltip(e.currentTarget, eventItem)}
+          onMouseLeave={(e) => hideEventTooltip(e.currentTarget)}
+        >
+          {eventItem.image ? (
+            <img
+              src={eventItem.image}
+              alt={eventItem.title}
+              className="event-icon-image"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = 'none';
+                const sibling = target.nextElementSibling as HTMLElement | null;
+                if (sibling) {
+                  sibling.style.display = 'inline';
+                }
+              }}
+            />
+          ) : null}
+          <span
+            className="event-icon-emoji"
+            style={{ display: eventItem.image ? 'none' : 'inline' }}
+          >
+            {eventItem.icon}
+          </span>
+          <span className="event-title christmas-font truncate">
+            {eventItem.title}
+          </span>
+        </div>
+      );
+    }
+
+    return (
+      <div
+        key={key}
+        className={`event-badge relative rounded p-1 flex items-center gap-1 group text-xs ${getCategoryColor(eventItem.category)}`}
+        onMouseEnter={(e) => showEventTooltip(e.currentTarget, eventItem)}
+        onMouseLeave={(e) => hideEventTooltip(e.currentTarget)}
+      >
+        {eventItem.image ? (
+          <img
+            src={eventItem.image}
+            alt={eventItem.title}
+            className="event-icon-image w-4 h-4 object-cover rounded"
+            onError={(e) => {
+              const target = e.currentTarget;
+              target.style.display = 'none';
+              const sibling = target.nextElementSibling as HTMLElement | null;
+              if (sibling) {
+                sibling.style.display = 'inline';
+              }
+            }}
+          />
+        ) : null}
+        <span
+          className="event-icon-emoji"
+          style={{ display: eventItem.image ? 'none' : 'inline' }}
+        >
+          {eventItem.icon}
+        </span>
+        <span className="event-title christmas-font text-xs truncate">
+          {eventItem.title}
+        </span>
+      </div>
+    );
   };
 
   if (isLoading) {
@@ -594,6 +718,12 @@ const App: React.FC = () => {
               const dayEvents = getEventsForDate(day);
               const isCurrentMonth = isSameMonth(day, currentDate);
               const isToday = isSameDay(day, new Date());
+              const diagonalPalettes = dayEvents.length === 2
+                ? [
+                    getCategoryPalette(dayEvents[0].category),
+                    getCategoryPalette(dayEvents[1].category)
+                  ]
+                : null;
 
               return (
                 <div
@@ -608,50 +738,25 @@ const App: React.FC = () => {
                     {format(day, 'd')}
                   </div>
                   <div className="space-y-1">
-                    {dayEvents.slice(0, 3).map((event, index) => (
+                    {diagonalPalettes ? (
                       <div
-                        key={index}
-                        className={`text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative ${getCategoryColor(event.category)}`}
-                        onMouseEnter={(e) => {
-                          const tooltip = document.createElement('div');
-                          tooltip.className = 'absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none';
-                          tooltip.innerHTML = `
-                            <div class="font-semibold mb-1">${event.title}</div>
-                            <div class="text-gray-300 mb-2">${format(new Date(event.date), 'MMMM d, yyyy')}</div>
-                            <div class="text-gray-200">${event.description}</div>
-                            ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ''}
-                          `;
-                          tooltip.style.left = '0';
-                          tooltip.style.top = '100%';
-                          tooltip.style.marginTop = '4px';
-                          e.currentTarget.appendChild(tooltip);
-                        }}
-                        onMouseLeave={(e) => {
-                          const tooltip = e.currentTarget.querySelector('div[class*="absolute z-50"]');
-                          if (tooltip) {
-                            tooltip.remove();
-                          }
+                        className="diagonal-event-wrapper"
+                        style={{
+                          background: `linear-gradient(135deg, ${diagonalPalettes[0].background} 0%, ${diagonalPalettes[0].background} 50%, ${diagonalPalettes[1].background} 50%, ${diagonalPalettes[1].background} 100%)`
                         }}
                       >
-                        {event.image ? (
-                          <img 
-                            src={event.image} 
-                            alt={event.title}
-                            className="w-4 h-4 object-cover rounded mr-1 inline-block"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                              e.currentTarget.nextElementSibling.style.display = 'inline';
-                            }}
-                          />
-                        ) : null}
-                        <span className="mr-1" style={{display: event.image ? 'none' : 'inline'}}>{event.icon}</span>
-                        <span className="truncate christmas-font text-xs">{event.title}</span>
+                        {renderEventBadge(dayEvents[0], 0, 'diagonal-top', diagonalPalettes[0])}
+                        {renderEventBadge(dayEvents[1], 1, 'diagonal-bottom', diagonalPalettes[1])}
                       </div>
-                    ))}
-                    {dayEvents.length > 3 && (
-                      <div className="text-xs text-gray-500">
-                        +{dayEvents.length - 3} more
-                      </div>
+                    ) : (
+                      <>
+                        {dayEvents.slice(0, 3).map((event, index) => renderEventBadge(event, index))}
+                        {dayEvents.length > 3 && (
+                          <div className="text-xs text-gray-500">
+                            +{dayEvents.length - 3} more
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
@@ -665,3 +770,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+

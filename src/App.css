@@ -33,6 +33,105 @@
   }
 }
 
+.event-badge {
+  position: relative;
+}
+
+.diagonal-event-wrapper {
+  position: relative;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  min-height: 76px;
+  overflow: hidden;
+}
+
+.diagonal-event-label {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 80%;
+  padding: 0.35rem 0.5rem;
+  background-color: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(4px);
+  border-radius: 0.55rem;
+  border: 1px solid transparent;
+  font-size: 0.75rem;
+  line-height: 1.1;
+  z-index: 1;
+}
+
+.diagonal-event-label.top {
+  top: 0.4rem;
+  left: 0.4rem;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.diagonal-event-label.bottom {
+  bottom: 0.4rem;
+  right: 0.4rem;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.diagonal-event-label .event-title {
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.75rem;
+}
+
+.diagonal-event-label.bottom .event-title {
+  text-align: right;
+}
+
+.diagonal-event-label .event-icon-image {
+  width: 1rem;
+  height: 1rem;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.diagonal-event-label .event-icon-emoji {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.event-badge .event-icon-image {
+  width: 1rem;
+  height: 1rem;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.event-badge .event-icon-emoji {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.event-badge .event-title {
+  flex: 1;
+}
+
+@media (max-width: 640px) {
+  .diagonal-event-wrapper {
+    min-height: 64px;
+  }
+
+  .diagonal-event-label {
+    font-size: 0.68rem;
+    padding: 0.25rem 0.4rem;
+    gap: 0.25rem;
+  }
+
+  .diagonal-event-label .event-title {
+    max-width: 75%;
+  }
+}
+
 /* Print styles for landscape 8.5x11 */
 @media print {
   @page {
@@ -141,6 +240,31 @@
     width: 6px !important;
     height: 6px !important;
   }
+
+    .diagonal-event-wrapper {
+      min-height: calc((100vh - 50px) / 6 - 4px) !important;
+      border-width: 0.5px !important;
+    }
+
+    .diagonal-event-label {
+      max-width: 100% !important;
+      font-size: 6px !important;
+      padding: 0.5px 1px !important;
+      gap: 0.5px !important;
+      backdrop-filter: none !important;
+      background-color: rgba(255, 255, 255, 0.92) !important;
+      border-radius: 0 !important;
+    }
+
+    .diagonal-event-label .event-title {
+      max-width: 90% !important;
+    }
+
+    .diagonal-event-label .event-icon-image {
+      width: 6px !important;
+      height: 6px !important;
+      border-radius: 0 !important;
+    }
 
   /* Event text */
   .truncate {
