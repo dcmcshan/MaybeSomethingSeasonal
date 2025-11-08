@@ -439,18 +439,18 @@ const EVENT_DETAILS = {
     traditions: `People gather around decorated trees, sing carols, exchange gifts, and share charity with neighbours in the spirit of goodwill.`,
     feasting: `Roast goose or turkey, glazed ham, potatoes, Brussels sprouts, Christmas pudding, and yule logs anchor generous holiday tables.`,
   },
-  '20251226T070000Z|image21': {
-    title: "St. Stephen's Day (Boxing Day)",
-    history: `St. Stephen, the first Christian martyr, is honoured on 26 December; in Britain and Ireland the date also became Boxing Day for giving to servants and the poor.`,
-    traditions: `Foxhunts, charity drives, and visits to friends are common, while in Ireland the Wren Boys once paraded door to door collecting donations.`,
-    feasting: `Leftover Christmas roasts become hearty pies, paired with bubble-and-squeak, mince pies, and mugs of spiced ale.`,
-  },
-  '20251227T070000Z|image22': {
-    title: 'Feast of the Holy Innocents',
-    history: `The feast remembers the children of Bethlehem killed by Herod, noted in the Gospel of Matthew and commemorated since the fifth century.`,
-    traditions: `Spanish communities play lighthearted pranks, while churches hold prayers for vulnerable children and advocate for their protection.`,
-    feasting: `En Espana el menu del Dia de los Santos Inocentes incluye turron blando de Jijona, turron duro de Alicante, rosquillas de anis, cocido madrileno, empanadillas de atun, y chocolate a la taza; en America Latina se comparten atoles de elote, tamales de cambray, panes de yema, y caldos reconfortantes ofrecidos a los ninos.`,
-  },
+    '20251226T070000Z|image21': {
+      title: "St. Stephen's Day (Boxing Day)",
+      history: `St. Stephen, the first Christian martyr, is honoured on 26 December; in Britain and Ireland the date also became Boxing Day for giving to servants and the poor.`,
+      traditions: `Foxhunts, charity drives, and visits to friends are common, while in Ireland the Wren Boys once paraded door to door collecting donations.`,
+      feasting: `Leftover Christmas roasts become hearty pies, paired with bubble-and-squeak, mince pies, and mugs of spiced ale.`,
+    },
+    '20251227T070000Z|image22': {
+      title: 'Feast of the Holy Innocents (Childermas Banquet)',
+      history: `Childermas commemorates the Bethlehem children slain under King Herod; medieval English households kept 28 December as the Feast of the Holy Innocents, centring prayers and hospitality on the youngest family members.`,
+      traditions: `Households set a whimsical winter table with white candles, holly berries, and silver bells, portion dishes in child-sized servings, and invite the youngest at table to announce each course as the day's presider.`,
+      feasting: `A Childermas banquet pours Baby Bellini aperitifs of sparkling wine or apple cider with white peach puree, then cradles baby beet bisque swirled with creme fraiche and dill over star-cut rye croutons; baby greens toss with baby tomatoes, carrots, and corn in honey-citrus vinaigrette with toasted almonds and edible flowers; slow-smoked baby back ribs lacquered in pomegranate glaze arrive beside duck-fat roasted baby potatoes, baby corn gratin with nutmeg-Parmesan crust, and braised baby onions in balsamic reduction; serve pillowy milk rolls with whipped honey butter, finish with baby cheesecakes topped in spiced pear-cranberry compote or tableside baby bananas Foster, and toast with Babycham or warm milk punch dusted with nutmeg.`,
+    },
 };
 
 function enrich() {
