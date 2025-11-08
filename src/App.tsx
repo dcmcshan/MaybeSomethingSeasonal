@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {
-  format,
-  startOfMonth,
-  endOfMonth,
-  eachDayOfInterval,
-  isSameMonth,
-  isSameDay,
+  addDays,
   addMonths,
+  differenceInCalendarDays,
+  eachDayOfInterval,
+  endOfMonth,
+  format,
+  isSameDay,
+  isSameMonth,
+  startOfMonth,
   subMonths,
 } from "date-fns";
 import {
@@ -27,6 +29,13 @@ interface CalendarEvent {
   category: string;
   endDate?: string;
 }
+
+const toLocalDate = (dateString: string): Date => {
+  if (!dateString) return new Date(NaN);
+  return dateString.includes("T")
+    ? new Date(dateString)
+    : new Date(`${dateString}T00:00:00`);
+};
 
 // MSS.ics is the source of truth
 // This CALENDAR_DATA is kept as fallback only if MSS.ics fails to load
@@ -2878,41 +2887,37 @@ const App: React.FC = () => {
             if (categoryMatch1) category = categoryMatch1[1].trim();
             else if (categoryMatch2) category = categoryMatch2[1].trim();
 
-            // Only use description-based image if X-IMAGE wasn't found
-            if (!image) {
-              if (imageMatch1) image = imageMatch1[1].trim();
-              else if (imageMatch2) image = imageMatch2[1].trim();
-            }
-
-            if (currentEvent.title && currentEvent.date) {
-              // Check if this is a multi-day event
-              const startDate = new Date(currentEvent.date);
-              const endDate = currentEvent.endDate
-                ? new Date(currentEvent.endDate)
-                : new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
-              const daysDiff = Math.ceil(
-                (endDate.getTime() - startDate.getTime()) /
-                  (24 * 60 * 60 * 1000),
-              );
-
-              const eventData: CalendarEvent = {
-                title: currentEvent.title,
-                date: currentEvent.date,
-                endDate: daysDiff > 1 ? currentEvent.endDate : undefined,
-                description: currentEvent.description || "",
-                icon: icon,
-                category: category,
-              };
-
-              if (image) {
-                eventData.image = image;
-                console.log(
-                  `Event "${currentEvent.title}" has image: ${image.substring(0, 50)}...`,
-                );
+              // Only use description-based image if X-IMAGE wasn't found
+              if (!image) {
+                if (imageMatch1) image = imageMatch1[1].trim();
+                else if (imageMatch2) image = imageMatch2[1].trim();
               }
 
-              events.push(eventData);
-            }
+              if (currentEvent.title && currentEvent.date) {
+                const startDate = toLocalDate(currentEvent.date);
+                const endDate = currentEvent.endDate
+                  ? toLocalDate(currentEvent.endDate)
+                  : addDays(startDate, 1);
+                const daysDiff = differenceInCalendarDays(endDate, startDate);
+
+                const eventData: CalendarEvent = {
+                  title: currentEvent.title,
+                  date: currentEvent.date,
+                  endDate: daysDiff > 1 ? currentEvent.endDate : undefined,
+                  description: currentEvent.description || "",
+                  icon: icon,
+                  category: category,
+                };
+
+                if (image) {
+                  eventData.image = image;
+                  console.log(
+                    `Event "${currentEvent.title}" has image: ${image.substring(0, 50)}...`,
+                  );
+                }
+
+                events.push(eventData);
+              }
 
             inEvent = false;
             currentEvent = {};
@@ -3098,19 +3103,24 @@ const App: React.FC = () => {
 
   const getEventsForDate = (date: Date) => {
     return events.filter((event) => {
-      const eventStart = new Date(event.date);
-      const eventEnd = event.endDate ? new Date(event.endDate) : eventStart;
-
-      // Check if date falls within the event range (inclusive start, exclusive end)
-      const isInRange = date >= eventStart && date < eventEnd;
-      const isSameDate = isSameDay(eventStart, date);
-
-      // Filter out religious events if showReligious is false
       if (!showReligious && event.category === "religious") {
         return false;
       }
 
-      return isSameDate || isInRange;
+      const eventStart = toLocalDate(event.date);
+      if (Number.isNaN(eventStart.getTime())) {
+        return false;
+      }
+
+      const eventEndExclusive = event.endDate
+        ? toLocalDate(event.endDate)
+        : addDays(eventStart, 1);
+
+      if (Number.isNaN(eventEndExclusive.getTime())) {
+        return isSameDay(eventStart, date);
+      }
+
+      return date >= eventStart && date < eventEndExclusive;
     });
   };
 
@@ -3220,7 +3230,10 @@ const App: React.FC = () => {
               const backgroundImage = primaryEvent?.image;
 
               // Debug log
-              if (backgroundImage && isSameDay(day, new Date("2025-01-01"))) {
+              if (
+                backgroundImage &&
+                isSameDay(day, toLocalDate("2025-01-01"))
+              ) {
                 console.log("Background image for Jan 1:", backgroundImage);
                 console.log("Primary event:", primaryEvent);
               }
@@ -3281,15 +3294,15 @@ const App: React.FC = () => {
                             : getCategoryColor(event.category)
                         }`}
                         onMouseEnter={(e) => {
-                          const tooltip = document.createElement("div");
-                          tooltip.className =
-                            "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
-                          tooltip.innerHTML = `
-                            <div class="font-semibold mb-1">${event.title}</div>
-                            <div class="text-gray-300 mb-2">${format(new Date(event.date), "MMMM d, yyyy")}</div>
-                            <div class="text-gray-200">${event.description}</div>
-                            ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ""}
-                          `;
+                            const tooltip = document.createElement("div");
+                            tooltip.className =
+                              "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
+                            tooltip.innerHTML = `
+                              <div class="font-semibold mb-1">${event.title}</div>
+                              <div class="text-gray-300 mb-2">${format(toLocalDate(event.date), "MMMM d, yyyy")}</div>
+                              <div class="text-gray-200">${event.description}</div>
+                              ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ""}
+                            `;
                           tooltip.style.left = "0";
                           tooltip.style.bottom = "100%";
                           tooltip.style.marginBottom = "4px";
