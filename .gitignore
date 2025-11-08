@@ -7,3 +7,4 @@
 # API keys should never be committed
 # Use environment variables instead
 .env.local
+node_modules
