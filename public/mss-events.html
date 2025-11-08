@@ -289,14 +289,23 @@
           const category =
             meta.category || unescapeText(CATEGORIES || "").trim();
           const icon = meta.icon || "";
-          const description =
-            meta.summary ||
-            unescapeText(DESCRIPTION || "").replace(/\n{2,}/g, "\n").trim();
-
+          const rawSummary = unescapeText(SUMMARY || "").trim();
+          const rawDescription = unescapeText(DESCRIPTION || "")
+            .replace(/\n{2,}/g, "\n")
+            .trim();
+          const description = (meta.summary || rawDescription).trim();
+          const primaryLine =
+            meta.summary?.split(/\n|\. /)?.[0]?.trim() ||
+            rawDescription.split(/\n|\. /)?.[0]?.trim() ||
+            "";
+          const title =
+            rawSummary ||
+            primaryLine ||
+            (DTSTART ? `Event on ${toDateLabel(DTSTART)}` : "Untitled Event");
           return {
             date: toDateLabel(DTSTART),
             rawDate: DTSTART,
-            title: unescapeText(SUMMARY || "").trim() || "(Untitled Event)",
+            title,
             icon,
             category: category || "uncategorized",
             description,
@@ -353,7 +362,7 @@
 
       const initialise = async () => {
         try {
-          const response = await fetch("../MSS.ics", { cache: "no-store" });
+          const response = await fetch("MSS.ics", { cache: "no-store" });
           if (!response.ok)
             throw new Error(
               `Request failed: ${response.status} ${response.statusText}`
