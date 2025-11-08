@@ -10,8 +10,17 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250101T070000Z
 DTEND:20250102T070000Z
-DESCRIPTION:Celebration of the new year and fresh beginnings.\n\nIcon: 🎊\nCategory: celebration
-CATEGORIES:celebration
+SUMMARY:New Year's Day
+DESCRIPTION:History: The Roman calendar fixed the turn of the civil year to
+  January 1 under Julius Caesar\, and the Gregorian reform of 1582 reaffirme
+ d the date for much of the world.\nTraditions: Communities ring bells\, cou
+ nt down in packed squares\, exchange resolutions\, and watch fireworks or t
+ elevised celebrations to welcome a clean slate.\nFeasting: Families toast w
+ ith sparkling wine\, share longevity noodles or Hoppin' John for luck\, and
+  slice sweet breads like panettone or king cakes to invite prosperity.\n\nI
+ con: 🎊\\\\nCategory: celebration\\nCategory: celebration\nCategory: celebr
+ ation\\nCategory: celebration
+CATEGORIES:celebration\\nCategory: celebration
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/celebration-of-the-new-year-and-fresh-beginnings.png
@@ -20,8 +29,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250102T070000Z
 DTEND:20250103T070000Z
-DESCRIPTION:Austrian and Bavarian tradition\, Perchta Day.\n\nIcon: 🎭\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Perchta Day (Perchtenlauf)
+DESCRIPTION:History: Alpine folklore honors Frau Perchta\, a wintry guardia
+ n of hearth and spinning who inspected homes during the Twelve Nights after
+  Christmas.\nTraditions: Villages in Austria and Bavaria host Perchtenlaeuf
+ e where masked figures parade with cowbells and torches to chase away darkn
+ ess and protect the fields.\nFeasting: Hosts offer dumplings\, poppy-seed p
+ astries\, and milky punches to the performers\, along with mulled wine and 
+ sweet krapfen for the crowd.\n\nIcon: 🎭\\\\nCategory: cultural\\nCategory:
+  cultural\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/austrian-and-bavarian-tradition-perchta-day.png
@@ -30,8 +47,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250102T070000Z
 DTEND:20250103T070000Z
-DESCRIPTION:Candlemas - Feast of the Presentation of Jesus and blessing of candles.\n\nIcon: 🕯️\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Candlemas (Feast of the Presentation)
+DESCRIPTION:History: Commemorated in Jerusalem by the fourth century\, Cand
+ lemas marks forty days after Christmas when Mary and Joseph presented Jesus
+  at the Temple according to Mosaic law.\nTraditions: Churches bless candles
+  for the coming year\, processions illuminate winter nights\, and weather l
+ ore predicts the remaining length of winter.\nFeasting: French households f
+ lip crepes for luck\, Mexican parishes serve tamales with atole\, and other
+ s enjoy sweet breads while candles glow in windows.\n\nIcon: 🕯️\\\\nCatego
+ ry: cultural\\nCategory: cultural\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/candlemas-feast-of-the-presentation-of-jesus-and-blessing-of-candles.png
@@ -40,8 +65,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250105T070000Z
 DTEND:20250106T070000Z
-DESCRIPTION:Twelfth Night - end of the Christmas season.\n\nIcon: 🎭\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Twelfth Night
+DESCRIPTION:History: Twelfth Night concludes the Christmastide counting fro
+ m medieval Europe\, blending Christian Epiphany vigils with older winter re
+ vels.\nTraditions: Hosts crown a king or queen with hidden bean charms\, wa
+ ssailers sing at doorways\, and revelers dismantle greenery to avoid a year
+  of bad fortune.\nFeasting: Tables feature spiced ale\, figgy puddings\, ki
+ ng cakes filled with almonds\, and roasted meats shared before the fasting 
+ of Epiphany begins.\n\nIcon: 🎭\\\\nCategory: cultural\\nCategory: cultural
+ \nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/twelfth-night-end-of-the-christmas-season.png
@@ -50,8 +83,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250106T070000Z
 DTEND:20250107T070000Z
-DESCRIPTION:Epiphany - Three Kings Day\, celebration of the Magi.\n\nIcon: 👑\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Epiphany (Three Kings Day)
+DESCRIPTION:History: Since the second century\, Epiphany has celebrated the
+  Magi recognising the Christ child\, symbolising the revelation of the divi
+ ne to the nations.\nTraditions: Families bless doorways with chalk\, stage 
+ pageants of camels and kings\, and children receive gifts left by los Reyes
+  Magos or La Befana.\nFeasting: Bakers craft rosca de reyes\, galette des r
+ ois\, or king cakes\, while households sip rich hot chocolate and share slo
+ w-simmered stews.\n\nIcon: 👑\\\\nCategory: cultural\\nCategory: cultural\n
+ Category: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/epiphany-three-kings-day-celebration-of-the-magi.png
@@ -60,8 +101,17 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250110T070000Z
 DTEND:20250111T070000Z
-DESCRIPTION:Vodoun Festival - traditional celebration in Benin honoring Vodoun spirituality and culture.\n\nIcon: 🎭\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Fete du Vodoun (Benin Vodoun Festival)
+DESCRIPTION:History: Benin recognised Vodoun as a national religion in 1996
+ \, formalising annual January gatherings that honour ancestral spirits and 
+ the transatlantic heritage of resistance.\nTraditions: Processions of pries
+ ts\, devotees\, and Egungun dancers drum along Ouidah's Route des Esclaves\
+ , offering libations at the Temple of Pythons and the seaside.\nFeasting: F
+ estival goers share akassa corn porridge\, goat and fish stews flavoured wi
+ th palm oil\, toasted peanuts\, and generous pours of sodabi palm liquor.\n
+ \nIcon: 🎭\\\\nCategory: cultural\\nCategory: cultural\nCategory: cultural\
+ \nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/vodoun-festival-traditional-celebration-in-benin-honoring-vodoun-spirituality-an.png
@@ -70,8 +120,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250114T070000Z
 DTEND:20250115T070000Z
-DESCRIPTION:Feast of the Ass - medieval festival celebrating the Flight into Egypt.\n\nIcon: 🐴\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Feast of the Ass
+DESCRIPTION:History: Medieval French parishes staged the Feast of the Ass t
+ o honour the donkey that carried the Holy Family during the Flight into Egy
+ pt and other biblical journeys.\nTraditions: A bedecked donkey processed to
+  church while congregations answered prayers with playful brays\, blending 
+ devotion with carnival humour.\nFeasting: Celebrants enjoyed rustic breads\
+ , honey cakes\, nut tarts\, and spiced wine--simple fare reminiscent of the
+  humble beast of burden they honoured.\n\nIcon: 🐴\\\\nCategory: cultural\\
+ nCategory: cultural\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/feast-of-the-ass-medieval-festival-celebrating-the-flight-into-egypt.png
@@ -80,8 +138,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250115T070000Z
 DTEND:20250116T070000Z
-DESCRIPTION:Japanese New Year tradition of burning New Year decorations.\n\nIcon: 🔥\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Dondoyaki Bonfire
+DESCRIPTION:History: Dondoyaki descends from Heian-period shrine rites that
+  respectfully retire shimenawa ropes\, daruma\, and calligraphy written dur
+ ing the New Year festivities.\nTraditions: Communities pile pine branches a
+ nd lucky charms into tall pyres\, send sparks skyward with communal prayers
+ \, and children roast lucky rice cakes in the embers.\nFeasting: Skewered m
+ ochi toasted over the flames\, sweet azuki bean soup\, and cups of warm ama
+ zake fortify neighbours against the cold night air.\n\nIcon: 🔥\\\\nCategor
+ y: cultural\\nCategory: cultural\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/japanese-new-year-tradition-of-burning-new-year-decorations.png
@@ -90,8 +156,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250117T070000Z
 DTEND:20250118T070000Z
-DESCRIPTION:Old Twelfth Night - traditional date before calendar reform.\n\nIcon: 🌟\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Old Twelfth Night Wassail
+DESCRIPTION:History: When Britain adopted the Gregorian calendar in 1752\, 
+ many West Country farmers kept the old January date for Twelfth Night to bl
+ ess orchards against blight.\nTraditions: Wassailers bang pans\, fire muske
+ ts into branches\, and sing to wake the apple trees while offering cider-so
+ aked toast to the guardian robin.\nFeasting: Hot mulled cider\, apple cakes
+ \, blue cheese\, and pork pies fuel the rounds from farm to farm through th
+ e frosty fields.\n\nIcon: 🌟\\\\nCategory: cultural\\nCategory: cultural\nC
+ ategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/old-twelfth-night-traditional-date-before-calendar-reform.png
@@ -100,8 +174,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250125T070000Z
 DTEND:20250126T070000Z
-DESCRIPTION:Scottish celebration of the poet Robert Burns with poetry, haggis, and whisky.\n\nIcon: 🏴󠁧󠁢󠁳󠁣󠁴󠁿\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Burns Night Supper
+DESCRIPTION:History: The first Burns Night was held in 1801 by friends of R
+ obert Burns\, celebrating the Bard's January birth with readings that cemen
+ ted his role in Scottish identity.\nTraditions: Kilted hosts pipe in the ha
+ ggis\, deliver the Address with flourish\, toast the lassies\, and end with
+  ceilidh dances and "Auld Lang Syne."\nFeasting: Menus centre on haggis wit
+ h neeps and tatties\, cock-a-leekie soup\, cranachan\, oatcakes\, and drams
+  of smoky single malt whisky.\n\nIcon: 🏴󠁧󠁢󠁳󠁣󠁴󠁿\\\\nCategory: cultura
+ l\\nCategory: cultural\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/scottish-celebration-of-the-poet-robert-burns-with-poetry-haggis-and-whisky.png
@@ -110,8 +192,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250129T070000Z
 DTEND:20250130T070000Z
-DESCRIPTION:Lunar New Year celebration.\n\nIcon: 🐉\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Lunar New Year (Chunjie)
+DESCRIPTION:History: Rooted in Han dynasty agrarian cycles\, the Lunar New 
+ Year welcomes spring with family reunions\, ancestor veneration\, and hopes
+  for prosperity.\nTraditions: Homes are scrubbed\, red lanterns strung\, ho
+ ngbao envelopes gifted\, and lion or dragon dances chase away lingering Nia
+ n monsters.\nFeasting: Reunion banquets showcase longevity noodles\, whole 
+ fish\, dumplings shaped like ingots\, sweet rice cakes\, and mandarin orang
+ es for abundance.\n\nIcon: 🐉\\\\nCategory: cultural\\nCategory: cultural\n
+ Category: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/lunar-new-year-celebration.png
@@ -120,8 +210,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250129T070000Z
 DTEND:20250130T070000Z
-DESCRIPTION:Tibetan New Year - celebration of the lunar new year in Tibetan culture.\n\nIcon: 🏔️\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Losar (Tibetan New Year)
+DESCRIPTION:History: Losar blends ancient Bon winter rites with Buddhist ob
+ servances\, dating to the era of King Trisong Detsen and now marking the Ti
+ betan calendar's turning.\nTraditions: Families replace prayer flag streame
+ rs\, visit monasteries for cham dances\, and exchange khata scarves while r
+ eciting auspicious wishes.\nFeasting: Households prepare guthuk noodle soup
+  with symbolic dumplings\, deep-fried khapse pastries\, dried yak cheese\, 
+ and butter tea shared with neighbours.\n\nIcon: 🏔️\\\\nCategory: cultural\
+ \nCategory: cultural\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/tibetan-new-year-celebration-of-the-lunar-new-year-in-tibetan-culture.png
@@ -130,8 +228,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250130T070000Z
 DTEND:20250131T070000Z
-DESCRIPTION:Eve of Imbolc\, the Celtic festival marking the beginning of spring.\n\nIcon: 🌙\nCategory: seasonal
-CATEGORIES:seasonal
+SUMMARY:Imbolc Eve (La Fheile Bride)
+DESCRIPTION:History: Imbolc heralds the first stirrings of spring in ancien
+ t Gaelic tradition\, bridged later with the veneration of Saint Brigid of K
+ ildare.\nTraditions: Families fashion Brigid's crosses\, set out corn dolli
+ es to receive the saint's blessing\, and keep vigil fires burning through t
+ he night.\nFeasting: Dairy-rich dishes--fresh butter\, soft cheeses\, oatca
+ kes\, and early lamb stews--honour Brigid's patronage of livestock and the 
+ hearth.\n\nIcon: 🌙\\\\nCategory: seasonal\\nCategory: seasonal\nCategory: 
+ seasonal\\nCategory: seasonal
+CATEGORIES:seasonal\\nCategory: seasonal
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/eve-of-imbolc-the-celtic-festival-marking-the-beginning-of-spring.png
@@ -140,8 +246,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250201T070000Z
 DTEND:20250202T070000Z
-DESCRIPTION:Celtic festival marking the beginning of spring.\n\nIcon: 🌱\nCategory: seasonal
-CATEGORIES:seasonal
+SUMMARY:Imbolc Day Celebration
+DESCRIPTION:History: With the lambing season underway\, Imbolc marks the mi
+ dpoint between solstice and equinox\, long tied to the rebirth of light and
+  Brigid's protective cloak.\nTraditions: Pilgrims visit holy wells\, sprink
+ le thresholds with blessed water\, and hang swaddles outdoors to absorb Bri
+ gid's healing power.\nFeasting: Communities share bannocks\, colcannon\, du
+ lse\, and honeyed porridges\, often concluding with tea infused with the fi
+ rst tender herbs.\n\nIcon: 🌱\\\\nCategory: seasonal\\nCategory: seasonal\n
+ Category: seasonal\\nCategory: seasonal
+CATEGORIES:seasonal\\nCategory: seasonal
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/eve-of-imbolc-the-celtic-festival-marking-the-beginning-of-spring.png
@@ -150,8 +264,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250214T070000Z
 DTEND:20250215T070000Z
-DESCRIPTION:Patron saint of love and romance.\n\nIcon: 💕\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Saint Valentine's Day
+DESCRIPTION:History: The feast of the third-century martyr Valentine intert
+ wined with courtly love through Chaucer's poetry and later Victorian card e
+ xchanges.\nTraditions: Couples exchange handwritten notes\, roses\, and act
+ s of service\, while many support charitable causes in the spirit of selfle
+ ss love.\nFeasting: Sweethearts linger over chocolate-dipped strawberries\,
+  heart-shaped confections\, fine champagne\, and candlelit suppers for two.
+ \n\nIcon: 💕\\\\nCategory: cultural\\nCategory: cultural\nCategory: cultura
+ l\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/patron-saint-of-love-and-romance.png
@@ -160,8 +282,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250317T060000Z
 DTEND:20250318T060000Z
-DESCRIPTION:Patron saint of Ireland - celebrated worldwide.\n\nIcon: ☘️\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Saint Patrick's Day
+DESCRIPTION:History: Patrick's fifth-century mission in Ireland inspired me
+ dieval hagiographies\, and Irish diaspora communities transformed his feast
+  into global parades of pride.\nTraditions: Bagpipers march past green land
+ marks\, shamrock pins bedeck lapels\, and Gaelic blessings are shared betwe
+ en friends and strangers alike.\nFeasting: Menus highlight corned beef and 
+ cabbage\, soda bread\, colcannon\, smoked salmon\, and stout or whiskey rai
+ sed in hearty toast.\n\nIcon: ☘️\\\\nCategory: cultural\\nCategory: cultura
+ l\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/patron-saint-of-ireland-celebrated-worldwide.png
@@ -170,8 +300,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250422T060000Z
 DTEND:20250423T060000Z
-DESCRIPTION:Celebrate our planet and environmental awareness.\n\nIcon: 🌍\nCategory: environmental
-CATEGORIES:environmental
+SUMMARY:Earth Day
+DESCRIPTION:History: US senator Gaylord Nelson and organiser Denis Hayes la
+ unched Earth Day in 1970\, igniting the modern environmental movement with 
+ teach-ins across the country.\nTraditions: Volunteers plant trees\, clean w
+ aterways\, host sustainability workshops\, and advocate for climate justice
+  at community fairs.\nFeasting: Earth-friendly gatherings feature seasonal 
+ salads\, plant-based potlucks\, fair-trade coffee\, and desserts sweetened 
+ with local honey.\n\nIcon: 🌍\\\\nCategory: environmental\\nCategory: envir
+ onmental\nCategory: environmental\\nCategory: environmental
+CATEGORIES:environmental\\nCategory: environmental
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/celebrate-our-planet-and-environmental-awareness.png
@@ -180,8 +318,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250704T060000Z
 DTEND:20250705T060000Z
-DESCRIPTION:Celebration of American independence.\n\nIcon: 🇺🇸\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Independence Day (United States)
+DESCRIPTION:History: The Continental Congress adopted the Declaration of In
+ dependence on 4 July 1776\, with the date declared a federal holiday nearly
+  a century later.\nTraditions: Cities hold patriotic parades\, read the Dec
+ laration aloud\, stage concerts\, and end the night with brilliant firework
+ s displays.\nFeasting: Backyard grills sizzle with burgers\, hot dogs\, cor
+ n on the cob\, baked beans\, berry pies\, and pitchers of lemonade or sweet
+  tea.\n\nIcon: 🇺🇸\\\\nCategory: cultural\\nCategory: cultural\nCategory: 
+ cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/celebration-of-american-independence.png
@@ -190,8 +336,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20250922T060000Z
 DTEND:20250923T060000Z
-DESCRIPTION:Fall begins - time for harvest and reflection.\n\nIcon: 🍂\nCategory: seasonal
-CATEGORIES:seasonal
+SUMMARY:Autumn Equinox (Mabon)
+DESCRIPTION:History: The equinox equalises day and night worldwide\, inspir
+ ing harvest observances from Ancient Greece's Thesmophoria to modern pagan 
+ Mabon rites.\nTraditions: People decorate altars with gourds and leaves\, p
+ ractice gratitude journaling\, and take twilight walks to feel the seasonal
+  balance.\nFeasting: Harvest tables brim with roasted squash\, apple tarts\
+ , caramelised root vegetables\, mulled cider\, and hearty grain salads.\n\n
+ Icon: 🍂\\\\nCategory: seasonal\\nCategory: seasonal\nCategory: seasonal\\n
+ Category: seasonal
+CATEGORIES:seasonal\\nCategory: seasonal
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/fall-begins-time-for-harvest-and-reflection.png
@@ -200,8 +354,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251031T060000Z
 DTEND:20251101T060000Z
-DESCRIPTION:All Hallows' Eve\, celebration of saints and departed souls.\n\nIcon: 🎃\nCategory: celebration
-CATEGORIES:celebration
+SUMMARY:All Hallows' Eve (Halloween)
+DESCRIPTION:History: Halloween evolved from Celtic Samhain festivals and me
+ dieval vigils before All Saints' Day\, blending remembrance with merrymakin
+ g.\nTraditions: Costumed revelers carve jack-o'-lanterns\, tell ghost stori
+ es\, visit haunted houses\, and children collect sweets door to door.\nFeas
+ ting: Seasonal treats include candy apples\, pumpkin bread\, roasted nuts\,
+  soul cakes\, and steaming mugs of spiced cider.\n\nIcon: 🎃\\\\nCategory: 
+ celebration\\nCategory: celebration\nCategory: celebration\\nCategory: cele
+ bration
+CATEGORIES:celebration\\nCategory: celebration
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/all-hallows-eve-celebration-of-saints-and-departed-souls.png
@@ -210,8 +372,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251101T070000Z
 DTEND:20251102T070000Z
-DESCRIPTION:Día de los Angelitos - honoring deceased children.\n\nIcon: 👼\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Dia de los Angelitos
+DESCRIPTION:History: On 1 November\, Mexican families honour children who h
+ ave died\, believing their angelitos return first to enjoy the love of thei
+ r kin.\nTraditions: Altars glow with candles\, toys\, and paper cut-outs\, 
+ while families ring bells and scatter marigolds to guide the little spirits
+  home.\nFeasting: Offerings feature atole\, sugar skulls\, tiny pan de muer
+ to loaves\, fruit\, and favourite sweets that delighted the children in lif
+ e.\n\nIcon: 👼\\\\nCategory: cultural\\nCategory: cultural\nCategory: cultu
+ ral\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image22.png
@@ -220,8 +390,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251102T070000Z
 DTEND:20251103T070000Z
-DESCRIPTION:Día de los Muertos - celebration of deceased loved ones.\n\nIcon: 💀\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Dia de los Muertos
+DESCRIPTION:History: Rooted in pre-Hispanic customs later intertwined with 
+ Catholic All Souls' rites\, Dia de los Muertos celebrates ancestral continu
+ ity on 2 November.\nTraditions: Families build ofrendas with photos and cop
+ al incense\, picnic beside candlelit graves\, and share stories through the
+  night.\nFeasting: Traditional dishes include pan de muerto\, mole\, tamale
+ s\, champurrado\, and calaveras de azucar painted with loved ones' names.\n
+ \nIcon: 💀\\\\nCategory: cultural\\nCategory: cultural\nCategory: cultural\
+ \nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image21.png
@@ -230,8 +408,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251110T070000Z
 DTEND:20251111T070000Z
-DESCRIPTION:Evening before St. Martin's Day\, traditional celebration.\n\nIcon: 🪶\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Martinstag Lantern Evening
+DESCRIPTION:History: Eves of St. Martin's Day in German-speaking lands reca
+ ll the charitable Roman soldier turned bishop who shared his cloak with a b
+ eggar.\nTraditions: Children carry handmade lanterns through the streets\, 
+ sing Sankt Martin songs\, and end with bonfires or shadow plays retelling h
+ is compassion.\nFeasting: Warm cider\, pretzels\, roasted chestnuts\, and b
+ uttery pastries reward lantern bearers after the chilly evening walk.\n\nIc
+ on: 🪶\\\\nCategory: cultural\\nCategory: cultural\nCategory: cultural\\nCa
+ tegory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image23.png
@@ -240,8 +426,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251111T070000Z
 DTEND:20251112T070000Z
-DESCRIPTION:Feast of St. Martin of Tours\, patron of soldiers and beggars.\n\nIcon: 🪶\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:St. Martin's Day (Martinstag)
+DESCRIPTION:History: Medieval Europe celebrated 11 November as the close of
+  the agrarian year\, pairing St. Martin's biography with harvest thanksgivi
+ ng and almsgiving.\nTraditions: Lantern parades\, charity drives\, and dram
+ atizations of Martin's cloak-sharing remind communities to care for those i
+ n need.\nFeasting: Feasts centre on roast goose with red cabbage\, potato d
+ umplings\, spiced biscuits\, and mugs of Gluehwein or Federweisser.\n\nIcon
+ : 🪶\\\\nCategory: cultural\\nCategory: cultural\nCategory: cultural\\nCate
+ gory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image24.png
@@ -250,8 +444,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251117T070000Z
 DTEND:20251118T070000Z
-DESCRIPTION:Wookiee celebration from the Star Wars universe.\n\nIcon: ⭐\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Life Day (Wookiee Tradition)
+DESCRIPTION:History: Life Day debuted in the 1978 Star Wars Holiday Special
+  and later became canon as Kashyyyk's annual celebration of freedom and fam
+ ily.\nTraditions: Wookiees gather beneath the Tree of Life\, sing in the Sh
+ yriiwook tongue\, share glowing orbs\, and meditate on harmony across the g
+ alaxy.\nFeasting: Fans imagine ryshcate sweet breads\, bantha stew\, roaste
+ d yeca fruits\, and steaming mugs of blue bantha milk enjoyed around commun
+ al tables.\n\nIcon: ⭐\\\\nCategory: cultural\\nCategory: cultural\nCategory
+ : cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/wookiee-celebration-from-the-star-wars-universe.png
@@ -260,8 +462,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251127T070000Z
 DTEND:20251128T070000Z
-DESCRIPTION:Gratitude for the harvest and blessings of the year.\n\nIcon: 🦃\nCategory: celebration
-CATEGORIES:celebration
+SUMMARY:Thanksgiving Day (United States)
+DESCRIPTION:History: Thanksgiving commemorates harvest gatherings and the 1
+ 621 Wampanoag-Plymouth meal\, formalised as a national holiday by Abraham L
+ incoln in 1863.\nTraditions: Families travel for gratitude circles\, watch 
+ giant-balloon parades and football games\, and volunteer at community kitch
+ ens.\nFeasting: Menus highlight roast turkey\, cornbread stuffing\, cranber
+ ry relish\, sweet potatoes\, green bean casseroles\, and slices of pumpkin 
+ or pecan pie.\n\nIcon: 🦃\\\\nCategory: celebration\\nCategory: celebration
+ \nCategory: celebration\\nCategory: celebration
+CATEGORIES:celebration\\nCategory: celebration
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image26.png
@@ -270,8 +480,15 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251129T070000Z
 DTEND:20251130T070000Z
-DESCRIPTION:Eve of St. Andrew's Day\, traditional celebration.\n\nIcon: ⚓\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:St. Andrew's Eve (Andrzejki)
+DESCRIPTION:History: Polish Andrzejki fortune-telling parties date to the s
+ ixteenth century\, once focused on young women seeking visions of future sp
+ ouses.\nTraditions: Participants pour hot wax through keys\, decode shapes 
+ in candle shadows\, and dance until dawn while sharing playful prophecies.\
+ nFeasting: Guests snack on poppy-seed cakes\, honey cookies\, pickled herri
+ ng\, and warm cups of mead or herb-infused tea.\n\nIcon: ⚓\\\\nCategory: cu
+ ltural\\nCategory: cultural\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image27.png
@@ -280,8 +497,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251130T070000Z
 DTEND:20251201T070000Z
-DESCRIPTION:Feast of St. Andrew\, patron saint of Scotland.\n\nIcon: 🏴󠁧󠁢󠁳󠁣󠁴󠁿\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:St. Andrew's Day
+DESCRIPTION:History: Scotland adopted St. Andrew\, one of the first-called 
+ apostles\, as its patron in the Middle Ages\, with the Saltire flag symboli
+ sing his X-shaped cross.\nTraditions: Ceilidh dancing\, storytelling\, and 
+ concerts celebrate Scottish heritage\, while charities mark the day with ki
+ ndness campaigns.\nFeasting: Cullen skink chowder\, bannocks\, venison pies
+ \, shortbread\, and drams of whisky warm celebrants on a chilly November ev
+ ening.\n\nIcon: 🏴󠁧󠁢󠁳󠁣󠁴󠁿\\\\nCategory: cultural\\nCategory: cultural\
+ nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/feast-of-st-andrew-patron-saint-of-scotland.png
@@ -290,8 +515,15 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251130T070000Z
 DTEND:20251201T070000Z
-DESCRIPTION:First Sunday of Advent - the beginning of the liturgical year and preparation for Christmas.\n\nIcon: 🕯️\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:First Sunday of Advent
+DESCRIPTION:History: Advent Sundays evolved in the liturgies of fifth-centu
+ ry Gaul as a penitential preparation leading to Christmas joy.\nTraditions:
+  Families light the first candle of hope on Advent wreaths\, begin Jesse tr
+ ee devotions\, and set aside time for quiet reflection.\nFeasting: Seasonal
+  flavours include German stollen\, lebkuchen\, mulled cider\, and simple Su
+ nday roasts shared after worship.\n\nIcon: 🕯️\\\\nCategory: cultural\\nCat
+ egory: cultural\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image28.png
@@ -300,8 +532,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251205T070000Z
 DTEND:20251206T070000Z
-DESCRIPTION:Krampus Night - the dark companion of St. Nicholas.\n\nIcon: 👹\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Krampusnacht
+DESCRIPTION:History: Krampus figures arise from Alpine folklore\, accompany
+ ing St. Nicholas since at least the seventeenth century to discipline misch
+ ievous youth.\nTraditions: Costumed Krampusse parade through streets with r
+ attling chains\, visit homes for staged scares\, and pose for playful photo
+ s with brave children.\nFeasting: Spectators sip schnapps\, nibble gingerbr
+ ead hearts\, and enjoy spicy sausages or pretzels after the adrenaline-fill
+ ed procession.\n\nIcon: 👹\\\\nCategory: cultural\\nCategory: cultural\nCat
+ egory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image29.png
@@ -310,8 +550,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251206T070000Z
 DTEND:20251207T070000Z
-DESCRIPTION:Feast of St. Nicholas\, bishop and patron saint of children and gift-giving.\n\nIcon: 🎁\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:St. Nicholas Day
+DESCRIPTION:History: The fourth-century bishop Nicholas of Myra inspired le
+ gends of secret generosity\, leading to shoe-filling customs across Europe 
+ on 6 December.\nTraditions: Children polish boots for St. Nicholas\, find o
+ ranges and nuts at dawn\, and listen to stories of the saint rescuing sailo
+ rs and the poor.\nFeasting: Families savour speculaas biscuits\, chocolate 
+ coins\, mandarin oranges\, marzipan fruits\, and mugs of hot cocoa or glueh
+ wein.\n\nIcon: 🎁\\\\nCategory: cultural\\nCategory: cultural\nCategory: cu
+ ltural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image30.png
@@ -320,8 +568,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251207T070000Z
 DTEND:20251208T070000Z
-DESCRIPTION:Second Sunday of Advent - preparation and anticipation.\n\nIcon: 🕯️\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Second Sunday of Advent
+DESCRIPTION:History: The second Advent candle emphasises faith and the prop
+ hets\, sustaining the season's anticipation as Christmas draws nearer.\nTra
+ ditions: Wreath lighting\, scripture readings about John the Baptist\, and 
+ charity collections for neighbours in need mark the Sunday gatherings.\nFea
+ sting: Cardamom buns\, cinnamon star cookies\, spiced teas\, and hearty cas
+ seroles offer comfort during the contemplative Advent evenings.\n\nIcon: 🕯
+ ️\\\\nCategory: cultural\\nCategory: cultural\nCategory: cultural\\nCategor
+ y: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image31.png
@@ -330,8 +586,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251111T190000Z
 DTEND:20251116T070000Z
-DESCRIPTION:Traditional Dutch celebration period with Sinterklaas arriving by steamboat\, starting from dusk on St. Martin's Day.\n\nIcon: 🚢\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Sinterklaas Arrival (Intocht)
+DESCRIPTION:History: Dutch newspapers popularised Sinterklaas arriving by s
+ teamboat in the nineteenth century\, blending Saint Nicholas lore with mari
+ time identity.\nTraditions: Sinterklaas docks with his Pieten helpers\, par
+ ades through town distributing pepernoten\, and listens to children's wish 
+ lists before 5 December gifts.\nFeasting: Crowds crunch spiced pepernoten\,
+  speculaas windmill cookies\, chocolate letters\, and marzipan while sippin
+ g hot cocoa along the canals.\n\nIcon: 🚢\\\\nCategory: cultural\\nCategory
+ : cultural\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/traditional-dutch-celebration-period-with-sinterklaas-arriving-by-steamboat-star.png
@@ -340,8 +604,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251211T070000Z
 DTEND:20251213T070000Z
-DESCRIPTION:St. Lucia's vigil - from dusk on Dec 11 until dawn on Dec 12.\n\nIcon: 🌙\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Lussinatta (St. Lucia's Vigil)
+DESCRIPTION:History: In Scandinavia\, Lussinatta watchers once guarded agai
+ nst mischief on the long night before Lucia's feast\, blending Norse folklo
+ re with Christian devotion.\nTraditions: Families stay up late baking saffr
+ on dough\, weaving barabritta crowns\, and keeping candles lit to welcome t
+ he dawn bringer.\nFeasting: Glogg mulled wine\, raisin-studded lussekatter 
+ twists\, and ginger thins are prepared overnight to share with the morning 
+ procession.\n\nIcon: 🌙\\\\nCategory: cultural\\nCategory: cultural\nCatego
+ ry: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/st-lucia-s-vigil-from-dusk-on-dec-11-until-dawn-on-dec-12.png
@@ -350,8 +622,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251212T070000Z
 DTEND:20251213T070000Z
-DESCRIPTION:St. Lucia's Night - Dec 12th.\n\nIcon: 🌙\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:St. Lucia's Night Processions
+DESCRIPTION:History: The legend of Lucia of Syracuse\, who smuggled food to
+  Christians in catacombs\, inspired Swedish torchlit processions dating to 
+ the seventeenth century.\nTraditions: A Lucia in white robes and candle cro
+ wn leads attendants singing "Sankta Lucia\," visiting hospitals\, schools\,
+  and city squares before sunrise.\nFeasting: Participants enjoy freshly bak
+ ed lussekatter\, pepparkakor cookies\, and strong coffee served on decorate
+ d trays.\n\nIcon: 🌙\\\\nCategory: cultural\\nCategory: cultural\nCategory:
+  cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/st-lucia-s-night-dec-12th.png
@@ -360,8 +640,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251212T070000Z
 DTEND:20251213T070000Z
-DESCRIPTION:Feast of Our Lady of Guadalupe\, patroness of the Americas.\n\nIcon: 🌹\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Feast of Our Lady of Guadalupe
+DESCRIPTION:History: In 1531 Juan Diego reported Marian apparitions on Tepe
+ yac Hill\, and the tilma image quickly became a symbol of Mexican faith and
+  identity.\nTraditions: Pilgrims serenade the Virgin with mananitas\, offer
+  roses at the basilica\, and reenact the miracle in parish plazas across th
+ e Americas.\nFeasting: Tamales\, pozole\, bunuelos\, champurrado\, and swee
+ t atole welcome weary pilgrims after vigils and processions.\n\nIcon: 🌹\\\
+ \nCategory: cultural\\nCategory: cultural\nCategory: cultural\\nCategory: c
+ ultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/feast-of-our-lady-of-guadalupe-patroness-of-the-americas.png
@@ -370,8 +658,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251213T070000Z
 DTEND:20251214T070000Z
-DESCRIPTION:Swedish celebration of light and St. Lucia.\n\nIcon: 🕯️\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:St. Lucia's Day
+DESCRIPTION:History: Modern Lucia celebrations took shape in early twentiet
+ h-century Sweden\, transforming a regional custom into a nationwide festiva
+ l of light in darkness.\nTraditions: Girls and boys form Lucia trains in sc
+ hools and workplaces\, delivering songs and saffron buns to symbolise hope 
+ during the polar night.\nFeasting: Households share lussekatter\, saffron b
+ iscotti\, almond cookies\, and glasses of julmust or coffee to accompany th
+ e morning serenade.\n\nIcon: 🕯️\\\\nCategory: cultural\\nCategory: cultura
+ l\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/swedish-celebration-of-light-and-st-lucia.png
@@ -380,8 +676,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251215T070000Z
 DTEND:20251216T070000Z
-DESCRIPTION:Annual tradition in Palmer Lake\, Colorado: community yule log hunt and celebration.\n\nIcon: 🪵\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Palmer Lake Yule Log Hunt
+DESCRIPTION:History: Since 1933 Palmer Lake\, Colorado\, has staged a commu
+ nity hunt that mixes imported English yule log lore with Rocky Mountain hos
+ pitality.\nTraditions: Clues lead villagers through the pines until the log
+  is found\, carried in parade\, and lit amid carols and proclamations of "W
+ assail!"\nFeasting: Volunteers ladle out chili\, apple cider\, and cookies\
+ , while the finder often earns the first slice of yule log cake.\n\nIcon: �
+ �\\\\nCategory: cultural\\nCategory: cultural\nCategory: cultural\\nCategor
+ y: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/annual-tradition-in-palmer-lake-colorado-community-yule-log-hunt-and-celebration.png
@@ -390,8 +694,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251214T070000Z
 DTEND:20251215T070000Z
-DESCRIPTION:Third Sunday of Advent (Gaudete Sunday) - joy and rejoicing.\n\nIcon: 🕯️\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Gaudete Sunday
+DESCRIPTION:History: Named for the "Gaudete in Domino" introit\, the third 
+ Advent Sunday relaxes penitential tones with joyful anticipation noted sinc
+ e the Middle Ages.\nTraditions: Churches light the rose candle\, priests we
+ ar rose vestments\, and choirs sing jubilant hymns heralding the nearness o
+ f Christmas.\nFeasting: In the Philippines\, Simbang Gabi worshippers enjoy
+  bibingka and puto bumbong\, while others serve rosy macarons and warm frui
+ t punch.\n\nIcon: 🕯️\\\\nCategory: cultural\\nCategory: cultural\nCategory
+ : cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/third-sunday-of-advent-gaudete-sunday-joy-and-rejoicing.png
@@ -400,8 +712,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251215T190000Z
 DTEND:20251223T070000Z
-DESCRIPTION:Festival of Lights - eight nights of celebration\, starting at dusk on Dec 15.\n\nIcon: 🕎\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Hanukkah (Festival of Lights)
+DESCRIPTION:History: Hanukkah commemorates the Maccabean rededication of th
+ e Temple in 164 BCE and the rabbinic tale of oil that miraculously lasted e
+ ight nights.\nTraditions: Families kindle the menorah\, recite blessings\, 
+ play dreidel games\, give gelt\, and emphasise acts of charity and resilien
+ ce.\nFeasting: Foods fried in oil--potato latkes\, sufganiyot\, bimuelos--a
+ nd braised brisket or kugel anchor the festive tables.\n\nIcon: 🕎\\\\nCate
+ gory: cultural\\nCategory: cultural\nCategory: cultural\\nCategory: cultura
+ l
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/festival-of-lights-eight-nights-of-celebration-starting-at-dusk-on-dec-15.png
@@ -410,8 +730,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251217T070000Z
 DTEND:20251218T070000Z
-DESCRIPTION:Ancient Roman festival of Saturn.\n\nIcon: 🏛️\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Saturnalia
+DESCRIPTION:History: Rome's Saturnalia\, attested as early as 217 BCE\, hon
+ oured Saturn with a public holiday of role reversal\, gift giving\, and tem
+ porary liberty for enslaved people.\nTraditions: Participants shout "Io Sat
+ urnalia!"\, wear felt pileus caps\, and elect mock kings who preside over g
+ ames and generous exchanges.\nFeasting: Banquets overflow with roast pork\,
+  olives\, mulsum sweet wine\, pine nuts\, and honey cakes shared between pa
+ trons and dependents.\n\nIcon: 🏛️\\\\nCategory: cultural\\nCategory: cultu
+ ral\nCategory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/ancient-roman-festival-of-saturn.png
@@ -420,8 +748,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251220T070000Z
 DTEND:20251221T070000Z
-DESCRIPTION:Eve of the winter solstice\, the longest night.\n\nIcon: 🌙\nCategory: seasonal
-CATEGORIES:seasonal
+SUMMARY:Solstice Eve Bonfires
+DESCRIPTION:History: Communities have long marked the night before the sols
+ tice with fires that assure the sun's return\, weaving pagan and folk custo
+ ms together.\nTraditions: Friends gather at hilltops\, light bonfires or ca
+ ndle labyrinths\, and share poetry or intentions as darkness reaches its pe
+ ak.\nFeasting: Stews of root vegetables\, roasted chestnuts\, mulled wine\,
+  and gingerbread fortify celebrants against the cold night watch.\n\nIcon: 
+ 🌙\\\\nCategory: seasonal\\nCategory: seasonal\nCategory: seasonal\\nCatego
+ ry: seasonal
+CATEGORIES:seasonal\\nCategory: seasonal
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/eve-of-the-winter-solstice-the-longest-night.png
@@ -430,8 +766,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251221T070000Z
 DTEND:20251222T070000Z
-DESCRIPTION:Fourth Sunday of Advent - final preparation before Christmas.\n\nIcon: 🕯️\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Fourth Sunday of Advent
+DESCRIPTION:History: The final Advent Sunday highlights love and the immine
+ nce of Christmas\, with scriptural focus on Mary's "yes" and the coming of 
+ Emmanuel.\nTraditions: Families light the last purple candle\, assemble cre
+ che scenes\, finish charitable giving\, and practice carols for Christmas m
+ asses.\nFeasting: Panettone\, mince pies\, spiced nuts\, and savoury tourti
+ ere pies often appear as families wrap gifts and prepare Christmas Eve menu
+ s.\n\nIcon: 🕯️\\\\nCategory: cultural\\nCategory: cultural\nCategory: cult
+ ural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/fourth-sunday-of-advent-final-preparation-before-christmas.png
@@ -440,8 +784,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251221T070000Z
 DTEND:20251222T070000Z
-DESCRIPTION:The shortest day - embrace the darkness and prepare for renewal.\n\nIcon: ❄️\nCategory: seasonal
-CATEGORIES:seasonal
+SUMMARY:Winter Solstice (Yule)
+DESCRIPTION:History: The solstice marks the sun's rebirth in cultures from 
+ Norse Yule to East Asian Dongzhi\, blending astronomy with spiritual renewa
+ l.\nTraditions: People burn yule logs\, exchange handmade gifts\, meditate 
+ at sunrise\, and decorate with evergreen boughs and lights symbolising retu
+ rning warmth.\nFeasting: Roasted meats\, spiced mead\, citrus preserves\, a
+ nd solstice cakes shaped like the sun celebrate the lengthening days ahead.
+ \n\nIcon: ❄️\\\\nCategory: seasonal\\nCategory: seasonal\nCategory: seasona
+ l\\nCategory: seasonal
+CATEGORIES:seasonal\\nCategory: seasonal
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/eve-of-the-winter-solstice-the-longest-night.png
@@ -450,8 +802,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251221T190000Z
 DTEND:20251222T070000Z
-DESCRIPTION:Yalda Night - Persian celebration of the winter solstice\, the longest night of the year.\n\nIcon: 🌙\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Yalda Night
+DESCRIPTION:History: Persian Yalda predates Islam\, celebrating the birth o
+ f Mithra and later the victory of light over darkness on the longest night.
+ \nTraditions: Families stay awake reading Hafez poetry\, storytelling\, and
+  watching the fire's glow until the first light of dawn.\nFeasting: Tables 
+ (sofreh) brim with pomegranates\, watermelon\, ajil mixed nuts\, persimmons
+ \, saffron rice dishes\, and steaming samovars of tea.\n\nIcon: 🌙\\\\nCate
+ gory: cultural\\nCategory: cultural\nCategory: cultural\\nCategory: cultura
+ l
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/eve-of-the-winter-solstice-the-longest-night.png
@@ -460,8 +820,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251223T070000Z
 DTEND:20251224T070000Z
-DESCRIPTION:Night of the Radishes - traditional Oaxacan festival.\n\nIcon: 🥕\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:La Noche de Rabanos
+DESCRIPTION:History: Oaxaca's Night of the Radishes began in 1897 when farm
+ ers carved oversized radishes to entice holiday shoppers\, becoming an offi
+ cial civic festival.\nTraditions: Artisans sculpt Nativity scenes\, dancers
+ \, and mythical beasts from radishes\, competing for prizes as bands and cr
+ owds stroll the zocalo.\nFeasting: Vendors serve ponche navideno\, tamales\
+ , bunuelos\, tlayudas\, and cups of champurrado to visitors admiring the ep
+ hemeral art.\n\nIcon: 🥕\\\\nCategory: cultural\\nCategory: cultural\nCateg
+ ory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/night-of-the-radishes-traditional-oaxacan-festival.png
@@ -470,8 +838,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251224T070000Z
 DTEND:20251225T070000Z
-DESCRIPTION:Vigil of the Nativity\, anticipation of Christ's birth.\n\nIcon: 🌟\nCategory: religious
-CATEGORIES:religious
+SUMMARY:Christmas Eve
+DESCRIPTION:History: Christian communities have kept the Nativity vigil sin
+ ce the fourth century\, preparing through liturgies of lessons\, carols\, a
+ nd midnight Mass.\nTraditions: Families light Advent candles\, attend servi
+ ces\, exchange modest gifts\, and observe the tradition of refraining from 
+ meat until the feast begins.\nFeasting: Italian Seven Fishes dinners\, Poli
+ sh wigilia with beet soup and pierogi\, and hot cocoa with cookies set the 
+ stage for the midnight celebration.\n\nIcon: 🌟\\\\nCategory: religious\\nC
+ ategory: religious\nCategory: religious\\nCategory: religious
+CATEGORIES:religious\\nCategory: religious
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image33.png
@@ -480,8 +856,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251225T070000Z
 DTEND:20251226T070000Z
-DESCRIPTION:Birth of Jesus Christ\, joy and celebration.\n\nIcon: 🎄\nCategory: celebration
-CATEGORIES:celebration
+SUMMARY:Christmas Day
+DESCRIPTION:History: By late antiquity the Western church fixed December 25
+  as the Nativity feast\, intertwining with Sol Invictus imagery and evolvin
+ g into a global holiday.\nTraditions: People gather around decorated trees\
+ , sing carols\, exchange gifts\, and share charity with neighbours in the s
+ pirit of goodwill.\nFeasting: Roast goose or turkey\, glazed ham\, potatoes
+ \, Brussels sprouts\, Christmas pudding\, and yule logs anchor generous hol
+ iday tables.\n\nIcon: 🎄\\\\nCategory: celebration\\nCategory: celebration\
+ nCategory: celebration\\nCategory: celebration
+CATEGORIES:celebration\\nCategory: celebration
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image21.png
@@ -490,8 +874,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251226T070000Z
 DTEND:20251227T070000Z
-DESCRIPTION:Celebration of St. Stephen\, the first martyr.\n\nIcon: ⛪\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:St. Stephen's Day (Boxing Day)
+DESCRIPTION:History: St. Stephen\, the first Christian martyr\, is honoured
+  on 26 December\; in Britain and Ireland the date also became Boxing Day fo
+ r giving to servants and the poor.\nTraditions: Foxhunts\, charity drives\,
+  and visits to friends are common\, while in Ireland the Wren Boys once par
+ aded door to door collecting donations.\nFeasting: Leftover Christmas roast
+ s become hearty pies\, paired with bubble-and-squeak\, mince pies\, and mug
+ s of spiced ale.\n\nIcon: ⛪\\\\nCategory: cultural\\nCategory: cultural\nCa
+ tegory: cultural\\nCategory: cultural
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image21.png
@@ -500,8 +892,16 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251227T070000Z
 DTEND:20251228T070000Z
-DESCRIPTION:Feast of the Holy Innocents\, also known as Childermas.\n\nIcon: 👶\nCategory: cultural
-CATEGORIES:cultural
+SUMMARY:Feast of the Holy Innocents
+DESCRIPTION:History: The feast remembers the children of Bethlehem killed b
+ y Herod\, noted in the Gospel of Matthew and commemorated since the fifth c
+ entury.\nTraditions: Spanish communities play lighthearted pranks\, while c
+ hurches hold prayers for vulnerable children and advocate for their protect
+ ion.\nFeasting: Families share turron nougat\, roscon pastries\, and comfor
+ ting stews\, dedicating offerings to children in need.\n\nIcon: 👶\\\\nCate
+ gory: cultural\\nCategory: cultural\nCategory: cultural\\nCategory: cultura
+ l
+CATEGORIES:cultural\\nCategory: cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/image22.png

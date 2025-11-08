@@ -84,22 +84,52 @@
       tbody tr:hover {
         background: #e0f2fe;
       }
+      tbody tr {
+        cursor: help;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+      tbody tr:focus {
+        outline: 2px solid #0b7285;
+        outline-offset: 2px;
+        transform: translateY(-1px);
+      }
       td.date {
         white-space: nowrap;
         font-weight: 600;
         color: #0b7285;
       }
-      td.icon {
-        font-size: 1.25rem;
+      td.image {
+        width: 78px;
+        padding: 0.5rem;
       }
-      td.description {
-        white-space: pre-wrap;
-        line-height: 1.45;
+      td.image .preview {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.2);
+        background: #f1f5f9;
+      }
+      td.title {
+        max-width: 220px;
+        font-weight: 600;
+        color: #1f2937;
       }
       td.category {
         font-weight: 600;
-        color: #7c3aed;
         text-transform: capitalize;
+        color: #1f2937;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        padding: 0.25rem 0.5rem;
+        display: inline-block;
+      }
+      td.icon {
+        font-size: 1.25rem;
+      }
+      td.snapshot {
+        font-size: 0.9rem;
+        color: #475569;
       }
       caption {
         text-align: left;
@@ -115,6 +145,63 @@
       }
       .hidden {
         display: none !important;
+      }
+      .event-tooltip {
+        position: absolute;
+        max-width: 24rem;
+        background: rgba(15, 23, 42, 0.95);
+        color: #f8fafc;
+        padding: 1rem 1.15rem;
+        border-radius: 12px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.4);
+        z-index: 1000;
+        pointer-events: none;
+        backdrop-filter: blur(4px);
+      }
+      .event-tooltip h3 {
+        margin: 0 0 0.35rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+      }
+      .event-tooltip .tooltip-meta {
+        font-size: 0.8rem;
+        color: #cbd5f5;
+        margin-bottom: 0.6rem;
+      }
+      .event-tooltip .tooltip-section {
+        margin-bottom: 0.5rem;
+      }
+      .event-tooltip .tooltip-section strong {
+        display: inline-block;
+        font-size: 0.82rem;
+        letter-spacing: 0.01em;
+        color: #0f172a;
+        text-transform: uppercase;
+        margin-bottom: 0.25rem;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0.1rem 0.45rem;
+        border-radius: 6px;
+      }
+      .event-tooltip .tooltip-section p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+      .event-tooltip .tooltip-image {
+        margin-bottom: 0.75rem;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.35);
+      }
+      .event-tooltip .tooltip-image img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+      }
+      .event-tooltip .tooltip-icon {
+        font-size: 0.85rem;
+        color: #cbd5f5;
+        margin-top: 0.4rem;
       }
       @media (max-width: 900px) {
         .table-wrapper {
@@ -167,10 +254,11 @@
         <thead>
           <tr>
             <th scope="col">Date</th>
+            <th scope="col">Image</th>
             <th scope="col">Title</th>
-            <th scope="col">Icon</th>
             <th scope="col">Category</th>
-            <th scope="col">Description</th>
+            <th scope="col">Icon</th>
+            <th scope="col">Snapshot</th>
           </tr>
         </thead>
         <tbody id="events-body"></tbody>
@@ -180,213 +268,15 @@
     <template id="row-template">
       <tr>
         <td class="date"></td>
+        <td class="image"></td>
         <td class="title"></td>
-        <td class="icon"></td>
         <td class="category"></td>
-        <td class="description"></td>
+        <td class="icon"></td>
+        <td class="snapshot"></td>
       </tr>
     </template>
 
-    <script>
-      const statusEl = document.getElementById("status");
-      const tableContainer = document.getElementById("table-container");
-      const tableCaption = document.getElementById("table-caption");
-      const tbody = document.getElementById("events-body");
-      const rowTemplate = document.getElementById("row-template");
-      const searchInput = document.getElementById("search");
+    <script src="mss-events.js"></script>
 
-      const unescapeText = (value = "") =>
-        value
-          .replace(/\\\\n/g, "\n")
-          .replace(/\\n/g, "\n")
-          .replace(/\\\\,/g, ",")
-          .replace(/\\,/g, ",")
-          .replace(/\\\\;/g, ";")
-          .replace(/\\;/g, ";")
-          .replace(/\\\\/g, "\\");
-
-      const toDateLabel = (value = "") => {
-        const basic = value.trim();
-        if (!basic) return "";
-        const dateOnly = basic.slice(0, 8);
-        const year = dateOnly.slice(0, 4);
-        const month = dateOnly.slice(4, 6);
-        const day = dateOnly.slice(6, 8);
-        if (!year || !month || !day) return basic;
-        const iso = `${year}-${month}-${day}`;
-        const date = new Date(`${iso}T00:00:00`);
-        if (Number.isNaN(date.getTime())) return iso;
-        return date.toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
-      };
-
-      const extractMetaFromDescription = (raw) => {
-        const description = unescapeText(raw || "");
-        const parts = description.split(/\n\nIcon:/);
-        const main = parts[0]?.trim() ?? "";
-
-        let icon = "";
-        let category = "";
-
-        const iconMatch =
-          description.match(/\n\nIcon:\s*([^\n]+)/) ||
-          description.match(/Icon:\s*([^\n]+)/);
-        if (iconMatch) icon = iconMatch[1].trim();
-
-        const categoryMatch =
-          description.match(/\nCategory:\s*([^\n]+)/) ||
-          description.match(/Category:\s*([^\n]+)/);
-        if (categoryMatch) category = categoryMatch[1].trim();
-
-        return {
-          summary: main,
-          icon: icon,
-          category: category,
-        };
-      };
-
-      const parseIcs = (icsText) => {
-        const lines = icsText.split(/\r?\n/);
-        const events = [];
-        let current = null;
-        let lastKey = null;
-
-        for (const line of lines) {
-          if (line === "BEGIN:VEVENT") {
-            current = {};
-            lastKey = null;
-            continue;
-          }
-          if (line === "END:VEVENT") {
-            if (current) events.push(current);
-            current = null;
-            lastKey = null;
-            continue;
-          }
-          if (!current) continue;
-
-          if (line.startsWith(" ") && lastKey) {
-            current[lastKey] = (current[lastKey] || "") + line.slice(1);
-            continue;
-          }
-
-          const splitIndex = line.indexOf(":");
-          if (splitIndex === -1) continue;
-          const keyPart = line.slice(0, splitIndex);
-          const value = line.slice(splitIndex + 1);
-          const key = keyPart.split(";")[0];
-
-          current[key] = value;
-          lastKey = key;
-        }
-
-        return events.map((event) => {
-          const { SUMMARY, DTSTART, DESCRIPTION, CATEGORIES } = event;
-          const meta = extractMetaFromDescription(DESCRIPTION);
-          const category =
-            meta.category || unescapeText(CATEGORIES || "").trim();
-          const icon = meta.icon || "";
-          const rawSummary = unescapeText(SUMMARY || "").trim();
-          const rawDescription = unescapeText(DESCRIPTION || "")
-            .replace(/\n{2,}/g, "\n")
-            .trim();
-          const description = (meta.summary || rawDescription).trim();
-          const primaryLine =
-            meta.summary?.split(/\n|\. /)?.[0]?.trim() ||
-            rawDescription.split(/\n|\. /)?.[0]?.trim() ||
-            "";
-          const title =
-            rawSummary ||
-            primaryLine ||
-            (DTSTART ? `Event on ${toDateLabel(DTSTART)}` : "Untitled Event");
-          return {
-            date: toDateLabel(DTSTART),
-            rawDate: DTSTART,
-            title,
-            icon,
-            category: category || "uncategorized",
-            description,
-          };
-        });
-      };
-
-      const renderTable = (events) => {
-        tbody.innerHTML = "";
-        const fragment = document.createDocumentFragment();
-
-        events.forEach((event) => {
-          const clone = rowTemplate.content.firstElementChild.cloneNode(true);
-          clone.querySelector(".date").textContent = event.date || "—";
-          clone.querySelector(".title").textContent = event.title;
-          clone.querySelector(".icon").textContent = event.icon || "—";
-          clone.querySelector(".category").textContent = event.category;
-          clone.querySelector(".description").textContent =
-            event.description || "—";
-          fragment.appendChild(clone);
-        });
-
-        tbody.appendChild(fragment);
-        tableCaption.textContent = `Calendar Events (${events.length.toLocaleString()} items)`;
-      };
-
-      const applyFilter = (events) => {
-        const term = searchInput.value.trim().toLowerCase();
-        if (!term) return events;
-        return events.filter((event) => {
-          const haystack = [
-            event.title,
-            event.date,
-            event.category,
-            event.icon,
-            event.description,
-          ]
-            .join(" ")
-            .toLowerCase();
-          return haystack.includes(term);
-        });
-      };
-
-      const attachSearch = (events) => {
-        searchInput.addEventListener("input", () => {
-          const filtered = applyFilter(events);
-          renderTable(filtered);
-          statusEl.textContent =
-            filtered.length === events.length
-              ? "Showing all events."
-              : `Showing ${filtered.length.toLocaleString()} of ${events.length.toLocaleString()} events.`;
-        });
-      };
-
-      const initialise = async () => {
-        try {
-          const response = await fetch("MSS.ics", { cache: "no-store" });
-          if (!response.ok)
-            throw new Error(
-              `Request failed: ${response.status} ${response.statusText}`
-            );
-
-          const text = await response.text();
-          const parsed = parseIcs(text).sort((a, b) => {
-            if (!a.rawDate) return 1;
-            if (!b.rawDate) return -1;
-            return a.rawDate.localeCompare(b.rawDate);
-          });
-
-          renderTable(parsed);
-          attachSearch(parsed);
-
-          tableContainer.classList.remove("hidden");
-          statusEl.textContent = `Loaded ${parsed.length.toLocaleString()} events.`;
-        } catch (error) {
-          statusEl.textContent = `Failed to load events: ${error.message}`;
-          tableContainer.classList.add("hidden");
-        }
-      };
-
-      initialise();
-    </script>
   </body>
 </html>
