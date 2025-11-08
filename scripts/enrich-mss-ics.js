@@ -167,7 +167,7 @@ const EVENT_DETAILS = {
     title: 'Candlemas (Feast of the Presentation)',
     history: `Commemorated in Jerusalem by the fourth century, Candlemas marks forty days after Christmas when Mary and Joseph presented Jesus at the Temple according to Mosaic law.`,
     traditions: `Churches bless candles for the coming year, processions illuminate winter nights, and weather lore predicts the remaining length of winter.`,
-    feasting: `French households flip crepes for luck, Mexican parishes serve tamales with atole, and others enjoy sweet breads while candles glow in windows.`,
+    feasting: `La Chandeleur tables offer crepes beurre sucre, crepes jambon-fromage, boles de cidre brut, and salade de mache; in Mexico, familias sirven tamales oaxaquenos, tamales de dulce, atole de canela, champurrado espumoso, and pan de candelaria after the blessing of candles.`,
   },
   '20250105T070000Z|twelfth-night-end-of-the-christmas-season': {
     title: 'Twelfth Night',
@@ -191,7 +191,7 @@ const EVENT_DETAILS = {
     title: 'Feast of the Ass',
     history: `Medieval French parishes staged the Feast of the Ass to honour the donkey that carried the Holy Family during the Flight into Egypt and other biblical journeys.`,
     traditions: `A bedecked donkey processed to church while congregations answered prayers with playful brays, blending devotion with carnival humour.`,
-    feasting: `Celebrants enjoyed rustic breads, honey cakes, nut tarts, and spiced wine--simple fare reminiscent of the humble beast of burden they honoured.`,
+    feasting: `Le repas rustique propose pain de campagne, soupe aux pois secs, galette au miel, tarte aux noix, fromage de chevre, and cruches de vin epice hypocras shared in honour of the humble ane.`,
   },
   '20250115T070000Z|japanese-new-year-tradition-of-burning-new-year-decorations': {
     title: 'Dondoyaki Bonfire',
@@ -365,7 +365,7 @@ const EVENT_DETAILS = {
     title: 'Feast of Our Lady of Guadalupe',
     history: `In 1531 Juan Diego reported Marian apparitions on Tepeyac Hill, and the tilma image quickly became a symbol of Mexican faith and identity.`,
     traditions: `Pilgrims serenade the Virgin with mananitas, offer roses at the basilica, and reenact the miracle in parish plazas across the Americas.`,
-    feasting: `Tamales, pozole, bunuelos, champurrado, and sweet atole welcome weary pilgrims after vigils and processions.`,
+    feasting: `Peregrinos se reponen con tamales verdes, tamales de rajas con queso, pozole rojo, mole poblano con arroz, tacos dorados, bunuelos de viento, churros de canela, champurrado espumoso, y atole de guayaba antes de continuar las serenatas.`,
   },
   '20251213T070000Z|swedish-celebration-of-light-and-st-lucia': {
     title: "St. Lucia's Day",
@@ -449,7 +449,7 @@ const EVENT_DETAILS = {
     title: 'Feast of the Holy Innocents',
     history: `The feast remembers the children of Bethlehem killed by Herod, noted in the Gospel of Matthew and commemorated since the fifth century.`,
     traditions: `Spanish communities play lighthearted pranks, while churches hold prayers for vulnerable children and advocate for their protection.`,
-    feasting: `Families share turron nougat, roscon pastries, and comforting stews, dedicating offerings to children in need.`,
+    feasting: `En Espana el menu del Dia de los Santos Inocentes incluye turron blando de Jijona, turron duro de Alicante, rosquillas de anis, cocido madrileno, empanadillas de atun, y chocolate a la taza; en America Latina se comparten atoles de elote, tamales de cambray, panes de yema, y caldos reconfortantes ofrecidos a los ninos.`,
   },
 };
 
