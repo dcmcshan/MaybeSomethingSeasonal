@@ -3125,15 +3125,15 @@ const App: React.FC = () => {
   };
 
   const getCategoryColor = (category: string) => {
-    const colors: { [key: string]: string } = {
-      seasonal: "bg-green-100 text-green-800 border-green-200",
-      environmental: "bg-blue-100 text-blue-800 border-blue-200",
-      celebration: "bg-purple-100 text-purple-800 border-purple-200",
-      religious: "bg-yellow-100 text-yellow-800 border-yellow-200",
-      cultural: "bg-pink-100 text-pink-800 border-pink-200",
-      default: "bg-gray-100 text-gray-800 border-gray-200",
+    const borders: { [key: string]: string } = {
+      seasonal: "border-green-300",
+      environmental: "border-blue-300",
+      celebration: "border-purple-300",
+      religious: "border-yellow-300",
+      cultural: "border-pink-300",
+      default: "border-gray-300",
     };
-    return colors[category] || colors.default;
+    return borders[category] || borders.default;
   };
 
   const handlePrint = () => {
@@ -3283,85 +3283,77 @@ const App: React.FC = () => {
                   {/* Spacer to push events to bottom */}
                   <div className="flex-1"></div>
 
-                  {/* Event labels at bottom */}
-                  <div className="space-y-1 relative z-10">
-                    {dayEvents.slice(0, 3).map((event, index) => (
-                      <div
-                        key={index}
-                        className={`text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative ${
-                          backgroundImage
-                            ? "bg-black bg-opacity-50 text-white"
-                            : getCategoryColor(event.category)
-                        }`}
-                        onMouseEnter={(e) => {
+                    {/* Event labels at bottom */}
+                    <div className="space-y-1 relative z-10">
+                      {dayEvents.slice(0, 3).map((event, index) => (
+                        <div
+                          key={index}
+                          className={`text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative bg-white text-black font-bold border ${getCategoryColor(event.category)}`}
+                          onMouseEnter={(e) => {
                             const tooltip = document.createElement("div");
                             tooltip.className =
                               "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
                             tooltip.innerHTML = `
-                              <div class="font-semibold mb-1">${event.title}</div>
-                              <div class="text-gray-300 mb-2">${format(toLocalDate(event.date), "MMMM d, yyyy")}</div>
-                              <div class="text-gray-200">${event.description}</div>
-                              ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ""}
-                            `;
-                          tooltip.style.left = "0";
-                          tooltip.style.bottom = "100%";
-                          tooltip.style.marginBottom = "4px";
-                          e.currentTarget.appendChild(tooltip);
-                        }}
-                        onMouseLeave={(e) => {
-                          const tooltip = e.currentTarget.querySelector(
-                            'div[class*="absolute z-50"]',
-                          );
-                          if (tooltip) {
-                            tooltip.remove();
-                          }
-                        }}
-                      >
-                        {!backgroundImage && (
-                          <>
-                            {event.image ? (
-                              <img
-                                src={event.image}
-                                alt={event.title}
-                                className="w-4 h-4 object-cover rounded mr-1 inline-block"
-                                onError={(e) => {
-                                  e.currentTarget.style.display = "none";
-                                  const nextSibling =
-                                    e.currentTarget.nextElementSibling;
-                                  if (
-                                    nextSibling &&
-                                    nextSibling instanceof HTMLElement
-                                  ) {
-                                    nextSibling.style.display = "inline";
-                                  }
-                                }}
-                              />
-                            ) : null}
-                            <span
-                              className="mr-1"
-                              style={{
-                                display: event.image ? "none" : "inline",
-                              }}
-                            >
-                              {event.icon}
-                            </span>
-                          </>
-                        )}
-                        <span
-                          className={`truncate christmas-font text-xs ${backgroundImage ? "text-white" : ""}`}
+                                <div class="font-semibold mb-1">${event.title}</div>
+                                <div class="text-gray-300 mb-2">${format(toLocalDate(event.date), "MMMM d, yyyy")}</div>
+                                <div class="text-gray-200">${event.description}</div>
+                                ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ""}
+                              `;
+                            tooltip.style.left = "0";
+                            tooltip.style.bottom = "100%";
+                            tooltip.style.marginBottom = "4px";
+                            e.currentTarget.appendChild(tooltip);
+                          }}
+                          onMouseLeave={(e) => {
+                            const tooltip = e.currentTarget.querySelector(
+                              'div[class*="absolute z-50"]',
+                            );
+                            if (tooltip) {
+                              tooltip.remove();
+                            }
+                          }}
                         >
-                          {event.title}
-                        </span>
-                      </div>
-                    ))}
-                    {dayEvents.length > 3 && (
-                      <div
-                        className={`text-xs ${backgroundImage ? "text-white" : "text-gray-500"}`}
-                      >
-                        +{dayEvents.length - 3} more
-                      </div>
-                    )}
-                  </div>
+                          {!backgroundImage && (
+                            <>
+                              {event.image ? (
+                                <img
+                                  src={event.image}
+                                  alt={event.title}
+                                  className="w-4 h-4 object-cover rounded mr-1 inline-block"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = "none";
+                                    const nextSibling =
+                                      e.currentTarget.nextElementSibling;
+                                    if (
+                                      nextSibling &&
+                                      nextSibling instanceof HTMLElement
+                                    ) {
+                                      nextSibling.style.display = "inline";
+                                    }
+                                  }}
+                                />
+                              ) : null}
+                              <span
+                                className="mr-1"
+                                style={{
+                                  display: event.image ? "none" : "inline",
+                                }}
+                              >
+                                {event.icon}
+                              </span>
+                            </>
+                          )}
+                          <span className="truncate christmas-font text-xs text-black">
+                            {event.title}
+                          </span>
+                        </div>
+                      ))}
+                      {dayEvents.length > 3 && (
+                        <div className="text-xs p-1 rounded bg-white text-black font-bold border border-gray-300">
+                          +{dayEvents.length - 3} more
+                        </div>
+                      )}
+                    </div>
                 </div>
               );
             })}
