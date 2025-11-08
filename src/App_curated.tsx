@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { ChevronLeft, ChevronRight, Download, Calendar, MapPin, Printer } from 'lucide-react';
 import './App.css';
@@ -462,13 +462,20 @@ const CALENDAR_DATA: CalendarEvent[] = [
     icon: "📜",
     category: "religious"
   },
-  {
-    title: "Holy Innocents",
-    date: "2025-12-28",
-    description: "Commemoration of children killed by Herod.",
-    icon: "👶",
-    category: "religious"
-  }
+    {
+      title: "Holy Innocents",
+      date: "2025-12-28",
+      description: "Commemoration of children killed by Herod.",
+      icon: "👶",
+      category: "religious"
+    },
+    {
+      title: "New Year's Eve",
+      date: "2025-12-31",
+      description: "Ring out the old year and welcome the new with reflection and celebration.",
+      icon: "🎆",
+      category: "celebration"
+    }
 ];
 
 const CATEGORY_PALETTES: Record<string, CategoryPalette> = {
