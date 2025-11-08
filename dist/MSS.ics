@@ -807,10 +807,12 @@ DESCRIPTION:History: Oaxaca's Night of the Radishes began in 1897 when farm
  ers carved oversized radishes to entice holiday shoppers\, becoming an offi
  cial civic festival.\nTraditions: Artisans sculpt Nativity scenes\, dancers
  \, and mythical beasts from radishes\, competing for prizes as bands and cr
- owds stroll the zocalo.\nFeasting: Vendors serve ponche navideno\, tamales\
- , bunuelos\, tlayudas\, and cups of champurrado to visitors admiring the ep
- hemeral art.\nDay: Tuesday\n\nIcon: 🥕\\\\\\\\\\\\\\\nCategory: cultural\\\
- \\\
+ owds stroll the zocalo.\nFeasting: Cena Tradicional Oaxaquena de Invierno f
+ eatures an ensalada de rabanos with lime and cilantro\, tamales de rabano w
+ ith bright raw radish salsa and atole verde de epazote\, champurrado espeso
+  de cacao y masa\, optional tamales dulces de pina y pasas\, and sips of me
+ zcal artesanal served with orange slices and sal de gusano.\nDay: Tuesday\n
+ \nIcon: 🥕\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
@@ -874,17 +876,25 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251227T070000Z
 DTEND:20251228T070000Z
-SUMMARY:Feast of the Holy Innocents
-DESCRIPTION:History: The feast remembers the children of Bethlehem killed b
- y Herod\, noted in the Gospel of Matthew and commemorated since the fifth c
- entury.\nTraditions: Spanish communities play lighthearted pranks\, while c
- hurches hold prayers for vulnerable children and advocate for their protect
- ion.\nFeasting: En Espana el menu del Dia de los Santos Inocentes incluye t
- urron blando de Jijona\, turron duro de Alicante\, rosquillas de anis\, coc
- ido madrileno\, empanadillas de atun\, y chocolate a la taza\; en America L
- atina se comparten atoles de elote\, tamales de cambray\, panes de yema\, y
-  caldos reconfortantes ofrecidos a los ninos.\nDay: Saturday\n\nIcon: 👶\\\
- \\\\\\\\\\\\nCategory: cultural\\\\\\
+SUMMARY:Feast of the Holy Innocents (Childermas Banquet)
+DESCRIPTION:History: Childermas commemorates the Bethlehem children slain u
+ nder King Herod\; medieval English households kept 28 December as the Feast
+  of the Holy Innocents\, centring prayers and hospitality on the youngest f
+ amily members.\nTraditions: Households set a whimsical winter table with wh
+ ite candles\, holly berries\, and silver bells\, portion dishes in child-si
+ zed servings\, and invite the youngest at table to announce each course as 
+ the day's presider.\nFeasting: A Childermas banquet pours Baby Bellini aper
+ itifs of sparkling wine or apple cider with white peach puree\, then cradle
+ s baby beet bisque swirled with creme fraiche and dill over star-cut rye cr
+ outons\; baby greens toss with baby tomatoes\, carrots\, and corn in honey-
+ citrus vinaigrette with toasted almonds and edible flowers\; slow-smoked ba
+ by back ribs lacquered in pomegranate glaze arrive beside duck-fat roasted 
+ baby potatoes\, baby corn gratin with nutmeg-Parmesan crust\, and braised b
+ aby onions in balsamic reduction\; serve pillowy milk rolls with whipped ho
+ ney butter\, finish with baby cheesecakes topped in spiced pear-cranberry c
+ ompote or tableside baby bananas Foster\, and toast with Babycham or warm m
+ ilk punch dusted with nutmeg.\nDay: Saturday\n\nIcon: 👶\\\\\\\\\\\\\\\nCat
+ egory: cultural\\\\\\
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
