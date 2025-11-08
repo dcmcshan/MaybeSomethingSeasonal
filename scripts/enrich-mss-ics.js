@@ -6,6 +6,9 @@ const DIST_ICS_PATH = path.join(__dirname, '..', 'dist', 'MSS.ics');
 const IMAGE_BASE_URL =
   process.env.IMAGE_BASE_URL ||
   'https://dcmcshan.github.io/MaybeSomethingSeasonal';
+const KEY_BASE_YEAR = '2025';
+const YEAR_SHIFT_THRESHOLD_MONTH = 11; // November (1-indexed)
+const YEAR_SHIFT_TARGET = '2026';
 
 /**
  * Helper to escape text for ICS properties.
@@ -16,6 +19,14 @@ function escapeIcs(value = '') {
     .replace(/\n/g, '\\n')
     .replace(/,/g, '\\,')
     .replace(/;/g, '\\;');
+}
+
+function unescapeIcs(value = '') {
+  return String(value)
+    .replace(/\\\\/g, '\\')
+    .replace(/\\n/g, '\n')
+    .replace(/\\,/g, ',')
+    .replace(/\\;/g, ';');
 }
 
 /**
@@ -78,15 +89,20 @@ function parseIcs(raw) {
   return { header, events };
 }
 
-function buildDescription({ history, traditions, feasting }, icon, category) {
+function buildDescription({ history, traditions, feasting }, icon, category, weekday) {
   const parts = [
     `History: ${history}`,
     `Traditions: ${traditions}`,
     `Feasting: ${feasting}`,
+  ];
+  if (weekday) {
+    parts.push(`Day: ${weekday}`);
+  }
+  parts.push(
     '',
     `Icon: ${icon}`,
-    `Category: ${category}`,
-  ];
+    `Category: ${category}`
+  );
   return parts.join('\n');
 }
 
@@ -100,6 +116,35 @@ function toAbsoluteImage(pathValue = '') {
   const cleanBase = IMAGE_BASE_URL.replace(/\/$/, '');
   const cleanPath = pathValue.startsWith('/') ? pathValue.slice(1) : pathValue;
   return `${cleanBase}/${cleanPath}`;
+}
+
+function normaliseDateForKey(value = '') {
+  if (!value) return value;
+  return value.replace(/^\d{4}/, KEY_BASE_YEAR);
+}
+
+function shiftDateToTargetYear(value = '') {
+  if (!value) return value;
+  const match = value.match(/^(\d{4})(\d{2})(\d{2})(.*)$/);
+  if (!match) return value;
+  const [, year, month, day, rest] = match;
+  const numericMonth = Number(month);
+  if (Number(year) === Number(KEY_BASE_YEAR) && numericMonth < YEAR_SHIFT_THRESHOLD_MONTH) {
+    return `${YEAR_SHIFT_TARGET}${month}${day}${rest}`;
+  }
+  return value;
+}
+
+function formatWeekdayLabel(value = '') {
+  if (!value) return '';
+  const match = value.match(/^(\d{4})(\d{2})(\d{2})/);
+  if (!match) return '';
+  const [, year, month, day] = match;
+  if (!year || !month || !day) return '';
+  const iso = `${year}-${month}-${day}`;
+  const date = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toLocaleDateString(undefined, { weekday: 'long' });
 }
 
 /**
@@ -418,33 +463,38 @@ function enrich() {
       .split('/')
       .pop()
       .split('.')[0];
-    const key = `${event.DTSTART}|${slug}`;
+    const key = `${normaliseDateForKey(event.DTSTART)}|${slug}`;
     const details = EVENT_DETAILS[key];
 
     if (!details) {
       throw new Error(`Missing event details for key ${key}`);
     }
 
-    const iconMatch = event.DESCRIPTION.match(/Icon:\s*([^\n]+)/);
-    const categoryMatch = event.DESCRIPTION.match(/Category:\s*([^\n]+)/);
+    const descriptionSource = unescapeIcs(event.DESCRIPTION || '');
+    const iconMatch = descriptionSource.match(/Icon:\s*([^\n]+)/);
+    const categoryMatch = descriptionSource.match(/Category:\s*([^\n]+)/);
     const icon = iconMatch ? iconMatch[1].trim() : '';
-    const category = categoryMatch ? categoryMatch[1].trim() : (event.CATEGORIES || '').trim();
+    const category =
+      categoryMatch ? categoryMatch[1].trim() : unescapeIcs(event.CATEGORIES || '').trim();
 
-      const description = buildDescription(details, icon, category);
+    const shiftedDtstart = shiftDateToTargetYear(event.DTSTART);
+    const shiftedDtend = shiftDateToTargetYear(event.DTEND);
+    const weekdayLabel = formatWeekdayLabel(shiftedDtstart);
+    const description = buildDescription(details, icon, category, weekdayLabel);
 
-      updatedLines.push('BEGIN:VEVENT');
-      updatedLines.push(foldLine(`DTSTAMP:${event.DTSTAMP}`));
-      updatedLines.push(foldLine(`DTSTART:${event.DTSTART}`));
-      updatedLines.push(foldLine(`DTEND:${event.DTEND}`));
-      updatedLines.push(foldLine(`SUMMARY:${escapeIcs(details.title)}`));
-      updatedLines.push(foldLine(`DESCRIPTION:${escapeIcs(description)}`));
-      updatedLines.push(foldLine(`CATEGORIES:${escapeIcs(category)}`));
-      updatedLines.push('STATUS:CONFIRMED');
-      updatedLines.push('TRANSP:TRANSPARENT');
-      if (event['X-IMAGE']) {
-        updatedLines.push(`X-IMAGE:${toAbsoluteImage(event['X-IMAGE'])}`);
-      }
-      updatedLines.push('END:VEVENT');
+    updatedLines.push('BEGIN:VEVENT');
+    updatedLines.push(foldLine(`DTSTAMP:${event.DTSTAMP}`));
+    updatedLines.push(foldLine(`DTSTART:${shiftedDtstart}`));
+    updatedLines.push(foldLine(`DTEND:${shiftedDtend}`));
+    updatedLines.push(foldLine(`SUMMARY:${escapeIcs(details.title)}`));
+    updatedLines.push(foldLine(`DESCRIPTION:${escapeIcs(description)}`));
+    updatedLines.push(foldLine(`CATEGORIES:${escapeIcs(category)}`));
+    updatedLines.push('STATUS:CONFIRMED');
+    updatedLines.push('TRANSP:TRANSPARENT');
+    if (event['X-IMAGE']) {
+      updatedLines.push(`X-IMAGE:${toAbsoluteImage(event['X-IMAGE'])}`);
+    }
+    updatedLines.push('END:VEVENT');
   });
 
   const finalContent = `${updatedLines.join('\n')}\nEND:VCALENDAR`;

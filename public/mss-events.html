@@ -98,6 +98,11 @@
         font-weight: 600;
         color: #0b7285;
       }
+      td.weekday {
+        white-space: nowrap;
+        font-weight: 600;
+        color: #2563eb;
+      }
       td.image {
         width: 78px;
         padding: 0.5rem;
@@ -254,6 +259,7 @@
         <thead>
           <tr>
             <th scope="col">Date</th>
+            <th scope="col">Day</th>
             <th scope="col">Image</th>
             <th scope="col">Title</th>
             <th scope="col">Category</th>
@@ -268,6 +274,7 @@
     <template id="row-template">
       <tr>
         <td class="date"></td>
+        <td class="weekday"></td>
         <td class="image"></td>
         <td class="title"></td>
         <td class="category"></td>
