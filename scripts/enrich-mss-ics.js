@@ -421,12 +421,12 @@ const EVENT_DETAILS = {
     traditions: `Families stay awake reading Hafez poetry, storytelling, and watching the fire's glow until the first light of dawn.`,
     feasting: `Tables (sofreh) brim with pomegranates, watermelon, ajil mixed nuts, persimmons, saffron rice dishes, and steaming samovars of tea.`,
   },
-  '20251223T070000Z|night-of-the-radishes-traditional-oaxacan-festival': {
-    title: 'La Noche de Rabanos',
-    history: `Oaxaca's Night of the Radishes began in 1897 when farmers carved oversized radishes to entice holiday shoppers, becoming an official civic festival.`,
-    traditions: `Artisans sculpt Nativity scenes, dancers, and mythical beasts from radishes, competing for prizes as bands and crowds stroll the zocalo.`,
-    feasting: `Vendors serve ponche navideno, tamales, bunuelos, tlayudas, and cups of champurrado to visitors admiring the ephemeral art.`,
-  },
+    '20251223T070000Z|night-of-the-radishes-traditional-oaxacan-festival': {
+      title: 'La Noche de Rabanos',
+      history: `Oaxaca's Night of the Radishes began in 1897 when farmers carved oversized radishes to entice holiday shoppers, becoming an official civic festival.`,
+      traditions: `Artisans sculpt Nativity scenes, dancers, and mythical beasts from radishes, competing for prizes as bands and crowds stroll the zocalo.`,
+      feasting: `Cena Tradicional Oaxaquena de Invierno features an ensalada de rabanos with lime and cilantro, tamales de rabano with bright raw radish salsa and atole verde de epazote, champurrado espeso de cacao y masa, optional tamales dulces de pina y pasas, and sips of mezcal artesanal served with orange slices and sal de gusano.`,
+    },
   '20251224T070000Z|image33': {
     title: 'Christmas Eve',
     history: `Christian communities have kept the Nativity vigil since the fourth century, preparing through liturgies of lessons, carols, and midnight Mass.`,
