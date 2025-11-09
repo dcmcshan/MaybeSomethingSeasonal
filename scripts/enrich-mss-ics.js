@@ -343,6 +343,12 @@ const EVENT_DETAILS = {
     traditions: `Wreath lighting, scripture readings about John the Baptist, and charity collections for neighbours in need mark the Sunday gatherings.`,
     feasting: `Cardamom buns, cinnamon star cookies, spiced teas, and hearty casseroles offer comfort during the contemplative Advent evenings.`,
   },
+  '20251210T070000Z|image27': {
+    title: 'Magic Flute',
+    history: `Mozart's Singspiel Die Zauberflote premiered in 1791 Vienna, enchanting winter audiences with a blend of fairy-tale storytelling and Enlightenment ideals.`,
+    traditions: `Opera houses stage festive productions with elaborate stagecraft, families dress for a holiday night out, and communities host singalong overtures that keep spirits bright.`,
+    feasting: `Patrons toast with sparkling wine, nibble Viennese pastries, sip rich hot chocolate, and linger over late-night suppers after the curtain call.`,
+  },
   '20251111T190000Z|traditional-dutch-celebration-period-with-sinterklaas-arriving-by-steamboat-star': {
     title: 'Sinterklaas Arrival (Intocht)',
     history: `Dutch newspapers popularised Sinterklaas arriving by steamboat in the nineteenth century, blending Saint Nicholas lore with maritime identity.`,
@@ -419,7 +425,7 @@ const EVENT_DETAILS = {
     title: 'Yalda Night',
     history: `Persian Yalda predates Islam, celebrating the birth of Mithra and later the victory of light over darkness on the longest night.`,
     traditions: `Families stay awake reading Hafez poetry, storytelling, and watching the fire's glow until the first light of dawn.`,
-    feasting: `Tables (sofreh) brim with pomegranates, watermelon, ajil mixed nuts, persimmons, saffron rice dishes, and steaming samovars of tea.`,
+    feasting: `Aperitif glasses of sharbat-e anar o gol-e sorkh—pomegranate and rosewater cordial with mint and lime—open the sofreh before meze of sabzi khordan with herbs, feta, walnuts, and warm flatbread, borani laboo beet yogurt with pistachio, and zeytoon parvardeh olives in pomegranate molasses. The main spread features fesenjān of duck or chicken simmered to a glossy walnut-pomegranate sauce, tahchin-e zereshk saffron rice cake layered with barberries and tender chicken, and khoresht-e bamieh okra stew for vegetarians. Salad-e Shirazi and sesame-topped naan-e barbari brighten the table, while desserts showcase anar o hendevaneh fruit, ajil-e Shab-e Yalda roasted nuts and dried fruits for good fortune, and sholeh zard saffron rice pudding dusted with cinnamon. Guests close the vigil by drawing Hafez divinations as poetry and the promise of returning light fill the night.`,
   },
     '20251223T070000Z|night-of-the-radishes-traditional-oaxacan-festival': {
       title: 'La Noche de Rabanos',
@@ -439,18 +445,18 @@ const EVENT_DETAILS = {
     traditions: `People gather around decorated trees, sing carols, exchange gifts, and share charity with neighbours in the spirit of goodwill.`,
     feasting: `Roast goose or turkey, glazed ham, potatoes, Brussels sprouts, Christmas pudding, and yule logs anchor generous holiday tables.`,
   },
-  '20251226T070000Z|image21': {
-    title: "St. Stephen's Day (Boxing Day)",
-    history: `St. Stephen, the first Christian martyr, is honoured on 26 December; in Britain and Ireland the date also became Boxing Day for giving to servants and the poor.`,
-    traditions: `Foxhunts, charity drives, and visits to friends are common, while in Ireland the Wren Boys once paraded door to door collecting donations.`,
-    feasting: `Leftover Christmas roasts become hearty pies, paired with bubble-and-squeak, mince pies, and mugs of spiced ale.`,
-  },
-  '20251227T070000Z|image22': {
-    title: 'Feast of the Holy Innocents',
-    history: `The feast remembers the children of Bethlehem killed by Herod, noted in the Gospel of Matthew and commemorated since the fifth century.`,
-    traditions: `Spanish communities play lighthearted pranks, while churches hold prayers for vulnerable children and advocate for their protection.`,
-    feasting: `En Espana el menu del Dia de los Santos Inocentes incluye turron blando de Jijona, turron duro de Alicante, rosquillas de anis, cocido madrileno, empanadillas de atun, y chocolate a la taza; en America Latina se comparten atoles de elote, tamales de cambray, panes de yema, y caldos reconfortantes ofrecidos a los ninos.`,
-  },
+    '20251226T070000Z|image21': {
+      title: "St. Stephen's Day (Boxing Day)",
+      history: `St. Stephen, the first Christian martyr, is honoured on 26 December; in Britain and Ireland the date also became Boxing Day for giving to servants and the poor.`,
+      traditions: `Foxhunts, charity drives, and visits to friends are common, while in Ireland the Wren Boys once paraded door to door collecting donations.`,
+      feasting: `Leftover Christmas roasts become hearty pies, paired with bubble-and-squeak, mince pies, and mugs of spiced ale.`,
+    },
+    '20251227T070000Z|image22': {
+      title: 'Feast of the Holy Innocents (Childermas Banquet)',
+      history: `Childermas commemorates the Bethlehem children slain under King Herod; medieval English households kept 28 December as the Feast of the Holy Innocents, centring prayers and hospitality on the youngest family members.`,
+      traditions: `Households set a whimsical winter table with white candles, holly berries, and silver bells, portion dishes in child-sized servings, and invite the youngest at table to announce each course as the day's presider.`,
+      feasting: `A Childermas banquet pours Baby Bellini aperitifs of sparkling wine or apple cider with white peach puree, then cradles baby beet bisque swirled with creme fraiche and dill over star-cut rye croutons; baby greens toss with baby tomatoes, carrots, and corn in honey-citrus vinaigrette with toasted almonds and edible flowers; slow-smoked baby back ribs lacquered in pomegranate glaze arrive beside duck-fat roasted baby potatoes, baby corn gratin with nutmeg-Parmesan crust, and braised baby onions in balsamic reduction; serve pillowy milk rolls with whipped honey butter, finish with baby cheesecakes topped in spiced pear-cranberry compote or tableside baby bananas Foster, and toast with Babycham or warm milk punch dusted with nutmeg.`,
+    },
 };
 
 function enrich() {
