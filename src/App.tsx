@@ -3125,15 +3125,15 @@ const App: React.FC = () => {
   };
 
   const getCategoryColor = (category: string) => {
-    const colors: { [key: string]: string } = {
-      seasonal: "bg-green-100 text-green-800 border-green-200",
-      environmental: "bg-blue-100 text-blue-800 border-blue-200",
-      celebration: "bg-purple-100 text-purple-800 border-purple-200",
-      religious: "bg-yellow-100 text-yellow-800 border-yellow-200",
-      cultural: "bg-pink-100 text-pink-800 border-pink-200",
-      default: "bg-gray-100 text-gray-800 border-gray-200",
+    const borders: { [key: string]: string } = {
+      seasonal: "border-green-300",
+      environmental: "border-blue-300",
+      celebration: "border-purple-300",
+      religious: "border-yellow-300",
+      cultural: "border-pink-300",
+      default: "border-gray-300",
     };
-    return colors[category] || colors.default;
+    return borders[category] || borders.default;
   };
 
   const handlePrint = () => {
@@ -3335,14 +3335,15 @@ const App: React.FC = () => {
                         ({ event, isContinuation }, index) => {
                           const showInlineImage =
                             !backgroundImage && !isContinuation && !!event.image;
+                          const baseLabelClasses =
+                            "text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative font-bold";
+                          const labelClasses = backgroundImage
+                            ? `${baseLabelClasses} bg-black bg-opacity-50 text-white`
+                            : `${baseLabelClasses} bg-white text-black border ${getCategoryColor(event.category)}`;
                           return (
                             <div
                               key={index}
-                              className={`text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative ${
-                                backgroundImage
-                                  ? "bg-black bg-opacity-50 text-white"
-                                  : getCategoryColor(event.category)
-                              }`}
+                              className={labelClasses}
                               onMouseEnter={(e) => {
                                 const tooltip = document.createElement("div");
                                 tooltip.className =
@@ -3392,7 +3393,9 @@ const App: React.FC = () => {
                                 </>
                               )}
                               <span
-                                className={`truncate christmas-font text-xs ${backgroundImage ? "text-white" : ""}`}
+                                className={`truncate christmas-font text-xs ${
+                                  backgroundImage ? "text-white" : "text-black"
+                                }`}
                               >
                                 {event.title}
                               </span>
@@ -3402,7 +3405,11 @@ const App: React.FC = () => {
                       )}
                       {dayEvents.length > 3 && (
                         <div
-                          className={`text-xs ${backgroundImage ? "text-white" : "text-gray-500"}`}
+                          className={`text-xs font-bold p-1 rounded ${
+                            backgroundImage
+                              ? "bg-black bg-opacity-50 text-white"
+                              : "bg-white text-black border border-gray-300"
+                          }`}
                         >
                           +{dayEvents.length - 3} more
                         </div>

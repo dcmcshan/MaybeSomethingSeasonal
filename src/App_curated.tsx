@@ -516,15 +516,15 @@ const App: React.FC = () => {
   };
 
   const getCategoryColor = (category: string) => {
-    const colors: { [key: string]: string } = {
-        seasonal: 'bg-green-100 text-green-800 border border-green-200',
-        environmental: 'bg-blue-100 text-blue-800 border border-blue-200',
-        celebration: 'bg-purple-100 text-purple-800 border border-purple-200',
-        religious: 'bg-yellow-100 text-yellow-800 border border-yellow-200',
-        cultural: 'bg-pink-100 text-pink-800 border border-pink-200',
-        default: 'bg-gray-100 text-gray-800 border border-gray-200'
+    const borders: { [key: string]: string } = {
+      seasonal: 'border-green-300',
+      environmental: 'border-blue-300',
+      celebration: 'border-purple-300',
+      religious: 'border-yellow-300',
+      cultural: 'border-pink-300',
+      default: 'border-gray-300'
     };
-    return colors[category] || colors.default;
+    return borders[category] || borders.default;
   };
 
   const handleDownloadICS = () => {
@@ -579,7 +579,7 @@ const App: React.FC = () => {
         <div
           key={key}
           className={`diagonal-event-label ${positionClass}`}
-          style={{ color: palette.text, borderColor: palette.accent }}
+          style={{ borderColor: palette.accent }}
           onMouseEnter={(e) => showEventTooltip(e.currentTarget, eventItem)}
           onMouseLeave={(e) => hideEventTooltip(e.currentTarget)}
         >
@@ -614,7 +614,7 @@ const App: React.FC = () => {
     return (
       <div
         key={key}
-        className={`event-badge relative rounded p-1 flex items-center gap-1 group text-xs ${getCategoryColor(eventItem.category)}`}
+        className={`event-badge relative rounded p-1 flex items-center gap-1 group text-xs bg-white text-black font-bold border ${getCategoryColor(eventItem.category)}`}
         onMouseEnter={(e) => showEventTooltip(e.currentTarget, eventItem)}
         onMouseLeave={(e) => hideEventTooltip(e.currentTarget)}
       >
