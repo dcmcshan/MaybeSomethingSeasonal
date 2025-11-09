@@ -425,7 +425,7 @@ const EVENT_DETAILS = {
     title: 'Yalda Night',
     history: `Persian Yalda predates Islam, celebrating the birth of Mithra and later the victory of light over darkness on the longest night.`,
     traditions: `Families stay awake reading Hafez poetry, storytelling, and watching the fire's glow until the first light of dawn.`,
-    feasting: `Tables (sofreh) brim with pomegranates, watermelon, ajil mixed nuts, persimmons, saffron rice dishes, and steaming samovars of tea.`,
+    feasting: `Aperitif glasses of sharbat-e anar o gol-e sorkh—pomegranate and rosewater cordial with mint and lime—open the sofreh before meze of sabzi khordan with herbs, feta, walnuts, and warm flatbread, borani laboo beet yogurt with pistachio, and zeytoon parvardeh olives in pomegranate molasses. The main spread features fesenjān of duck or chicken simmered to a glossy walnut-pomegranate sauce, tahchin-e zereshk saffron rice cake layered with barberries and tender chicken, and khoresht-e bamieh okra stew for vegetarians. Salad-e Shirazi and sesame-topped naan-e barbari brighten the table, while desserts showcase anar o hendevaneh fruit, ajil-e Shab-e Yalda roasted nuts and dried fruits for good fortune, and sholeh zard saffron rice pudding dusted with cinnamon. Guests close the vigil by drawing Hafez divinations as poetry and the promise of returning light fill the night.`,
   },
     '20251223T070000Z|night-of-the-radishes-traditional-oaxacan-festival': {
       title: 'La Noche de Rabanos',
