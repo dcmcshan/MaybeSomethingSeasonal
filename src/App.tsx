@@ -3272,33 +3272,22 @@ const App: React.FC = () => {
                 return (
                   <div
                     key={day.toISOString()}
-                    className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
+                    className={`calendar-day border rounded-lg overflow-hidden ${
                       isToday ? "ring-2 ring-green-500" : ""
-                    }`}
-                    style={{
-                      ...(backgroundImage
-                        ? {
-                            backgroundImage: `url(${backgroundImage})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                            backgroundRepeat: "no-repeat",
-                            backgroundColor: isCurrentMonth
-                              ? "#ffffff"
-                              : "#f9fafb",
-                          }
-                        : {
-                            backgroundColor: isCurrentMonth
-                              ? "#ffffff"
-                              : "#f9fafb",
-                          }),
-                    }}
+                    } ${isCurrentMonth ? "bg-white" : "bg-gray-50"}`}
                   >
-                    {/* Overlay for text readability - only show if image loads */}
                     {backgroundImage && (
-                      <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
+                      <>
+                        <img
+                          src={backgroundImage}
+                          alt=""
+                          className="calendar-day-image"
+                          loading="lazy"
+                        />
+                        <div className="calendar-day-overlay"></div>
+                      </>
                     )}
 
-                    {/* Continuation images for multi-day events */}
                     {continuationImages.length > 0 && (
                       <div className="absolute top-2 right-2 flex flex-col gap-1 items-end z-10 pointer-events-none">
                         {continuationImages.map((image, index) => (
@@ -3321,111 +3310,110 @@ const App: React.FC = () => {
                       </div>
                     )}
 
-                    {/* Day number at top */}
-                    <div
-                      className={`text-xs font-medium mb-1 christmas-font relative z-10 ${
-                        isCurrentMonth
-                          ? backgroundImage
-                            ? "text-white drop-shadow-lg"
-                            : "text-gray-800"
-                          : "text-gray-400"
-                      } ${isToday ? "text-green-600 font-bold" : ""}`}
-                    >
-                      {format(day, "d")}
-                    </div>
+                    <div className="calendar-day-content">
+                      <div
+                        className={`text-xs font-medium mb-1 christmas-font ${
+                          isCurrentMonth
+                            ? backgroundImage
+                              ? "text-white drop-shadow-lg"
+                              : "text-gray-800"
+                            : "text-gray-400"
+                        } ${isToday ? "text-green-600 font-bold" : ""}`}
+                      >
+                        {format(day, "d")}
+                      </div>
 
-                    {/* Spacer to push events to bottom */}
-                    <div className="flex-1"></div>
+                      <div className="flex-1"></div>
 
-                    {/* Event labels at bottom */}
-                    <div className="space-y-1 relative z-10">
-                      {dayEventsWithMeta.slice(0, 3).map(
-                        ({ event, isContinuation }, index) => {
-                          const showInlineImage =
-                            !backgroundImage && !isContinuation && !!event.image;
-                          const baseLabelClasses =
-                            "text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative font-bold";
-                          const labelClasses = backgroundImage
-                            ? `${baseLabelClasses} bg-black bg-opacity-50 text-white`
-                            : `${baseLabelClasses} bg-white text-black border ${getCategoryColor(event.category)}`;
-                          return (
-                            <div
-                              key={index}
-                              className={labelClasses}
-                              onMouseEnter={(e) => {
-                                const tooltip = document.createElement("div");
-                                tooltip.className =
-                                  "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
-                                tooltip.innerHTML = `
-                              <div class="font-semibold mb-1">${event.title}</div>
-                              <div class="text-gray-300 mb-2">${format(toLocalDate(event.date), "MMMM d, yyyy")}</div>
-                              <div class="text-gray-200">${event.description}</div>
-                              ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ""}
-                            `;
-                                tooltip.style.left = "0";
-                                tooltip.style.bottom = "100%";
-                                tooltip.style.marginBottom = "4px";
-                                e.currentTarget.appendChild(tooltip);
-                              }}
-                              onMouseLeave={(e) => {
-                                const tooltip = e.currentTarget.querySelector(
-                                  'div[class*="absolute z-50"]',
-                                );
-                                if (tooltip) {
-                                  tooltip.remove();
-                                }
-                              }}
-                            >
-                              {!backgroundImage && (
-                                <>
-                                  {showInlineImage ? (
-                                    <img
-                                      src={event.image}
-                                      alt={event.title}
-                                      className="w-4 h-4 object-cover rounded mr-1 inline-block"
-                                      onError={(e) => {
-                                        e.currentTarget.style.display = "none";
-                                        const nextSibling =
-                                          e.currentTarget.nextElementSibling;
-                                        if (
-                                          nextSibling &&
-                                          nextSibling instanceof HTMLElement
-                                        ) {
-                                          nextSibling.style.display = "inline";
-                                        }
-                                      }}
-                                    />
-                                  ) : (
-                                    <span className="mr-1">{event.icon}</span>
-                                  )}
-                                </>
-                              )}
-                              <span
-                                className={`truncate christmas-font text-xs ${
-                                  backgroundImage ? "text-white" : "text-black"
-                                }`}
+                      <div className="space-y-1">
+                        {dayEventsWithMeta.slice(0, 3).map(
+                          ({ event, isContinuation }, index) => {
+                            const showInlineImage =
+                              !backgroundImage && !isContinuation && !!event.image;
+                            const baseLabelClasses =
+                              "text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative font-bold";
+                            const labelClasses = backgroundImage
+                              ? `${baseLabelClasses} bg-black bg-opacity-50 text-white`
+                              : `${baseLabelClasses} bg-white text-black border ${getCategoryColor(event.category)}`;
+                            return (
+                              <div
+                                key={index}
+                                className={labelClasses}
+                                onMouseEnter={(e) => {
+                                  const tooltip = document.createElement("div");
+                                  tooltip.className =
+                                    "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
+                                  tooltip.innerHTML = `
+                                <div class=\"font-semibold mb-1\">${event.title}</div>
+                                <div class=\"text-gray-300 mb-2\">${format(toLocalDate(event.date), "MMMM d, yyyy")}</div>
+                                <div class=\"text-gray-200\">${event.description}</div>
+                                ${event.image ? `<img src=\"${event.image}\" class=\"mt-2 w-16 h-16 object-cover rounded\" />` : ""}
+                              `;
+                                  tooltip.style.left = "0";
+                                  tooltip.style.bottom = "100%";
+                                  tooltip.style.marginBottom = "4px";
+                                  e.currentTarget.appendChild(tooltip);
+                                }}
+                                onMouseLeave={(e) => {
+                                  const tooltip = e.currentTarget.querySelector(
+                                    'div[class*="absolute z-50"]',
+                                  );
+                                  if (tooltip) {
+                                    tooltip.remove();
+                                  }
+                                }}
                               >
-                                {event.title}
-                              </span>
-                            </div>
-                          );
-                        },
-                      )}
-                      {dayEvents.length > 3 && (
-                        <div
-                          className={`text-xs font-bold p-1 rounded ${
-                            backgroundImage
-                              ? "bg-black bg-opacity-50 text-white"
-                              : "bg-white text-black border border-gray-300"
-                          }`}
-                        >
-                          +{dayEvents.length - 3} more
-                        </div>
-                      )}
+                                {!backgroundImage && (
+                                  <>
+                                    {showInlineImage ? (
+                                      <img
+                                        src={event.image}
+                                        alt={event.title}
+                                        className="w-4 h-4 object-cover rounded mr-1 inline-block"
+                                        onError={(e) => {
+                                          e.currentTarget.style.display = "none";
+                                          const nextSibling =
+                                            e.currentTarget.nextElementSibling;
+                                          if (
+                                            nextSibling &&
+                                            nextSibling instanceof HTMLElement
+                                          ) {
+                                            nextSibling.style.display = "inline";
+                                          }
+                                        }}
+                                      />
+                                    ) : (
+                                      <span className="mr-1">{event.icon}</span>
+                                    )}
+                                  </>
+                                )}
+                                <span
+                                  className={`truncate christmas-font text-xs ${
+                                    backgroundImage ? "text-white" : "text-black"
+                                  }`}
+                                >
+                                  {event.title}
+                                </span>
+                              </div>
+                            );
+                          },
+                        )}
+                        {dayEvents.length > 3 && (
+                          <div
+                            className={`text-xs font-bold p-1 rounded ${
+                              backgroundImage
+                                ? "bg-black bg-opacity-50 text-white"
+                                : "bg-white text-black border border-gray-300"
+                            }`}
+                          >
+                            +{dayEvents.length - 3} more
+                          </div>
+                        )}
+                      </div>
                     </div>
-                </div>
-              );
-            })}
+                  </div>
+                  );
+                })}
           </div>
         </div>
       </div>
