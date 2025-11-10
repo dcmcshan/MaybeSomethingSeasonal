@@ -2790,7 +2790,14 @@ const App: React.FC = () => {
     null,
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<"calendar" | "events">("calendar");
   const [showReligious, _setShowReligious] = useState<boolean>(false);
+
+  const resolvedBaseUrl =
+    (import.meta.env as { BASE_URL?: string }).BASE_URL || "/";
+  const mssEventsUrl = resolvedBaseUrl.endsWith("/")
+    ? `${resolvedBaseUrl}mss-events.html`
+    : `${resolvedBaseUrl}/mss-events.html`;
 
   useEffect(() => {
     // Parse MSS.ics file - it's the source of truth
@@ -3193,241 +3200,295 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {/* Full Width Calendar */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          {/* Calendar Header */}
-          <div className="flex items-center justify-between mb-6">
-            <button
-              onClick={() => setCurrentDate(subMonths(currentDate, 1))}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <h2 className="text-xl font-semibold text-gray-800 christmas-title">
-              {format(currentDate, "MMMM yyyy")}
-            </h2>
-            <button
-              onClick={() => setCurrentDate(addMonths(currentDate, 1))}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-2 mb-4">
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-              <div
-                key={day}
-                className="text-center text-xs font-medium text-gray-500 py-1 christmas-font"
+        <div className="bg-white rounded-xl shadow-lg">
+            <div className="flex border-b border-gray-200">
+              <button
+                onClick={() => setActiveTab("calendar")}
+                className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors ${
+                  activeTab === "calendar"
+                    ? "text-green-700 border-b-2 border-green-600 bg-green-50"
+                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                }`}
+                type="button"
               >
-                {day}
-              </div>
-              ))}
+                Calendar View
+              </button>
+              <button
+                onClick={() => setActiveTab("events")}
+                className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors ${
+                  activeTab === "events"
+                    ? "text-green-700 border-b-2 border-green-600 bg-green-50"
+                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                }`}
+                type="button"
+              >
+                MSS Events Index
+              </button>
             </div>
-
-            <div className="grid grid-cols-7 gap-2">
-              {daysInMonth.map((day) => {
-                const dayEvents = getEventsForDate(day);
-                const isCurrentMonth = isSameMonth(day, currentDate);
-                const isToday = isSameDay(day, new Date());
-
-                const dayEventsWithMeta = dayEvents.map((event) => {
-                  const eventStart = toLocalDate(event.date);
-                  const hasValidStart = !Number.isNaN(eventStart.getTime());
-                  const eventEndExclusive = event.endDate
-                    ? toLocalDate(event.endDate)
-                    : addDays(eventStart, 1);
-                  const hasValidEnd = !Number.isNaN(eventEndExclusive.getTime());
-                  const daysSinceStart = hasValidStart
-                    ? differenceInCalendarDays(day, eventStart)
-                    : 0;
-                  const isContinuation =
-                    hasValidStart &&
-                    daysSinceStart > 0 &&
-                    (!event.endDate ||
-                      (hasValidEnd && day < eventEndExclusive));
-                  const isFirstDay = hasValidStart && daysSinceStart === 0;
-                  return {
-                    event,
-                    isContinuation,
-                    isFirstDay,
-                  };
-                });
-
-                // Only use the full card background on the first day of the event
-                const backgroundImage =
-                  dayEventsWithMeta.find(
-                    ({ event, isFirstDay }) => isFirstDay && event.image,
-                  )?.event.image || undefined;
-
-                const continuationImageSources = dayEventsWithMeta
-                  .filter(
-                    ({ event, isContinuation }) =>
-                      isContinuation && event.image,
-                  )
-                  .map(({ event }) => event.image!);
-                const continuationImages = continuationImageSources.slice(0, 3);
-
-                return (
-                  <div
-                    key={day.toISOString()}
-                    className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
-                      isToday ? "ring-2 ring-green-500" : ""
-                    }`}
-                    style={{
-                      ...(backgroundImage
-                        ? {
-                            backgroundImage: `url(${backgroundImage})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                            backgroundRepeat: "no-repeat",
-                            backgroundColor: isCurrentMonth
-                              ? "#ffffff"
-                              : "#f9fafb",
-                          }
-                        : {
-                            backgroundColor: isCurrentMonth
-                              ? "#ffffff"
-                              : "#f9fafb",
-                          }),
-                    }}
-                  >
-                    {/* Overlay for text readability - only show if image loads */}
-                    {backgroundImage && (
-                      <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
-                    )}
-
-                    {/* Continuation images for multi-day events */}
-                    {continuationImages.length > 0 && (
-                      <div className="absolute top-2 right-2 flex flex-col gap-1 items-end z-10 pointer-events-none">
-                        {continuationImages.map((image, index) => (
-                          <img
-                            key={`${image}-${index}`}
-                            src={image}
-                            alt=""
-                            aria-hidden="true"
-                            className="w-10 h-10 object-cover rounded shadow ring-2 ring-white"
-                          />
-                        ))}
-                        {continuationImageSources.length >
-                          continuationImages.length && (
-                          <div className="w-10 h-10 rounded bg-black bg-opacity-50 text-white text-[10px] flex items-center justify-center shadow ring-2 ring-white">
-                            +
-                            {continuationImageSources.length -
-                              continuationImages.length}
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Day number at top */}
-                    <div
-                      className={`text-xs font-medium mb-1 christmas-font relative z-10 ${
-                        isCurrentMonth
-                          ? backgroundImage
-                            ? "text-white drop-shadow-lg"
-                            : "text-gray-800"
-                          : "text-gray-400"
-                      } ${isToday ? "text-green-600 font-bold" : ""}`}
+            <div className="p-6">
+              {activeTab === "calendar" ? (
+                <>
+                  {/* Calendar Header */}
+                  <div className="flex items-center justify-between mb-6">
+                    <button
+                      onClick={() => setCurrentDate(subMonths(currentDate, 1))}
+                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                     >
-                      {format(day, "d")}
-                    </div>
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <h2 className="text-xl font-semibold text-gray-800 christmas-title">
+                      {format(currentDate, "MMMM yyyy")}
+                    </h2>
+                    <button
+                      onClick={() => setCurrentDate(addMonths(currentDate, 1))}
+                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </div>
 
-                    {/* Spacer to push events to bottom */}
-                    <div className="flex-1"></div>
-
-                    {/* Event labels at bottom */}
-                    <div className="space-y-1 relative z-10">
-                      {dayEventsWithMeta.slice(0, 3).map(
-                        ({ event, isContinuation }, index) => {
-                          const showInlineImage =
-                            !backgroundImage && !isContinuation && !!event.image;
-                          const baseLabelClasses =
-                            "text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative font-bold";
-                          const labelClasses = backgroundImage
-                            ? `${baseLabelClasses} bg-black bg-opacity-50 text-white`
-                            : `${baseLabelClasses} bg-white text-black border ${getCategoryColor(event.category)}`;
-                          return (
-                            <div
-                              key={index}
-                              className={labelClasses}
-                              onMouseEnter={(e) => {
-                                const tooltip = document.createElement("div");
-                                tooltip.className =
-                                  "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
-                                tooltip.innerHTML = `
-                              <div class="font-semibold mb-1">${event.title}</div>
-                              <div class="text-gray-300 mb-2">${format(toLocalDate(event.date), "MMMM d, yyyy")}</div>
-                              <div class="text-gray-200">${event.description}</div>
-                              ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ""}
-                            `;
-                                tooltip.style.left = "0";
-                                tooltip.style.bottom = "100%";
-                                tooltip.style.marginBottom = "4px";
-                                e.currentTarget.appendChild(tooltip);
-                              }}
-                              onMouseLeave={(e) => {
-                                const tooltip = e.currentTarget.querySelector(
-                                  'div[class*="absolute z-50"]',
-                                );
-                                if (tooltip) {
-                                  tooltip.remove();
-                                }
-                              }}
-                            >
-                              {!backgroundImage && (
-                                <>
-                                  {showInlineImage ? (
-                                    <img
-                                      src={event.image}
-                                      alt={event.title}
-                                      className="w-4 h-4 object-cover rounded mr-1 inline-block"
-                                      onError={(e) => {
-                                        e.currentTarget.style.display = "none";
-                                        const nextSibling =
-                                          e.currentTarget.nextElementSibling;
-                                        if (
-                                          nextSibling &&
-                                          nextSibling instanceof HTMLElement
-                                        ) {
-                                          nextSibling.style.display = "inline";
-                                        }
-                                      }}
-                                    />
-                                  ) : (
-                                    <span className="mr-1">{event.icon}</span>
-                                  )}
-                                </>
-                              )}
-                              <span
-                                className={`truncate christmas-font text-xs ${
-                                  backgroundImage ? "text-white" : "text-black"
-                                }`}
-                              >
-                                {event.title}
-                              </span>
-                            </div>
-                          );
-                        },
-                      )}
-                      {dayEvents.length > 3 && (
+                  {/* Calendar Grid */}
+                  <div className="grid grid-cols-7 gap-2 mb-4">
+                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                      (day) => (
                         <div
-                          className={`text-xs font-bold p-1 rounded ${
-                            backgroundImage
-                              ? "bg-black bg-opacity-50 text-white"
-                              : "bg-white text-black border border-gray-300"
-                          }`}
+                          key={day}
+                          className="text-center text-xs font-medium text-gray-500 py-1 christmas-font"
                         >
-                          +{dayEvents.length - 3} more
+                          {day}
                         </div>
-                      )}
+                      ),
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-7 gap-2">
+                    {daysInMonth.map((day) => {
+                      const dayEvents = getEventsForDate(day);
+                      const isCurrentMonth = isSameMonth(day, currentDate);
+                      const isToday = isSameDay(day, new Date());
+
+                      const dayEventsWithMeta = dayEvents.map((event) => {
+                        const eventStart = toLocalDate(event.date);
+                        const hasValidStart = !Number.isNaN(eventStart.getTime());
+                        const eventEndExclusive = event.endDate
+                          ? toLocalDate(event.endDate)
+                          : addDays(eventStart, 1);
+                        const hasValidEnd =
+                          !Number.isNaN(eventEndExclusive.getTime());
+                        const daysSinceStart = hasValidStart
+                          ? differenceInCalendarDays(day, eventStart)
+                          : 0;
+                        const isContinuation =
+                          hasValidStart &&
+                          daysSinceStart > 0 &&
+                          (!event.endDate ||
+                            (hasValidEnd && day < eventEndExclusive));
+                        const isFirstDay = hasValidStart && daysSinceStart === 0;
+                        return {
+                          event,
+                          isContinuation,
+                          isFirstDay,
+                        };
+                      });
+
+                      // Only use the full card background on the first day of the event
+                      const backgroundImage =
+                        dayEventsWithMeta.find(
+                          ({ event, isFirstDay }) => isFirstDay && event.image,
+                        )?.event.image || undefined;
+
+                      const continuationImageSources = dayEventsWithMeta
+                        .filter(
+                          ({ event, isContinuation }) =>
+                            isContinuation && event.image,
+                        )
+                        .map(({ event }) => event.image!);
+                      const continuationImages =
+                        continuationImageSources.slice(0, 3);
+
+                      return (
+                        <div
+                          key={day.toISOString()}
+                          className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
+                            isToday ? "ring-2 ring-green-500" : ""
+                          }`}
+                          style={{
+                            ...(backgroundImage
+                              ? {
+                                  backgroundImage: `url(${backgroundImage})`,
+                                  backgroundSize: "cover",
+                                  backgroundPosition: "center",
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundColor: isCurrentMonth
+                                    ? "#ffffff"
+                                    : "#f9fafb",
+                                }
+                              : {
+                                  backgroundColor: isCurrentMonth
+                                    ? "#ffffff"
+                                    : "#f9fafb",
+                                }),
+                          }}
+                        >
+                          {/* Overlay for text readability - only show if image loads */}
+                          {backgroundImage && (
+                            <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
+                          )}
+
+                          {/* Continuation images for multi-day events */}
+                          {continuationImages.length > 0 && (
+                            <div className="absolute top-2 right-2 flex flex-col gap-1 items-end z-10 pointer-events-none">
+                              {continuationImages.map((image, index) => (
+                                <img
+                                  key={`${image}-${index}`}
+                                  src={image}
+                                  alt=""
+                                  aria-hidden="true"
+                                  className="w-10 h-10 object-cover rounded shadow ring-2 ring-white"
+                                />
+                              ))}
+                              {continuationImageSources.length >
+                                continuationImages.length && (
+                                <div className="w-10 h-10 rounded bg-black bg-opacity-50 text-white text-[10px] flex items-center justify-center shadow ring-2 ring-white">
+                                  +
+                                  {continuationImageSources.length -
+                                    continuationImages.length}
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Day number at top */}
+                          <div
+                            className={`text-xs font-medium mb-1 christmas-font relative z-10 ${
+                              isCurrentMonth
+                                ? backgroundImage
+                                  ? "text-white drop-shadow-lg"
+                                  : "text-gray-800"
+                                : "text-gray-400"
+                            } ${isToday ? "text-green-600 font-bold" : ""}`}
+                          >
+                            {format(day, "d")}
+                          </div>
+
+                          {/* Spacer to push events to bottom */}
+                          <div className="flex-1"></div>
+
+                          {/* Event labels at bottom */}
+                          <div className="space-y-1 relative z-10">
+                            {dayEventsWithMeta.slice(0, 3).map(
+                              ({ event, isContinuation }, index) => {
+                                const showInlineImage =
+                                  !backgroundImage &&
+                                  !isContinuation &&
+                                  !!event.image;
+                                const baseLabelClasses =
+                                  "text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative font-bold";
+                                const labelClasses = backgroundImage
+                                  ? `${baseLabelClasses} bg-black bg-opacity-50 text-white`
+                                  : `${baseLabelClasses} bg-white text-black border ${getCategoryColor(event.category)}`;
+                                return (
+                                  <div
+                                    key={index}
+                                    className={labelClasses}
+                                    onMouseEnter={(e) => {
+                                      const tooltip = document.createElement(
+                                        "div",
+                                      );
+                                      tooltip.className =
+                                        "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
+                                      tooltip.innerHTML = `
+                                <div class="font-semibold mb-1">${event.title}</div>
+                                <div class="text-gray-300 mb-2">${format(toLocalDate(event.date), "MMMM d, yyyy")}</div>
+                                <div class="text-gray-200">${event.description}</div>
+                                ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ""}
+                              `;
+                                      tooltip.style.left = "0";
+                                      tooltip.style.bottom = "100%";
+                                      tooltip.style.marginBottom = "4px";
+                                      e.currentTarget.appendChild(tooltip);
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      const tooltip =
+                                        e.currentTarget.querySelector(
+                                          'div[class*="absolute z-50"]',
+                                        );
+                                      if (tooltip) {
+                                        tooltip.remove();
+                                      }
+                                    }}
+                                  >
+                                    {!backgroundImage && (
+                                      <>
+                                        {showInlineImage ? (
+                                          <img
+                                            src={event.image}
+                                            alt={event.title}
+                                            className="w-4 h-4 object-cover rounded mr-1 inline-block"
+                                            onError={(e) => {
+                                              e.currentTarget.style.display =
+                                                "none";
+                                              const nextSibling =
+                                                e.currentTarget
+                                                  .nextElementSibling;
+                                              if (
+                                                nextSibling &&
+                                                nextSibling instanceof HTMLElement
+                                              ) {
+                                                nextSibling.style.display =
+                                                  "inline";
+                                              }
+                                            }}
+                                          />
+                                        ) : (
+                                          <span className="mr-1">
+                                            {event.icon}
+                                          </span>
+                                        )}
+                                      </>
+                                    )}
+                                    <span
+                                      className={`truncate christmas-font text-xs ${
+                                        backgroundImage
+                                          ? "text-white"
+                                          : "text-black"
+                                      }`}
+                                    >
+                                      {event.title}
+                                    </span>
+                                  </div>
+                                );
+                              },
+                            )}
+                              {dayEvents.length > 3 && (
+                                <div
+                                  className={`text-xs font-bold p-1 rounded ${
+                                    backgroundImage
+                                      ? "bg-black bg-opacity-50 text-white"
+                                      : "bg-white text-black border border-gray-300"
+                                  }`}
+                                >
+                                  +{dayEvents.length - 3} more
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
+                </>
+              ) : (
+                <div className="min-h-[60vh]">
+                  <iframe
+                    title="Maybe Something Seasonal Events Index"
+                    src={mssEventsUrl}
+                    className="w-full h-[70vh] rounded-lg border border-gray-200 shadow-inner"
+                    loading="lazy"
+                  />
                 </div>
-              );
-            })}
+              )}
+            </div>
           </div>
-        </div>
       </div>
     </div>
   );
