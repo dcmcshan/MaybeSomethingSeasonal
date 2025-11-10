@@ -32,9 +32,17 @@ interface CalendarEvent {
 
 const toLocalDate = (dateString: string): Date => {
   if (!dateString) return new Date(NaN);
-  return dateString.includes("T")
-    ? new Date(dateString)
-    : new Date(`${dateString}T00:00:00`);
+  if (!dateString.includes("T")) {
+    const [year, month, day] = dateString.split("-").map(Number);
+    if (
+      Number.isFinite(year) &&
+      Number.isFinite(month) &&
+      Number.isFinite(day)
+    ) {
+      return new Date(year, month - 1, day);
+    }
+  }
+  return new Date(dateString);
 };
 
 // MSS.ics is the source of truth
