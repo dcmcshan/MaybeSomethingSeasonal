@@ -3272,7 +3272,7 @@ const App: React.FC = () => {
                 return (
                   <div
                     key={day.toISOString()}
-                    className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
+                    className={`aspect-square sm:aspect-auto min-h-0 sm:min-h-[120px] p-1 sm:p-2 border rounded-lg relative flex flex-col overflow-hidden ${
                       isToday ? "ring-2 ring-green-500" : ""
                     }`}
                     style={{
