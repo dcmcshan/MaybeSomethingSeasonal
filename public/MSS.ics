@@ -473,6 +473,25 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/wookiee-celebra
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
+DTSTART:20251125T070000Z
+DTEND:20251126T070000Z
+SUMMARY:St. Catherine's Day
+DESCRIPTION:History: Medieval guilds honoured St. Catherine of Alexandria as
+  a patron of scholars and spinners\, with France's unmarried milliners becomi
+  ng joyful "Catherinettes" on her November feast.\nTraditions: Parisian ateli
+  ers crown Catherinettes in towering yellow and green hats\, churches bless r
+  ibbons and lace\, and craft fairs raise funds for apprentices considering re
+  ligious life.\nFeasting: Bakeries share saffron cattern cakes\, honeyed bisc
+  uits\, mulled cider\, and spiced wine served after evening vespers.\nDay: Tu
+  esday\n\nIcon: 🎓
+Category: religious
+CATEGORIES:religious
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image33.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
 DTSTART:20251127T070000Z
 DTEND:20251128T070000Z
 SUMMARY:Thanksgiving Day (United States)
@@ -575,6 +594,24 @@ CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image30.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20251207T070000Z
+DTEND:20251208T070000Z
+SUMMARY:Tiki Christmas at Pearl Harbor
+DESCRIPTION:History: Hawaii observed its first joint Christmas and Pearl Harbo
+ r memorials in the 1940s\, blending service tributes with island pageantry to 
+ honour resilience.\nTraditions: Honolulu lights torchlit wreaths along the ha
+ rbour\, families wear aloha prints to midnight services\, and ukulele choirs s
+ erenade visiting veterans with mele.\nFeasting: Luaus set roast pig\, pineapple
+  haupia\, coconut eggnog\, and shaved ice drenched in red-and-green syrups bes
+ ide memorial lanterns.\nDay: Sunday\n\nIcon: 🌺
+Category: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image24.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z

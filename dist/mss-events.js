@@ -64,17 +64,47 @@ const extractSections = (description = "") => {
 
 const extractMeta = (raw = "") => {
   const description = unescapeText(raw);
-  const iconMatch =
-    description.match(/\n\nIcon:\s*([^\n]+)/) ||
-    description.match(/Icon:\s*([^\n]+)/);
-  const categoryMatch =
-    description.match(/\nCategory:\s*([^\n]+)/) ||
-    description.match(/Category:\s*([^\n]+)/);
+  const lines = description.split("\n");
+
+  const collectFoldedValue = (index) => {
+    if (index < 0 || index >= lines.length) return "";
+    const colonIndex = lines[index].indexOf(":");
+    if (colonIndex === -1) return "";
+    let value = lines[index].slice(colonIndex + 1).trim();
+    let cursor = index + 1;
+    while (cursor < lines.length && lines[cursor].startsWith(" ")) {
+      value += lines[cursor].trim();
+      cursor += 1;
+    }
+    return value;
+  };
+
+  const cleanMetaValue = (value = "") =>
+    value.replace(/\\+/g, "").trim();
+
+  let icon = "";
+  let category = "";
+  let iconLineIndex = -1;
+
+  for (let i = 0; i < lines.length; i += 1) {
+    const trimmed = lines[i].trimStart();
+    if (iconLineIndex === -1 && trimmed.startsWith("Icon:")) {
+      iconLineIndex = i;
+      icon = collectFoldedValue(i);
+    } else if (!category && trimmed.startsWith("Category:")) {
+      category = collectFoldedValue(i);
+    }
+  }
+
+  const summaryLines =
+    iconLineIndex === -1 ? lines : lines.slice(0, iconLineIndex);
+
   const sections = extractSections(description);
+
   return {
-    summary: description.split(/\n\nIcon:/)[0]?.trim() ?? "",
-    icon: iconMatch ? iconMatch[1].trim() : "",
-    category: categoryMatch ? categoryMatch[1].trim() : "",
+    summary: summaryLines.join("\n").trim(),
+    icon: cleanMetaValue(icon),
+    category: cleanMetaValue(category),
     sections,
   };
 };

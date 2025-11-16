@@ -5,10 +5,12 @@ import {
   differenceInCalendarDays,
   eachDayOfInterval,
   endOfMonth,
+  endOfWeek,
   format,
   isSameDay,
   isSameMonth,
   startOfMonth,
+  startOfWeek,
   subMonths,
 } from "date-fns";
 import {
@@ -2357,10 +2359,11 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
-    title: "St. Catherine of Alexandria",
+    title: "St. Catherine's Day",
     date: "2025-11-25",
-    description: "Virgin and martyr, patron of philosophers.",
-    icon: "📚",
+    description:
+      "Guilds celebrate the patroness of scholars and spinners with green-and-yellow 'Catherinette' hats.",
+    icon: "🎓",
     category: "religious",
   },
   {
@@ -2464,6 +2467,15 @@ const CALENDAR_DATA: CalendarEvent[] = [
     description: "Bishop and Doctor of the Church.",
     icon: "🎓",
     category: "religious",
+  },
+  {
+    title: "Tiki Christmas at Pearl Harbor",
+    date: "2025-12-07",
+    description:
+      "Torchlit wreaths, ukulele carols, and island lights honour Pearl Harbor's legacy with festive aloha spirit.",
+    icon: "🌺",
+    image: "/images/image24.png",
+    category: "cultural",
   },
   {
     title: "Immaculate Conception",
@@ -3114,7 +3126,12 @@ const App: React.FC = () => {
 
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
-  const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
+  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 });
+  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
+  const calendarDays = eachDayOfInterval({
+    start: calendarStart,
+    end: calendarEnd,
+  });
 
   const getEventsForDate = (date: Date) => {
     return events.filter((event) => {
@@ -3262,74 +3279,74 @@ const App: React.FC = () => {
                   </div>
 
                   <div className="grid grid-cols-7 gap-2">
-                    {daysInMonth.map((day) => {
-                      const dayEvents = getEventsForDate(day);
-                      const isCurrentMonth = isSameMonth(day, currentDate);
-                      const isToday = isSameDay(day, new Date());
+                    {calendarDays.map((day) => {
+                        const dayEvents = getEventsForDate(day);
+                        const isCurrentMonth = isSameMonth(day, currentDate);
+                        const isToday = isSameDay(day, new Date());
 
-                      const dayEventsWithMeta = dayEvents.map((event) => {
-                        const eventStart = toLocalDate(event.date);
-                        const hasValidStart = !Number.isNaN(eventStart.getTime());
-                        const eventEndExclusive = event.endDate
-                          ? toLocalDate(event.endDate)
-                          : addDays(eventStart, 1);
-                        const hasValidEnd =
-                          !Number.isNaN(eventEndExclusive.getTime());
-                        const daysSinceStart = hasValidStart
-                          ? differenceInCalendarDays(day, eventStart)
-                          : 0;
-                        const isContinuation =
-                          hasValidStart &&
-                          daysSinceStart > 0 &&
-                          (!event.endDate ||
-                            (hasValidEnd && day < eventEndExclusive));
-                        const isFirstDay = hasValidStart && daysSinceStart === 0;
-                        return {
-                          event,
-                          isContinuation,
-                          isFirstDay,
-                        };
-                      });
+                        const dayEventsWithMeta = dayEvents.map((event) => {
+                          const eventStart = toLocalDate(event.date);
+                          const hasValidStart = !Number.isNaN(eventStart.getTime());
+                          const eventEndExclusive = event.endDate
+                            ? toLocalDate(event.endDate)
+                            : addDays(eventStart, 1);
+                          const hasValidEnd =
+                            !Number.isNaN(eventEndExclusive.getTime());
+                          const daysSinceStart = hasValidStart
+                            ? differenceInCalendarDays(day, eventStart)
+                            : 0;
+                          const isContinuation =
+                            hasValidStart &&
+                            daysSinceStart > 0 &&
+                            (!event.endDate ||
+                              (hasValidEnd && day < eventEndExclusive));
+                          const isFirstDay = hasValidStart && daysSinceStart === 0;
+                          return {
+                            event,
+                            isContinuation,
+                            isFirstDay,
+                          };
+                        });
 
-                      // Only use the full card background on the first day of the event
-                      const backgroundImage =
-                        dayEventsWithMeta.find(
-                          ({ event, isFirstDay }) => isFirstDay && event.image,
-                        )?.event.image || undefined;
+                        // Only use the full card background on the first day of the event
+                        const backgroundImage =
+                          dayEventsWithMeta.find(
+                            ({ event, isFirstDay }) => isFirstDay && event.image,
+                          )?.event.image || undefined;
 
-                      const continuationImageSources = dayEventsWithMeta
-                        .filter(
-                          ({ event, isContinuation }) =>
-                            isContinuation && event.image,
-                        )
-                        .map(({ event }) => event.image!);
-                      const continuationImages =
-                        continuationImageSources.slice(0, 3);
+                        const continuationImageSources = dayEventsWithMeta
+                          .filter(
+                            ({ event, isContinuation }) =>
+                              isContinuation && event.image,
+                          )
+                          .map(({ event }) => event.image!);
+                        const continuationImages =
+                          continuationImageSources.slice(0, 3);
 
-                      return (
-                        <div
-                          key={day.toISOString()}
-                          className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
-                            isToday ? "ring-2 ring-green-500" : ""
-                          }`}
-                          style={{
-                            ...(backgroundImage
-                              ? {
-                                  backgroundImage: `url(${backgroundImage})`,
-                                  backgroundSize: "cover",
-                                  backgroundPosition: "center",
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundColor: isCurrentMonth
-                                    ? "#ffffff"
-                                    : "#f9fafb",
-                                }
-                              : {
-                                  backgroundColor: isCurrentMonth
-                                    ? "#ffffff"
-                                    : "#f9fafb",
-                                }),
-                          }}
-                        >
+                        return (
+                          <div
+                            key={day.toISOString()}
+                            className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
+                              isToday ? "ring-2 ring-green-500" : ""
+                            }`}
+                            style={{
+                              ...(backgroundImage
+                                ? {
+                                    backgroundImage: `url(${backgroundImage})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundColor: isCurrentMonth
+                                      ? "#ffffff"
+                                      : "#f9fafb",
+                                  }
+                                : {
+                                    backgroundColor: isCurrentMonth
+                                      ? "#ffffff"
+                                      : "#f9fafb",
+                                  }),
+                            }}
+                          >
                           {/* Overlay for text readability - only show if image loads */}
                           {backgroundImage && (
                             <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
