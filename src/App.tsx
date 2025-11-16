@@ -3285,9 +3285,9 @@ const App: React.FC = () => {
                   <div className="grid grid-cols-7 gap-2">
                       {calendarDays.map((day) => {
                         const dayEvents = getEventsForDate(day);
-                        const isCurrentMonth = isSameMonth(day, currentDate);
+                        const isCurrentMonthDay = isSameMonth(day, currentDate);
                         const isToday = isSameDay(day, new Date());
-                        const isPast = day < today && !isToday;
+                        const isPast = isCurrentMonthDay && day < today && !isToday;
 
                         const dayEventsWithMeta = dayEvents.map((event) => {
                           const eventStart = toLocalDate(event.date);
@@ -3327,9 +3327,11 @@ const App: React.FC = () => {
                           .map(({ event }) => event.image!);
                         const continuationImages =
                           continuationImageSources.slice(0, 3);
-                        const displayEvents = dayEventsWithMeta.filter(
-                          ({ isContinuation }) => !isContinuation,
-                        );
+                        const displayEvents = isCurrentMonthDay
+                          ? dayEventsWithMeta.filter(
+                              ({ isContinuation }) => !isContinuation,
+                            )
+                          : [];
 
                         return (
                           <div
@@ -3344,12 +3346,12 @@ const App: React.FC = () => {
                                     backgroundSize: "cover",
                                     backgroundPosition: "center",
                                     backgroundRepeat: "no-repeat",
-                                    backgroundColor: isCurrentMonth
+                                    backgroundColor: isCurrentMonthDay
                                       ? "#ffffff"
                                       : "#f9fafb",
                                   }
                                 : {
-                                    backgroundColor: isCurrentMonth
+                                    backgroundColor: isCurrentMonthDay
                                       ? "#ffffff"
                                       : "#f9fafb",
                                   }),
@@ -3405,14 +3407,14 @@ const App: React.FC = () => {
                           {/* Day number at top */}
                           <div
                             className={`text-xs font-medium mb-1 christmas-font relative z-10 ${
-                              isCurrentMonth
+                              isCurrentMonthDay
                                 ? backgroundImage
                                   ? "text-white drop-shadow-lg"
                                   : "text-gray-800"
                                 : "text-gray-400"
                             } ${isToday ? "text-green-600 font-bold" : ""}`}
                           >
-                            {format(day, "d")}
+                            {isCurrentMonthDay ? format(day, "d") : "\u00A0"}
                           </div>
 
                           {/* Spacer to push events to bottom */}
