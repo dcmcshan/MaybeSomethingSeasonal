@@ -6,10 +6,26 @@ const rowTemplate = document.getElementById("row-template");
 const searchInput = document.getElementById("search");
 
 const hoverMessage =
-  "Hover a row to see history, traditions, foods, and imagery.";
+  "Hover a row to preview highlights. Click to open the full event page.";
 let activeTooltip = null;
 
 const directoryBase = new URL(".", document.baseURI).href;
+const detailPagePath = "event.html";
+
+const normaliseForSlug = (value = "") =>
+  value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+const slugify = (title = "", rawDate = "", index = 0) => {
+  const base = normaliseForSlug(`${title || ""} ${rawDate || ""}`.trim());
+  const cleaned = base.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return cleaned || `event-${index + 1}`;
+};
+
+const buildDetailUrl = (slug) =>
+  `${detailPagePath}?event=${encodeURIComponent(slug)}`;
 
 const resolveImageSrc = (value = "") => {
   if (!value) return "";
@@ -150,7 +166,9 @@ const parseIcs = (icsText) => {
     lastKey = key;
   }
 
-  return events.map((event) => {
+  const slugCounts = new Map();
+
+  return events.map((event, index) => {
     const { SUMMARY, DTSTART, DESCRIPTION, CATEGORIES } = event;
     const meta = extractMeta(DESCRIPTION);
     const category = meta.category || unescapeText(CATEGORIES || "").trim();
@@ -159,6 +177,11 @@ const parseIcs = (icsText) => {
       meta.summary ||
       (DTSTART ? `Event on ${toDateLabel(DTSTART)}` : "Untitled Event");
     const imagePath = event["X-IMAGE"] ? event["X-IMAGE"].trim() : "";
+    const baseSlug = slugify(fullTitle, DTSTART || "", index);
+    const count = slugCounts.get(baseSlug) ?? 0;
+    slugCounts.set(baseSlug, count + 1);
+    const slug = count === 0 ? baseSlug : `${baseSlug}-${count + 1}`;
+
     return {
       date: toDateLabel(DTSTART),
       rawDate: DTSTART,
@@ -170,6 +193,9 @@ const parseIcs = (icsText) => {
       traditions: meta.sections.traditions,
       feasting: meta.sections.feasting,
       image: resolveImageSrc(imagePath),
+      summary: meta.summary,
+      slug,
+      detailUrl: buildDetailUrl(slug),
     };
   });
 };
@@ -266,12 +292,31 @@ const renderTable = (events) => {
       imageCell.textContent = "—";
     }
 
-    row.querySelector(".title").textContent = event.shortTitle;
+    const titleCell = row.querySelector(".title");
+    titleCell.innerHTML = "";
+    const titleLink = document.createElement("a");
+    titleLink.href = event.detailUrl;
+    titleLink.className = "event-link";
+    titleLink.textContent = event.shortTitle;
+    titleLink.title = event.fullTitle;
+    titleLink.setAttribute(
+      "aria-label",
+      `${event.fullTitle} — open event details`
+    );
+    titleLink.addEventListener("click", (evt) => evt.stopPropagation());
+    titleCell.appendChild(titleLink);
+
     row.querySelector(".category").textContent = event.category;
     row.querySelector(".icon").textContent = event.icon || "—";
     row.querySelector(".snapshot").textContent = createSnapshot(event);
 
     row.setAttribute("tabindex", "0");
+    row.setAttribute(
+      "aria-label",
+      event.date ? `${event.fullTitle} on ${event.date}` : event.fullTitle
+    );
+    row.setAttribute("role", "link");
+    row.dataset.eventSlug = event.slug;
     row.addEventListener("mouseenter", () => showTooltip(row, event));
     row.addEventListener("mouseleave", hideTooltip);
     row.addEventListener("focus", () => showTooltip(row, event));
@@ -279,7 +324,18 @@ const renderTable = (events) => {
     row.addEventListener("keydown", (evt) => {
       if (evt.key === "Escape") {
         hideTooltip();
+        return;
       }
+      if (evt.key === "Enter" || evt.key === " ") {
+        window.location.href = event.detailUrl;
+        evt.preventDefault();
+      }
+    });
+    row.addEventListener("click", (evt) => {
+      if (evt.target instanceof HTMLElement && evt.target.closest("a")) {
+        return;
+      }
+      window.location.href = event.detailUrl;
     });
 
     fragment.appendChild(row);
@@ -302,6 +358,7 @@ const applyFilter = (events) => {
       event.history,
       event.traditions,
       event.feasting,
+      event.summary,
     ]
       .join(" ")
       .toLowerCase();

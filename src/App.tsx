@@ -4,10 +4,12 @@ import {
   addMonths,
   differenceInCalendarDays,
   eachDayOfInterval,
+  endOfWeek,
   endOfMonth,
   format,
   isSameDay,
   isSameMonth,
+  startOfWeek,
   startOfMonth,
   subMonths,
 } from "date-fns";
@@ -3114,7 +3116,12 @@ const App: React.FC = () => {
 
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
-  const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
+  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 });
+  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
+  const daysInMonth = eachDayOfInterval({
+    start: calendarStart,
+    end: calendarEnd,
+  });
 
   const getEventsForDate = (date: Date) => {
     return events.filter((event) => {
