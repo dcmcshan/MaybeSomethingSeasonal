@@ -3132,6 +3132,8 @@ const App: React.FC = () => {
     start: calendarStart,
     end: calendarEnd,
   });
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   const getEventsForDate = (date: Date) => {
     return events.filter((event) => {
@@ -3279,10 +3281,11 @@ const App: React.FC = () => {
                   </div>
 
                   <div className="grid grid-cols-7 gap-2">
-                    {calendarDays.map((day) => {
+                      {calendarDays.map((day) => {
                         const dayEvents = getEventsForDate(day);
                         const isCurrentMonth = isSameMonth(day, currentDate);
                         const isToday = isSameDay(day, new Date());
+                        const isPast = day < today && !isToday;
 
                         const dayEventsWithMeta = dayEvents.map((event) => {
                           const eventStart = toLocalDate(event.date);
@@ -3326,9 +3329,9 @@ const App: React.FC = () => {
                         return (
                           <div
                             key={day.toISOString()}
-                            className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
-                              isToday ? "ring-2 ring-green-500" : ""
-                            }`}
+                          className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
+                            isToday ? "ring-2 ring-green-500" : ""
+                          }`}
                             style={{
                               ...(backgroundImage
                                 ? {
@@ -3350,6 +3353,25 @@ const App: React.FC = () => {
                           {/* Overlay for text readability - only show if image loads */}
                           {backgroundImage && (
                             <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
+                          )}
+                          {isPast && (
+                            <div className="absolute inset-1 flex items-center justify-center pointer-events-none">
+                              <span
+                                className="text-red-500"
+                                style={{
+                                  fontSize: "4rem",
+                                  fontWeight: 700,
+                                  opacity: 0.35,
+                                  fontFamily:
+                                    '"Permanent Marker", "Comic Sans MS", "Marker Felt", cursive',
+                                  transform: "rotate(-8deg)",
+                                  textShadow:
+                                    "1px 1px 0 rgba(220,38,38,0.35), -1px -1px 0 rgba(220,38,38,0.35)",
+                                }}
+                              >
+                                X
+                              </span>
+                            </div>
                           )}
 
                           {/* Continuation images for multi-day events */}
