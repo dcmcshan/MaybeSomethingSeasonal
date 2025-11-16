@@ -632,17 +632,34 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image31.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
-DTSTART:20251111T190000Z
-DTEND:20251116T070000Z
+DTSTART:20251208T070000Z
+DTEND:20251209T070000Z
+SUMMARY:Immaculada
+DESCRIPTION:History: Spain celebrates La Inmaculada as the start of the advent
+  season, honouring Mary's conception with dawn processions and plaza music.\nTr
+ aditions: Families set out the Caga Tio log to "feed" with sweets until Christm
+ as Eve, hang blue-and-white bunting, and join candlelit vigils in neighbourhood
+  chapels.\nFeasting: Tables feature turron, panellets, steaming cups of thick h
+ ot chocolate, and slices of roscon shared after lighting Advent candles.\nDay: 
+ Monday\n\nIcon: 🌹
+Category: religious
+CATEGORIES:religious
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20251116T070000Z
+DTEND:20251117T070000Z
 SUMMARY:Sinterklaas Arrival (Intocht)
 DESCRIPTION:History: Dutch newspapers popularised Sinterklaas arriving by s
  teamboat in the nineteenth century\, blending Saint Nicholas lore with mari
- time identity.\nTraditions: Sinterklaas docks with his Pieten helpers\, par
- ades through town distributing pepernoten\, and listens to children's wish 
- lists before 5 December gifts.\nFeasting: Crowds crunch spiced pepernoten\,
-  speculaas windmill cookies\, chocolate letters\, and marzipan while sippin
- g hot cocoa along the canals.\nDay: Tuesday\n\nIcon: 🚢\\\\\\\\\\\\\\\nCate
- gory: cultural\\\\\\
+ time identity.\nTraditions: The arrival happens on the Sunday after Saint M
+ artin's Day; Sinterklaas docks with his Pieten helpers\, parades through tow
+ n distributing pepernoten\, and listens to children's wish lists before 5 De
+ cember gifts.\nFeasting: Crowds crunch spiced pepernoten\, speculaas windmil
+ l cookies\, chocolate letters\, and marzipan while sipping hot cocoa along t
+ he canals.\nDay: Sunday\n\nIcon: 🚢\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
