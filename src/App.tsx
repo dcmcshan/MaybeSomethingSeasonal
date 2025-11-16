@@ -2362,8 +2362,8 @@ const CALENDAR_DATA: CalendarEvent[] = [
     title: "St. Catherine's Day",
     date: "2025-11-25",
     description:
-      "Guilds celebrate the patroness of scholars and spinners with green-and-yellow 'Catherinette' hats.",
-    icon: "🎓",
+      "Pour wax through an old key into cold water, read the candlelit shadow for omens, and whirl a St. Catherine's wheel procession.",
+    icon: "🎡",
     category: "religious",
   },
   {
@@ -2749,7 +2749,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     title: "Sinterklaas Arrival",
     date: "2025-11-16",
     description:
-      "The Sunday after St. Martin's Day when Sinterklaas and his Pieten dock in the Netherlands.",
+      "Sunday after St. Martin's Day when Sinterklaas docks with his Pieten to shower the Netherlands with pepernoten.",
     icon: "🚢",
     category: "cultural",
   },
