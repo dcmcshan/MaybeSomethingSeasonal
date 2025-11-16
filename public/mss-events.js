@@ -3,22 +3,29 @@ const tableContainer = document.getElementById("table-container");
 const tableCaption = document.getElementById("table-caption");
 const tbody = document.getElementById("events-body");
 const rowTemplate = document.getElementById("row-template");
-const detailContainer = document.getElementById("event-detail");
-const detailTitle = document.getElementById("detail-title");
-const detailMeta = document.getElementById("detail-meta");
-const detailHistory = document.getElementById("detail-history");
-const detailTraditions = document.getElementById("detail-traditions");
-const detailFeasting = document.getElementById("detail-feasting");
-const detailNotes = document.getElementById("detail-notes");
-const detailImage = document.getElementById("detail-image");
-const closeDetailBtn = document.getElementById("close-detail");
 const searchInput = document.getElementById("search");
 
 const hoverMessage =
-  "Hover a row to see history, traditions, foods, and imagery.";
+  "Hover a row to preview highlights. Click to open the full event page.";
 let activeTooltip = null;
 
 const directoryBase = new URL(".", document.baseURI).href;
+const detailPagePath = "event.html";
+
+const normaliseForSlug = (value = "") =>
+  value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+const slugify = (title = "", rawDate = "", index = 0) => {
+  const base = normaliseForSlug(`${title || ""} ${rawDate || ""}`.trim());
+  const cleaned = base.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return cleaned || `event-${index + 1}`;
+};
+
+const buildDetailUrl = (slug) =>
+  `${detailPagePath}?event=${encodeURIComponent(slug)}`;
 
 const resolveImageSrc = (value = "") => {
   if (!value) return "";
@@ -60,10 +67,9 @@ const extractSections = (description = "") => {
     history: "",
     traditions: "",
     feasting: "",
-    notes: "",
   };
   const regex =
-    /(History|Traditions|Feasting|Notes):\s*([\s\S]*?)(?=\n[A-Z][a-z]+:|\nIcon:|$)/g;
+    /(History|Traditions|Feasting):\s*([\s\S]*?)(?=\n[A-Z][a-z]+:|\nIcon:|$)/g;
   let match;
   while ((match = regex.exec(description)) !== null) {
     const key = match[1].toLowerCase();
@@ -93,17 +99,6 @@ const shortenTitle = (title = "") => {
   const stripped = title.replace(/\s*\(.*?\)\s*/g, "").trim();
   if (stripped.length <= 40) return stripped || title;
   return `${stripped.slice(0, 37)}…`;
-};
-
-const createSlug = (title = "", rawDate = "") => {
-  const base = title
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  if (!rawDate) return base || "event";
-  const datePart = rawDate.slice(0, 8);
-  return `${base}-${datePart}`;
 };
 
 const parseIcs = (icsText) => {
@@ -141,8 +136,10 @@ const parseIcs = (icsText) => {
     lastKey = key;
   }
 
-  return events.map((event) => {
-      const { SUMMARY, DTSTART, DESCRIPTION, CATEGORIES } = event;
+  const slugCounts = new Map();
+
+  return events.map((event, index) => {
+    const { SUMMARY, DTSTART, DESCRIPTION, CATEGORIES } = event;
     const meta = extractMeta(DESCRIPTION);
     const category = meta.category || unescapeText(CATEGORIES || "").trim();
     const fullTitle =
@@ -150,6 +147,11 @@ const parseIcs = (icsText) => {
       meta.summary ||
       (DTSTART ? `Event on ${toDateLabel(DTSTART)}` : "Untitled Event");
     const imagePath = event["X-IMAGE"] ? event["X-IMAGE"].trim() : "";
+    const baseSlug = slugify(fullTitle, DTSTART || "", index);
+    const count = slugCounts.get(baseSlug) ?? 0;
+    slugCounts.set(baseSlug, count + 1);
+    const slug = count === 0 ? baseSlug : `${baseSlug}-${count + 1}`;
+
     return {
       date: toDateLabel(DTSTART),
       rawDate: DTSTART,
@@ -161,10 +163,9 @@ const parseIcs = (icsText) => {
       traditions: meta.sections.traditions,
       feasting: meta.sections.feasting,
       image: resolveImageSrc(imagePath),
-        notes: event["X-NOTES"]
-          ? unescapeText(event["X-NOTES"].trim())
-          : meta.sections.notes,
-        slug: createSlug(fullTitle, DTSTART),
+      summary: meta.summary,
+      slug,
+      detailUrl: buildDetailUrl(slug),
     };
   });
 };
@@ -261,13 +262,31 @@ const renderTable = (events) => {
       imageCell.textContent = "—";
     }
 
-    row.querySelector(".title").textContent = event.shortTitle;
+    const titleCell = row.querySelector(".title");
+    titleCell.innerHTML = "";
+    const titleLink = document.createElement("a");
+    titleLink.href = event.detailUrl;
+    titleLink.className = "event-link";
+    titleLink.textContent = event.shortTitle;
+    titleLink.title = event.fullTitle;
+    titleLink.setAttribute(
+      "aria-label",
+      `${event.fullTitle} — open event details`
+    );
+    titleLink.addEventListener("click", (evt) => evt.stopPropagation());
+    titleCell.appendChild(titleLink);
+
     row.querySelector(".category").textContent = event.category;
     row.querySelector(".icon").textContent = event.icon || "—";
     row.querySelector(".snapshot").textContent = createSnapshot(event);
 
     row.setAttribute("tabindex", "0");
-    row.dataset.slug = event.slug;
+    row.setAttribute(
+      "aria-label",
+      event.date ? `${event.fullTitle} on ${event.date}` : event.fullTitle
+    );
+    row.setAttribute("role", "link");
+    row.dataset.eventSlug = event.slug;
     row.addEventListener("mouseenter", () => showTooltip(row, event));
     row.addEventListener("mouseleave", hideTooltip);
     row.addEventListener("focus", () => showTooltip(row, event));
@@ -275,14 +294,19 @@ const renderTable = (events) => {
     row.addEventListener("keydown", (evt) => {
       if (evt.key === "Escape") {
         hideTooltip();
-        hideDetail();
+        return;
       }
       if (evt.key === "Enter" || evt.key === " ") {
+        window.location.href = event.detailUrl;
         evt.preventDefault();
-        showDetail(event);
       }
     });
-    row.addEventListener("click", () => showDetail(event));
+    row.addEventListener("click", (evt) => {
+      if (evt.target instanceof HTMLElement && evt.target.closest("a")) {
+        return;
+      }
+      window.location.href = event.detailUrl;
+    });
 
     fragment.appendChild(row);
   });
@@ -304,62 +328,12 @@ const applyFilter = (events) => {
       event.history,
       event.traditions,
       event.feasting,
+      event.summary,
     ]
       .join(" ")
       .toLowerCase();
     return haystack.includes(term);
   });
-};
-
-const showDetail = (event) => {
-  if (!detailContainer) return;
-  detailTitle.textContent = event.fullTitle;
-  const formattedDate = event.date || "Date TBC";
-  detailMeta.textContent = `${formattedDate} • ${event.category || "unspecified category"} ${
-    event.icon ? `• ${event.icon}` : ""
-  }`;
-  detailHistory.textContent =
-    event.history || "History details are on their way.";
-  detailTraditions.textContent =
-    event.traditions || "Traditions will be added soon.";
-  detailFeasting.textContent =
-    event.feasting || "Feasting notes are being prepared.";
-  if (event.notes) {
-    detailNotes.textContent = event.notes;
-    detailNotes.classList.remove("hidden");
-  } else {
-    detailNotes.classList.add("hidden");
-    detailNotes.textContent = "";
-  }
-  if (event.image) {
-    detailImage.innerHTML = `<img src="${event.image}" alt="${event.fullTitle}">`;
-    detailImage.classList.remove("hidden");
-  } else {
-    detailImage.classList.add("hidden");
-    detailImage.innerHTML = "";
-  }
-  detailContainer.classList.remove("hidden");
-  detailContainer.focus?.();
-  if (event.slug) {
-    const url = new URL(window.location.href);
-    url.searchParams.set("event", event.slug);
-    window.history.replaceState({}, "", url);
-  }
-};
-
-const hideDetail = () => {
-  if (!detailContainer) return;
-  detailContainer.classList.add("hidden");
-  detailTitle.textContent = "";
-  detailMeta.textContent = "";
-  detailHistory.textContent = "";
-  detailTraditions.textContent = "";
-  detailFeasting.textContent = "";
-  detailNotes.textContent = "";
-  detailImage.innerHTML = "";
-  const url = new URL(window.location.href);
-  url.searchParams.delete("event");
-  window.history.replaceState({}, "", url);
 };
 
 const attachSearch = (events) => {
@@ -390,7 +364,6 @@ const initialise = async () => {
 
     renderTable(parsed);
     attachSearch(parsed);
-    attachDetailControls(parsed);
 
     tableContainer.classList.remove("hidden");
     statusEl.textContent = `Loaded ${parsed.length.toLocaleString()} events. ${hoverMessage}`;
@@ -403,21 +376,3 @@ const initialise = async () => {
 initialise();
 window.addEventListener("scroll", hideTooltip, { passive: true });
 window.addEventListener("resize", hideTooltip);
-
-const attachDetailControls = (events) => {
-  if (closeDetailBtn) {
-    closeDetailBtn.addEventListener("click", hideDetail);
-  }
-  const params = new URLSearchParams(window.location.search);
-  const requestedSlug = params.get("event");
-  if (!requestedSlug) return;
-  const matchedEvent =
-    events.find((event) => event.slug === requestedSlug) ?? null;
-  if (!matchedEvent) return;
-  showDetail(matchedEvent);
-  const targetRow = tbody.querySelector(`[data-slug="${requestedSlug}"]`);
-  if (targetRow) {
-    targetRow.scrollIntoView({ behavior: "smooth", block: "center" });
-    targetRow.focus();
-  }
-};
