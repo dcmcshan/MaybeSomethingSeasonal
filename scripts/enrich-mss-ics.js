@@ -169,6 +169,12 @@ const EVENT_DETAILS = {
     traditions: `Churches bless candles for the coming year, processions illuminate winter nights, and weather lore predicts the remaining length of winter.`,
     feasting: `La Chandeleur tables offer crepes beurre sucre, crepes jambon-fromage, boles de cidre brut, and salade de mache; in Mexico, familias sirven tamales oaxaquenos, tamales de dulce, atole de canela, champurrado espumoso, and pan de candelaria after the blessing of candles.`,
   },
+  '20250102T070000Z|': {
+    title: 'Berchtoldstag',
+    history: `Swiss guilds and villages have observed Berchtoldstag since the Middle Ages as a post-feast civic day to reaffirm community bonds after New Year.`,
+    traditions: `Families make Berchteln visits, children knock on doors during Baerzelistag parades, and neighbours trade well wishes with carved masks or pine boughs.`,
+    feasting: `Tables feature braided Zopf loaves, roesti skillets, sausages, hazelnut tortes, and pots of melted cheese meant for communal dipping.`,
+  },
   '20250105T070000Z|twelfth-night-end-of-the-christmas-season': {
     title: 'Twelfth Night',
     history: `Twelfth Night concludes the Christmastide counting from medieval Europe, blending Christian Epiphany vigils with older winter revels.`,

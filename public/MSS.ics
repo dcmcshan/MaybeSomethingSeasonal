@@ -46,6 +46,22 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20260102T070000Z
 DTEND:20260103T070000Z
+SUMMARY:Berchtoldstag
+DESCRIPTION:History: Medieval Swiss guilds observed Berchtoldstag as a post
+ -feast day to honor community bonds and start the civic year together.\nTra
+ ditions: Families make Berchteln visits\, children knock on doors during Ba
+ erzelistag parades\, and neighbors share well wishes with carved masks or p
+ ine boughs.\nFeasting: Tables feature braided Zopf loaves\, roesti skillets
+ \, sausages\, hazelnut tortes\, and pots of melted cheese for communal dipp
+ ing.\nDay: Friday\n\nIcon: 🍞\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20260102T070000Z
+DTEND:20260103T070000Z
 SUMMARY:Candlemas (Feast of the Presentation)
 DESCRIPTION:History: Commemorated in Jerusalem by the fourth century\, Cand
  lemas marks forty days after Christmas when Mary and Joseph presented Jesus
