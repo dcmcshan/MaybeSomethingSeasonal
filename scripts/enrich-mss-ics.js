@@ -349,7 +349,7 @@ const EVENT_DETAILS = {
     traditions: `Wreath lighting, scripture readings about John the Baptist, and charity collections for neighbours in need mark the Sunday gatherings.`,
     feasting: `Cardamom buns, cinnamon star cookies, spiced teas, and hearty casseroles offer comfort during the contemplative Advent evenings.`,
   },
-  '20251210T070000Z|image27': {
+  '20251210T070000Z|image36': {
     title: 'Magic Flute',
     history: `Mozart's Singspiel Die Zauberflote premiered in 1791 Vienna, enchanting winter audiences with a blend of fairy-tale storytelling and Enlightenment ideals.`,
     traditions: `Opera houses stage festive productions with elaborate stagecraft, families dress for a holiday night out, and communities host singalong overtures that keep spirits bright.`,
