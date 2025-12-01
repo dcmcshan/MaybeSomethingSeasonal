@@ -314,7 +314,7 @@ const EVENT_DETAILS = {
     feasting: `Menus highlight roast turkey, cornbread stuffing, cranberry relish, sweet potatoes, green bean casseroles, and slices of pumpkin or pecan pie.`,
   },
   '20251129T070000Z|image27': {
-    title: "St. Andrew's Eve (Andrzejki)",
+    title: "Noaptea Lupilor",
     history: `Polish Andrzejki fortune-telling parties date to the sixteenth century, once focused on young women seeking visions of future spouses.`,
     traditions: `Participants pour hot wax through keys, decode shapes in candle shadows, and dance until dawn while sharing playful prophecies.`,
     feasting: `Guests snack on poppy-seed cakes, honey cookies, pickled herring, and warm cups of mead or herb-infused tea.`,
