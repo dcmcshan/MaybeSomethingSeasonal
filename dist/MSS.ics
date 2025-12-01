@@ -721,23 +721,6 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251212T070000Z
 DTEND:20251213T070000Z
-SUMMARY:St. Lucia's Night Processions
-DESCRIPTION:History: The legend of Lucia of Syracuse\, who smuggled food to
-  Christians in catacombs\, inspired Swedish torchlit processions dating to 
- the seventeenth century.\nTraditions: A Lucia in white robes and candle cro
- wn leads attendants singing "Sankta Lucia\," visiting hospitals\, schools\,
-  and city squares before sunrise.\nFeasting: Participants enjoy freshly bak
- ed lussekatter\, pepparkakor cookies\, and strong coffee served on decorate
- d trays.\nDay: Friday\n\nIcon: 🌙\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
-CATEGORIES:cultural\\\\\\
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/st-lucia-s-night-dec-12th.png
-END:VEVENT
-BEGIN:VEVENT
-DTSTAMP:20251104T055848Z
-DTSTART:20251212T070000Z
-DTEND:20251213T070000Z
 SUMMARY:Feast of Our Lady of Guadalupe
 DESCRIPTION:History: In 1531 Juan Diego reported Marian apparitions on Tepe
  yac Hill\, and the tilma image quickly became a symbol of Mexican faith and
