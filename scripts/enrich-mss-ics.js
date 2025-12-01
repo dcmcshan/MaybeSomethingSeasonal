@@ -367,12 +367,6 @@ const EVENT_DETAILS = {
     traditions: `Families stay up late baking saffron dough, weaving barabritta crowns, and keeping candles lit to welcome the dawn bringer.`,
     feasting: `Glogg mulled wine, raisin-studded lussekatter twists, and ginger thins are prepared overnight to share with the morning procession.`,
   },
-  '20251212T070000Z|st-lucia-s-night-dec-12th': {
-    title: "St. Lucia's Night Processions",
-    history: `The legend of Lucia of Syracuse, who smuggled food to Christians in catacombs, inspired Swedish torchlit processions dating to the seventeenth century.`,
-    traditions: `A Lucia in white robes and candle crown leads attendants singing "Sankta Lucia," visiting hospitals, schools, and city squares before sunrise.`,
-    feasting: `Participants enjoy freshly baked lussekatter, pepparkakor cookies, and strong coffee served on decorated trays.`,
-  },
   '20251212T070000Z|feast-of-our-lady-of-guadalupe-patroness-of-the-americas': {
     title: 'Feast of Our Lady of Guadalupe',
     history: `In 1531 Juan Diego reported Marian apparitions on Tepeyac Hill, and the tilma image quickly became a symbol of Mexican faith and identity.`,
