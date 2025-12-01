@@ -59,7 +59,7 @@ const holidayNameMap = {
   'Solstice': ['Winter Solstice', 'Solstice', 'solstice'],
   'Martinstag': ['St. Martin\'s Day', 'Martinstag', 'Martinmas', 'martin'],
   'el Día de Muertos': ['Día de los Muertos', 'Day of the Dead', 'el Día de Muertos', 'dead'],
-  'Andermas Eve': ['Andermas Eve', 'St. Andrew\'s Eve', 'Eve of St. Andrew', 'andrew'],
+  'Andermas Eve': ['Andermas Eve', 'St. Andrew\'s Eve', 'Eve of St. Andrew', 'Noaptea Lupilor', 'andrew'],
   'Keystone': ['Keystone'], // May not be in calendar
   'Magic Flute': ['Magic Flute'], // May not be in calendar
   'Gita Mahotsav': ['Gita Mahotsav'], // May not be in calendar
