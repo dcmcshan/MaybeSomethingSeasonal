@@ -893,8 +893,8 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/eve-of-the-wint
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
-DTSTART:20251221T190000Z
-DTEND:20251222T070000Z
+DTSTART:20251220T190000Z
+DTEND:20251221T070000Z
 SUMMARY:Yalda Night
 DESCRIPTION:History: Persian Yalda predates Islam\, celebrating the birth o
  f Mithra and later the victory of light over darkness on the longest night.
@@ -911,7 +911,7 @@ DESCRIPTION:History: Persian Yalda predates Islam\, celebrating the birth o
  ts showcase anar o hendevaneh fruit\, ajil-e Shab-e Yalda roasted nuts and 
  dried fruits for good fortune\, and sholeh zard saffron rice pudding dusted
   with cinnamon. Guests close the vigil by drawing Hafez divinations as poet
- ry and the promise of returning light fill the night.\nDay: Sunday\n\nIcon:
+ ry and the promise of returning light fill the night.\nDay: Saturday\n\nIcon:
   🌙\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED

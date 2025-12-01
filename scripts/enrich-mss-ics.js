@@ -427,7 +427,7 @@ const EVENT_DETAILS = {
     traditions: `People burn yule logs, exchange handmade gifts, meditate at sunrise, and decorate with evergreen boughs and lights symbolising returning warmth.`,
     feasting: `Roasted meats, spiced mead, citrus preserves, and solstice cakes shaped like the sun celebrate the lengthening days ahead.`,
   },
-  '20251221T190000Z|eve-of-the-winter-solstice-the-longest-night': {
+  '20251220T190000Z|eve-of-the-winter-solstice-the-longest-night': {
     title: 'Yalda Night',
     history: `Persian Yalda predates Islam, celebrating the birth of Mithra and later the victory of light over darkness on the longest night.`,
     traditions: `Families stay awake reading Hafez poetry, storytelling, and watching the fire's glow until the first light of dawn.`,
