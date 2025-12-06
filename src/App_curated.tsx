@@ -407,6 +407,14 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "cultural"
   },
   {
+    title: "Gita Jayanti (गीता जयंती)",
+    date: "2025-12-06",
+    description: "Bhagavad Gita recitations honor the Margashirsha Shukla Ekadashi when Krishna revealed the song of dharma.",
+    icon: "🕉️",
+    image: "/images/image39.jpg",
+    category: "religious"
+  },
+  {
     title: "Sinterklaas Arrival",
     date: "2025-11-15",
     description: "Arrival of Sinterklaas in the Netherlands.",
