@@ -109,6 +109,40 @@ const extractMeta = (raw = "") => {
   };
 };
 
+const parseCalendarMeta = (raw = "") => {
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  try {
+    return JSON.parse(trimmed);
+  } catch (error) {
+    console.warn("Unable to parse calendar metadata", error);
+    return null;
+  }
+};
+
+const collectCalendarMetaLines = (meta) => {
+  if (!meta) return [];
+  const lines = [];
+  if (Array.isArray(meta.alternateCalendars)) {
+    meta.alternateCalendars.forEach((alt) => {
+      if (!alt || !alt.calendarSystem) return;
+      const descriptorParts = [alt.descriptor, alt.notes].filter(Boolean);
+      const descriptor = descriptorParts.join(" — ");
+      lines.push(
+        `${alt.calendarSystem}: ${descriptor || alt.descriptor || ""}`.trim(),
+      );
+    });
+  }
+  if (meta.recurrence && meta.recurrence.rule) {
+    const label = meta.recurrence.calendarSystem || "calendar";
+    const anchor = meta.recurrence.anchor
+      ? ` — ${meta.recurrence.anchor}`
+      : "";
+    lines.push(`Recurs (${label}): ${meta.recurrence.rule}${anchor}`);
+  }
+  return lines.filter((line) => line && line.length > 0);
+};
+
 const shortenTitle = (title = "") => {
   const stripped = title.replace(/\s*\(.*?\)\s*/g, "").trim();
   if (stripped.length <= 40) return stripped || title;
@@ -154,6 +188,8 @@ const parseIcs = (icsText) => {
     const { SUMMARY, DTSTART, DESCRIPTION, CATEGORIES } = event;
     const meta = extractMeta(DESCRIPTION);
     const category = meta.category || unescapeText(CATEGORIES || "").trim();
+    const calendarMeta = parseCalendarMeta(event["X-MSS-CALENDAR-META"] || "");
+    const calendarMetaLines = collectCalendarMetaLines(calendarMeta);
     const fullTitle =
       unescapeText(SUMMARY || "").trim() ||
       meta.summary ||
@@ -170,6 +206,8 @@ const parseIcs = (icsText) => {
       traditions: meta.sections.traditions,
       feasting: meta.sections.feasting,
       image: resolveImageSrc(imagePath),
+      calendarMeta,
+      calendarMetaLines,
     };
   });
 };
@@ -178,6 +216,16 @@ const createSnapshot = ({ history, traditions, feasting }) => {
   const source = history || traditions || feasting || "";
   if (!source) return "Details arriving soon.";
   return source.length > 150 ? `${source.slice(0, 147)}…` : source;
+};
+
+const renderCalendarMetaSection = (lines = []) => {
+  if (!lines.length) return "";
+  return `
+    <div class="tooltip-section">
+      <strong>Calendars</strong>
+      <p>${lines.join("<br>")}</p>
+    </div>
+  `;
 };
 
 const hideTooltip = () => {
@@ -212,6 +260,9 @@ const showTooltip = (target, eventData) => {
   const tooltip = document.createElement("div");
   tooltip.dataset.tooltip = "true";
   tooltip.className = "event-tooltip";
+  const calendarMetaSection = renderCalendarMetaSection(
+    eventData.calendarMetaLines,
+  );
   tooltip.innerHTML = `
     <h3>${eventData.fullTitle}</h3>
     <div class="tooltip-meta">
@@ -239,6 +290,7 @@ const showTooltip = (target, eventData) => {
         ? `<div class="tooltip-icon">Icon: ${eventData.icon}</div>`
         : ""
     }
+    ${calendarMetaSection}
   `;
   document.body.appendChild(tooltip);
   positionTooltip(target, tooltip);
@@ -302,6 +354,7 @@ const applyFilter = (events) => {
       event.history,
       event.traditions,
       event.feasting,
+      (event.calendarMetaLines || []).join(" "),
     ]
       .join(" ")
       .toLowerCase();
