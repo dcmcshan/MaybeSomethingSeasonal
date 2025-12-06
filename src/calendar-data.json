@@ -2423,6 +2423,7 @@
     "date": "2025-12-08",
     "description": "Feast of the Immaculate Conception.",
     "icon": "🌹",
+    "image": "/images/image36.jpg",
     "category": "religious"
   },
   {
@@ -2444,8 +2445,7 @@
     "date": "2025-12-10",
     "description": "Mozart's beloved opera invites winter audiences into a fantastical journey of music and light.",
     "icon": "🎵",
-    "category": "cultural",
-    "image": "/images/image36.jpg"
+    "category": "cultural"
   },
   {
     "title": "St. Damasus I",
