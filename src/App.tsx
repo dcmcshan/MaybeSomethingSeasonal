@@ -2620,6 +2620,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     description:
       "The evening before the winter solstice, preparing for the shortest day.",
     icon: "🌙",
+    image: "/images/polar-bear-solstice.svg",
     category: "seasonal",
   },
   {
@@ -2649,6 +2650,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     description:
       "The shortest day - embrace the darkness and prepare for renewal.",
     icon: "❄️",
+    image: "/images/polar-bear-solstice.svg",
     category: "seasonal",
   },
   {

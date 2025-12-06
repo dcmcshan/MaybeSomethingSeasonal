@@ -838,7 +838,7 @@ DESCRIPTION:History: Communities have long marked the night before the sols
 CATEGORIES:seasonal\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/eve-of-the-winter-solstice-the-longest-night.png
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/polar-bear-solstice.svg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -872,7 +872,7 @@ DESCRIPTION:History: The solstice marks the sun's rebirth in cultures from
 CATEGORIES:seasonal\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/eve-of-the-winter-solstice-the-longest-night.png
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/polar-bear-solstice.svg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
