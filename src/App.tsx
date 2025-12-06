@@ -2659,6 +2659,15 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Polaris Meteor Watch & UFO Evening",
+    date: "2025-12-22",
+    description:
+      "Gather to scan for meteors near Polaris with whimsical UFO lanterns and midnight cocoa.",
+    icon: "🛸",
+    category: "seasonal",
+    image: "/images/festive-ufo-meteor-watch.png",
+  },
+  {
     title: "Hanukkah - Night 8",
     date: "2025-12-22",
     description:

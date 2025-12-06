@@ -876,6 +876,17 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/eve-of-the-wint
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
+DTSTART:20251222T070000Z
+DTEND:20251223T070000Z
+SUMMARY:Polaris Meteor Watch & UFO Evening
+DESCRIPTION:History: Stargazers gather during the solstice week to trace meteor showers as they skim past Polaris, blending folk UFO lore with real night-sky science.\nTraditions: Neighbors hang neon saucer lanterns, align telescopes north, lead children in meteor-counting logs, and play synth carols while a laser pointer traces the Little Dipper.\nFeasting: Camps pour midnight cocoa tinted nebula-blue, share smoky chili, citrus-rosemary popcorn, and shortbread saucers dusted with edible stardust.\nDay: Monday\n\nIcon: 🛸\nCategory: seasonal
+CATEGORIES:seasonal
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/festive-ufo-meteor-watch.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
 DTSTART:20251220T190000Z
 DTEND:20251221T070000Z
 SUMMARY:Yalda Night

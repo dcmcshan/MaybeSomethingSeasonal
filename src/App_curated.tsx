@@ -435,6 +435,14 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "seasonal"
   },
   {
+    title: "Polaris Meteor Watch & UFO Evening",
+    date: "2025-12-22",
+    description: "Scan for meteors over Polaris with festive UFO lanterns and midnight cocoa.",
+    icon: "🛸",
+    image: "/images/festive-ufo-meteor-watch.png",
+    category: "seasonal"
+  },
+  {
     title: "Christmas Eve",
     date: "2025-12-24",
     description: "Vigil of the Nativity, anticipation of Christ's birth.",
