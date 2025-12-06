@@ -2708,6 +2708,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     date: "2025-12-26",
     description: "Celebration of St. Stephen, the first martyr.",
     icon: "⛪",
+    image: "/images/stefans-feast-stone.png",
     category: "religious",
   },
   {
