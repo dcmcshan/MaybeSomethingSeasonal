@@ -614,6 +614,17 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image30.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
+DTSTART:20251206T070000Z
+DTEND:20251207T070000Z
+SUMMARY:Gita Jayanti (गीता जयंती)
+DESCRIPTION:History: Gita Jayanti marks the Kurukshetra dialogue where Shri Krishna delivered the Bhagavad Gita to Arjuna on Margashirsha Shukla Ekadashi.\nTraditions: Devotees chant all eighteen chapters\, bathe Gitaji manuscripts\, light rows of diyas\, and host satsangs on dharma and selfless action.\nFeasting: Prasad tables share sattvic dishes like khichdi\, kheer\, fresh fruits\, and masala chai after evening aarti.\nDay: Saturday\n\nIcon: 🕉️\\\\\\\\\\\\\\\nCategory: religious\\\\\\
+CATEGORIES:religious\\\\\\
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image39.jpg
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
 DTSTART:20251207T070000Z
 DTEND:20251208T070000Z
 SUMMARY:Tiki Christmas at Pearl Harbor

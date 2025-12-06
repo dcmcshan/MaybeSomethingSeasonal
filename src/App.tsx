@@ -2470,6 +2470,15 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Gita Jayanti (गीता जयंती)",
+    date: "2025-12-06",
+    description:
+      "Marks the Margashirsha Shukla Ekadashi when Krishna revealed the Bhagavad Gita; devotees chant the text, light lamps, and recommit to dharma.",
+    icon: "🕉️",
+    image: "/images/image39.jpg",
+    category: "religious",
+  },
+  {
     title: "St. Ambrose",
     date: "2025-12-07",
     description: "Bishop and Doctor of the Church.",
