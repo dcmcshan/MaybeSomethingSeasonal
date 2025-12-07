@@ -674,6 +674,7 @@ Category: religious
 CATEGORIES:religious
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image36.jpg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -708,7 +709,6 @@ DESCRIPTION:History: Mozart's Singspiel Die Zauberflote premiered in 1791
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image36.jpg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z

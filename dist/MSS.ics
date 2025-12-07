@@ -51,8 +51,8 @@ DESCRIPTION:History: Medieval Swiss guilds observed Berchtoldstag as a post
  -feast day to honor community bonds and start the civic year together.\nTra
  ditions: Families make Berchteln visits\, children knock on doors during Ba
  erzelistag parades\, and neighbors share well wishes with carved masks or p
-ine boughs.\nFeasting: Tables feature braided Zopf loaves\, roesti skillets
-\, sausages\, hazelnut tortes\, and pots of melted cheese for communal dipp
+ ine boughs.\nFeasting: Tables feature braided Zopf loaves\, roesti skillets
+ \, sausages\, hazelnut tortes\, and pots of melted cheese for communal dipp
  ing.\nDay: Friday\n\nIcon: 🍞\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
@@ -494,12 +494,13 @@ DTEND:20251126T070000Z
 SUMMARY:St. Catherine's Day
 DESCRIPTION:History: Medieval guilds honoured St. Catherine of Alexandria as
   a patron of scholars and spinners\, with France's unmarried milliners becomi
-  ng joyful "Catherinettes" on her November feast.\nTraditions: Parisian ateli
-  ers crown Catherinettes in towering yellow and green hats\, churches bless r
-  ibbons and lace\, and craft fairs raise funds for apprentices considering re
-  ligious life.\nFeasting: Bakeries share saffron cattern cakes\, honeyed bisc
-  uits\, mulled cider\, and spiced wine served after evening vespers.\nDay: Tu
-  esday\n\nIcon: 🎓
+  ng joyful "Catherinettes" on her November feast.\nTraditions: 🔮 Pouring wax 
+  through an old key into cold water\, then reading the candlelit shadow—heart
+  foretells love\, house promises stability\, animal hints at a future spouse'
+  s character\, ship signals travel—before whirling a bright St. Catherine's w
+  heel procession through the streets.\nFeasting: Bakeries share saffron catter
+  n cakes\, honeyed biscuits\, mulled cider\, and spiced wine served after even
+  ing vespers.\nDay: Tuesday\n\nIcon: 🎡
 Category: religious
 CATEGORIES:religious
 STATUS:CONFIRMED
@@ -673,6 +674,7 @@ Category: religious
 CATEGORIES:religious
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image36.jpg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -681,12 +683,11 @@ DTEND:20251117T070000Z
 SUMMARY:Sinterklaas Arrival (Intocht)
 DESCRIPTION:History: Dutch newspapers popularised Sinterklaas arriving by s
  teamboat in the nineteenth century\, blending Saint Nicholas lore with mari
- time identity.\nTraditions: The arrival happens on the Sunday after Saint M
- artin's Day; Sinterklaas docks with his Pieten helpers\, parades through tow
- n distributing pepernoten\, and listens to children's wish lists before 5 De
- cember gifts.\nFeasting: Crowds crunch spiced pepernoten\, speculaas windmil
- l cookies\, chocolate letters\, and marzipan while sipping hot cocoa along t
- he canals.\nDay: Sunday\n\nIcon: 🚢\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
+ time identity.\nTraditions: On the Sunday after Saint Martin's Day Sinterklaas
+  docks with his Pieten helpers\, parades through town distributing pepernoten\,
+  and listens to children's wish lists before 5 December gifts.\nFeasting: Crow
+ ds crunch spiced pepernoten\, speculaas windmill cookies\, chocolate letters\,
+ and marzipan while sipping hot cocoa along the canals.\nDay: Sunday\n\nIcon: 🚢\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
@@ -708,12 +709,11 @@ DESCRIPTION:History: Mozart's Singspiel Die Zauberflote premiered in 1791
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image36.jpg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
-DTSTART:20251211T070000Z
-DTEND:20251213T070000Z
+DTSTART:20251212T070000Z
+DTEND:20251214T070000Z
 SUMMARY:Lussinatta (St. Lucia's Vigil)
 DESCRIPTION:History: In Scandinavia\, Lussinatta watchers once guarded agai
  nst mischief on the long night before Lucia's feast\, blending Norse folklo
@@ -721,7 +721,7 @@ DESCRIPTION:History: In Scandinavia\, Lussinatta watchers once guarded agai
  on dough\, weaving barabritta crowns\, and keeping candles lit to welcome t
  he dawn bringer.\nFeasting: Glogg mulled wine\, raisin-studded lussekatter 
  twists\, and ginger thins are prepared overnight to share with the morning 
- procession.\nDay: Thursday\n\nIcon: 🌙\\\\\\\\\\\\\\\nCategory: cultural\\\
+ procession.\nDay: Friday\n\nIcon: 🌙\\\\\\\\\\\\\\\nCategory: cultural\\\
  \\\
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
