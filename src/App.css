@@ -219,7 +219,20 @@
     padding: 1px !important;
     border: 0.5px solid #000 !important;
     page-break-inside: avoid !important;
-    overflow: hidden !important;
+    overflow: visible !important;
+    position: relative !important;
+  }
+
+  /* Ensure event container is visible */
+  .flex-1 {
+    display: block !important;
+  }
+
+  .relative.z-10 {
+    position: relative !important;
+    z-index: 10 !important;
+    display: block !important;
+    visibility: visible !important;
   }
 
   /* Day numbers */
@@ -228,7 +241,18 @@
     margin-bottom: 0.5px !important;
   }
 
-  /* Events */
+  /* Events - ensure visibility */
+  .space-y-1 {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  .space-y-1 > * {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
   .space-y-1 > * + * {
     margin-top: 0.5px !important;
   }
@@ -238,12 +262,29 @@
     padding: 0.5px 1px !important;
     margin-bottom: 0.5px !important;
     line-height: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border: 0.5px solid #000000 !important;
+  }
+
+  /* Event badges and labels */
+  .rounded.cursor-pointer,
+  .rounded.cursor-pointer.hover\:shadow-sm {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    page-break-inside: avoid !important;
   }
 
   /* Event icons */
   img {
     width: 6px !important;
     height: 6px !important;
+    display: inline-block !important;
+    visibility: visible !important;
   }
 
     .diagonal-event-wrapper {
@@ -278,6 +319,24 @@
   .truncate {
     font-size: 6px !important;
     line-height: 1 !important;
+    display: inline !important;
+    visibility: visible !important;
+    color: #000000 !important;
+  }
+
+  /* Event titles */
+  .christmas-font {
+    display: inline !important;
+    visibility: visible !important;
+    color: #000000 !important;
+  }
+
+  /* Ensure all event-related elements are visible */
+  [class*="event"],
+  [class*="Event"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   /* Day of week headers */
@@ -303,10 +362,46 @@
     margin-bottom: 1px !important;
   }
 
+  /* Background overlays - reduce opacity in print */
+  .absolute.inset-0.bg-black {
+    opacity: 0.1 !important;
+    z-index: 1 !important;
+  }
+
+  /* Ensure event content is above overlays */
+  .relative.z-10,
+  .space-y-1.relative.z-10 {
+    position: relative !important;
+    z-index: 20 !important;
+  }
+
+  /* Past day X marker - make sure it doesn't cover events */
+  .absolute.inset-1 {
+    z-index: 5 !important;
+    pointer-events: none !important;
+  }
+
   /* Force full width and height */
   html, body {
     width: 100% !important;
     height: 100% !important;
     overflow: hidden !important;
+  }
+
+  /* Make sure flex containers don't hide content */
+  .flex.flex-col {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Ensure all text is black and visible */
+  .text-white {
+    color: #000000 !important;
+  }
+
+  .bg-black.bg-opacity-50 {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 0.5px solid #000000 !important;
   }
 }

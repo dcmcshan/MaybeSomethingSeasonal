@@ -337,6 +337,13 @@ async function enhancePromptWithOpenRouter(originalPrompt) {
 function createPrompt(event) {
   const description = event.description || '';
   const summary = event.summary || 'Calendar Event';
+  
+  // Special case: Pearl Harbor Day - Godzilla in Santa hat
+  if (summary.toLowerCase().includes('pearl harbor') || 
+      description.toLowerCase().includes('pearl harbor')) {
+    return 'Create a clean, high-contrast icon of Godzilla wearing a Santa hat. Focus on Godzilla as a single symbolic character, centered composition, minimal shadow. Render on a crisp white or transparent background with no scenery or text. Style: polished vector, flat illustration, subtle gradients welcome. Godzilla should be recognizable with classic features, wearing a festive red and white Santa hat.';
+  }
+  
   // Clean description (remove icon/category markers)
   const cleanDesc = description.split('\\n\\nIcon:')[0].replace(/\\n/g, ' ').trim();
   

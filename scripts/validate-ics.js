@@ -20,7 +20,7 @@ function validateICS() {
   const availableImages = new Set();
   if (fs.existsSync(IMAGES_DIR)) {
     fs.readdirSync(IMAGES_DIR)
-      .filter(f => f.endsWith('.jpg') || f.endsWith('.jpeg') || f.endsWith('.png'))
+      .filter(f => f.endsWith('.jpg') || f.endsWith('.jpeg') || f.endsWith('.png') || f.endsWith('.svg'))
       .forEach(f => availableImages.add(f));
   } else {
     errors.push(`Images directory not found: ${IMAGES_DIR}`);
