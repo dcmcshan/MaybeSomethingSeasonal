@@ -818,6 +818,17 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/festival-of-lig
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
+DTSTART:20251216T070000Z
+DTEND:20251225T070000Z
+SUMMARY:Las Posadas Novena
+DESCRIPTION:History: Since the 16th century in Mexico, Las Posadas has retold Mary and Joseph's search for lodging over nine evenings leading into Christmas.\nTraditions: Candlelit pilgrims knock on neighborhood doors, trade sung call-and-response villancicos, and welcome the peregrinos inside for prayer and hospitality.\nFeasting: Hosts share ponche navideño, tamales, buñuelos, and star-shaped piñatas that spill sweets for the children.\nDay: Tuesday\n\nIcon: 🫏\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
+CATEGORIES:cultural\\\\\\
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/las-posadas-procession.svg
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
 DTSTART:20251217T070000Z
 DTEND:20251218T070000Z
 SUMMARY:Saturnalia
