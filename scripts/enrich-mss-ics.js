@@ -169,6 +169,12 @@ const EVENT_DETAILS = {
     traditions: `Churches bless candles for the coming year, processions illuminate winter nights, and weather lore predicts the remaining length of winter.`,
     feasting: `La Chandeleur tables offer crepes beurre sucre, crepes jambon-fromage, boles de cidre brut, and salade de mache; in Mexico, familias sirven tamales oaxaquenos, tamales de dulce, atole de canela, champurrado espumoso, and pan de candelaria after the blessing of candles.`,
   },
+  '20250102T070000Z|': {
+    title: 'Berchtoldstag',
+    history: `Swiss guilds and villages have observed Berchtoldstag since the Middle Ages as a post-feast civic day to reaffirm community bonds after New Year.`,
+    traditions: `Families make Berchteln visits, children knock on doors during Baerzelistag parades, and neighbours trade well wishes with carved masks or pine boughs.`,
+    feasting: `Tables feature braided Zopf loaves, roesti skillets, sausages, hazelnut tortes, and pots of melted cheese meant for communal dipping.`,
+  },
   '20250105T070000Z|twelfth-night-end-of-the-christmas-season': {
     title: 'Twelfth Night',
     history: `Twelfth Night concludes the Christmastide counting from medieval Europe, blending Christian Epiphany vigils with older winter revels.`,
@@ -308,7 +314,7 @@ const EVENT_DETAILS = {
     feasting: `Menus highlight roast turkey, cornbread stuffing, cranberry relish, sweet potatoes, green bean casseroles, and slices of pumpkin or pecan pie.`,
   },
   '20251129T070000Z|image27': {
-    title: "St. Andrew's Eve (Andrzejki)",
+    title: "Noaptea Lupilor",
     history: `Polish Andrzejki fortune-telling parties date to the sixteenth century, once focused on young women seeking visions of future spouses.`,
     traditions: `Participants pour hot wax through keys, decode shapes in candle shadows, and dance until dawn while sharing playful prophecies.`,
     feasting: `Guests snack on poppy-seed cakes, honey cookies, pickled herring, and warm cups of mead or herb-infused tea.`,
@@ -343,7 +349,7 @@ const EVENT_DETAILS = {
     traditions: `Wreath lighting, scripture readings about John the Baptist, and charity collections for neighbours in need mark the Sunday gatherings.`,
     feasting: `Cardamom buns, cinnamon star cookies, spiced teas, and hearty casseroles offer comfort during the contemplative Advent evenings.`,
   },
-  '20251210T070000Z|image27': {
+  '20251210T070000Z|image36': {
     title: 'Magic Flute',
     history: `Mozart's Singspiel Die Zauberflote premiered in 1791 Vienna, enchanting winter audiences with a blend of fairy-tale storytelling and Enlightenment ideals.`,
     traditions: `Opera houses stage festive productions with elaborate stagecraft, families dress for a holiday night out, and communities host singalong overtures that keep spirits bright.`,
@@ -360,12 +366,6 @@ const EVENT_DETAILS = {
     history: `In Scandinavia, Lussinatta watchers once guarded against mischief on the long night before Lucia's feast, blending Norse folklore with Christian devotion.`,
     traditions: `Families stay up late baking saffron dough, weaving barabritta crowns, and keeping candles lit to welcome the dawn bringer.`,
     feasting: `Glogg mulled wine, raisin-studded lussekatter twists, and ginger thins are prepared overnight to share with the morning procession.`,
-  },
-  '20251212T070000Z|st-lucia-s-night-dec-12th': {
-    title: "St. Lucia's Night Processions",
-    history: `The legend of Lucia of Syracuse, who smuggled food to Christians in catacombs, inspired Swedish torchlit processions dating to the seventeenth century.`,
-    traditions: `A Lucia in white robes and candle crown leads attendants singing "Sankta Lucia," visiting hospitals, schools, and city squares before sunrise.`,
-    feasting: `Participants enjoy freshly baked lussekatter, pepparkakor cookies, and strong coffee served on decorated trays.`,
   },
   '20251212T070000Z|feast-of-our-lady-of-guadalupe-patroness-of-the-americas': {
     title: 'Feast of Our Lady of Guadalupe',
@@ -421,7 +421,7 @@ const EVENT_DETAILS = {
     traditions: `People burn yule logs, exchange handmade gifts, meditate at sunrise, and decorate with evergreen boughs and lights symbolising returning warmth.`,
     feasting: `Roasted meats, spiced mead, citrus preserves, and solstice cakes shaped like the sun celebrate the lengthening days ahead.`,
   },
-  '20251221T190000Z|eve-of-the-winter-solstice-the-longest-night': {
+  '20251220T190000Z|eve-of-the-winter-solstice-the-longest-night': {
     title: 'Yalda Night',
     history: `Persian Yalda predates Islam, celebrating the birth of Mithra and later the victory of light over darkness on the longest night.`,
     traditions: `Families stay awake reading Hafez poetry, storytelling, and watching the fire's glow until the first light of dawn.`,

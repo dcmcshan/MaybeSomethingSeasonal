@@ -46,6 +46,22 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20260102T070000Z
 DTEND:20260103T070000Z
+SUMMARY:Berchtoldstag
+DESCRIPTION:History: Medieval Swiss guilds observed Berchtoldstag as a post
+ -feast day to honor community bonds and start the civic year together.\nTra
+ ditions: Families make Berchteln visits\, children knock on doors during Ba
+ erzelistag parades\, and neighbors share well wishes with carved masks or p
+ ine boughs.\nFeasting: Tables feature braided Zopf loaves\, roesti skillets
+ \, sausages\, hazelnut tortes\, and pots of melted cheese for communal dipp
+ ing.\nDay: Friday\n\nIcon: 🍞\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20260102T070000Z
+DTEND:20260103T070000Z
 SUMMARY:Candlemas (Feast of the Presentation)
 DESCRIPTION:History: Commemorated in Jerusalem by the fourth century\, Cand
  lemas marks forty days after Christmas when Mary and Joseph presented Jesus
@@ -513,7 +529,7 @@ BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
 DTSTART:20251129T070000Z
 DTEND:20251130T070000Z
-SUMMARY:St. Andrew's Eve (Andrzejki)
+SUMMARY:Noaptea Lupilor
 DESCRIPTION:History: Polish Andrzejki fortune-telling parties date to the s
  ixteenth century\, once focused on young women seeking visions of future sp
  ouses.\nTraditions: Participants pour hot wax through keys\, decode shapes 
@@ -598,6 +614,17 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image30.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
+DTSTART:20251206T070000Z
+DTEND:20251207T070000Z
+SUMMARY:Gita Jayanti (गीता जयंती)
+DESCRIPTION:History: Gita Jayanti marks the Kurukshetra dialogue where Shri Krishna delivered the Bhagavad Gita to Arjuna on Margashirsha Shukla Ekadashi.\nTraditions: Devotees chant all eighteen chapters\, bathe Gitaji manuscripts\, light rows of diyas\, and host satsangs on dharma and selfless action.\nFeasting: Prasad tables share sattvic dishes like khichdi\, kheer\, fresh fruits\, and masala chai after evening aarti.\nDay: Saturday\n\nIcon: 🕉️\\\\\\\\\\\\\\\nCategory: religious\\\\\\
+CATEGORIES:religious\\\\\\
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image39.jpg
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
 DTSTART:20251207T070000Z
 DTEND:20251208T070000Z
 SUMMARY:Tiki Christmas at Pearl Harbor
@@ -647,6 +674,7 @@ Category: religious
 CATEGORIES:religious
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image36.jpg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -681,7 +709,6 @@ DESCRIPTION:History: Mozart's Singspiel Die Zauberflote premiered in 1791
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image27.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -700,23 +727,6 @@ CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/st-lucia-s-vigil-from-dusk-on-dec-11-until-dawn-on-dec-12.png
-END:VEVENT
-BEGIN:VEVENT
-DTSTAMP:20251104T055848Z
-DTSTART:20251212T070000Z
-DTEND:20251213T070000Z
-SUMMARY:St. Lucia's Night Processions
-DESCRIPTION:History: The legend of Lucia of Syracuse\, who smuggled food to
-  Christians in catacombs\, inspired Swedish torchlit processions dating to 
- the seventeenth century.\nTraditions: A Lucia in white robes and candle cro
- wn leads attendants singing "Sankta Lucia\," visiting hospitals\, schools\,
-  and city squares before sunrise.\nFeasting: Participants enjoy freshly bak
- ed lussekatter\, pepparkakor cookies\, and strong coffee served on decorate
- d trays.\nDay: Friday\n\nIcon: 🌙\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
-CATEGORIES:cultural\\\\\\
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/st-lucia-s-night-dec-12th.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -808,6 +818,17 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/festival-of-lig
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
+DTSTART:20251216T070000Z
+DTEND:20251225T070000Z
+SUMMARY:Las Posadas Novena
+DESCRIPTION:History: Since the 16th century in Mexico, Las Posadas has retold Mary and Joseph's search for lodging over nine evenings leading into Christmas.\nTraditions: Candlelit pilgrims knock on neighborhood doors, trade sung call-and-response villancicos, and welcome the peregrinos inside for prayer and hospitality.\nFeasting: Hosts share ponche navideño, tamales, buñuelos, and star-shaped piñatas that spill sweets for the children.\nDay: Tuesday\n\nIcon: 🫏\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
+CATEGORIES:cultural\\\\\\
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/las-posadas-procession.svg
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
 DTSTART:20251217T070000Z
 DTEND:20251218T070000Z
 SUMMARY:Saturnalia
@@ -839,7 +860,7 @@ DESCRIPTION:History: Communities have long marked the night before the sols
 CATEGORIES:seasonal\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/eve-of-the-winter-solstice-the-longest-night.png
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/polar-bear-solstice.svg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -873,12 +894,12 @@ DESCRIPTION:History: The solstice marks the sun's rebirth in cultures from
 CATEGORIES:seasonal\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/eve-of-the-winter-solstice-the-longest-night.png
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/polar-bear-solstice.svg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
-DTSTART:20251221T190000Z
-DTEND:20251222T070000Z
+DTSTART:20251220T190000Z
+DTEND:20251221T070000Z
 SUMMARY:Yalda Night
 DESCRIPTION:History: Persian Yalda predates Islam\, celebrating the birth o
  f Mithra and later the victory of light over darkness on the longest night.
@@ -895,7 +916,7 @@ DESCRIPTION:History: Persian Yalda predates Islam\, celebrating the birth o
  ts showcase anar o hendevaneh fruit\, ajil-e Shab-e Yalda roasted nuts and 
  dried fruits for good fortune\, and sholeh zard saffron rice pudding dusted
   with cinnamon. Guests close the vigil by drawing Hafez divinations as poet
- ry and the promise of returning light fill the night.\nDay: Sunday\n\nIcon:
+ ry and the promise of returning light fill the night.\nDay: Saturday\n\nIcon:
   🌙\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED

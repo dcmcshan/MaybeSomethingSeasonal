@@ -66,6 +66,14 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Berchtoldstag",
+    date: "2025-01-02",
+    description:
+      "Swiss day of sharing bread and community visits following the New Year.",
+    icon: "🍞",
+    category: "cultural",
+  },
+  {
     title: "Most Holy Name of Jesus",
     date: "2025-01-03",
     description: "Optional memorial of the Holy Name of Jesus.",
@@ -2461,6 +2469,15 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Gita Jayanti (गीता जयंती)",
+    date: "2025-12-06",
+    description:
+      "Marks the Margashirsha Shukla Ekadashi when Krishna revealed the Bhagavad Gita; devotees chant the text, light lamps, and recommit to dharma.",
+    icon: "🕉️",
+    image: "/images/image39.jpg",
+    category: "religious",
+  },
+  {
     title: "St. Ambrose",
     date: "2025-12-07",
     description: "Bishop and Doctor of the Church.",
@@ -2515,7 +2532,8 @@ const CALENDAR_DATA: CalendarEvent[] = [
   {
     title: "Our Lady of Guadalupe",
     date: "2025-12-12",
-    description: "Patroness of the Americas and unborn children.",
+    description:
+      "Patroness of the Americas and unborn children.\n\nHere is a clean, clear guide for Tonantzin Day - December 12, drawing from history, syncretic tradition, and how it is celebrated today. (I can also craft a full feast, blessings, rituals, or an ii-style festival entry if you want!)\n\n---\n\nTonantzin Day - December 12\n\nTonantzin (from to-nan-tzin, \"Our Revered Mother\") is an ancient Nahua/Aztec title for multiple mother-goddess manifestations, often associated with earth, fertility, birth, healing, and cosmic motherhood.\n\nWhy December 12?\n\nDecember 12 is the feast day of Our Lady of Guadalupe, the Catholic figure venerated at Tepeyac Hill, which was previously a shrine of Tonantzin. From the 16th century onward, Indigenous communities preserved devotion to the Mother Goddess through the syncretic figure of Guadalupe.\n\nSo for many Mexica, Nahua, and Indigenous communities:\n\nDecember 12 = Feast of Tonantzin, through the veiled continuation of Tepeyac devotion. It is one of the most important Indigenous-rooted feast days of the year.\n\nMeanings of the Day\n\n1. Honoring the Earth Mother\n\nTonantzin encompasses many aspects:\n- Coatlicue - earth womb/devourer; cycles of death and rebirth\n- Toci - grandmother healer\n- Xochiquetzal - beauty, fertility, artistry\n- Chicomecōātl - sustenance (corn, food)\n\nOn December 12, the unifying theme is honoring the Earth as Mother and acknowledging her gifts as the year ends.\n\n2. Syncretism as cultural survival\n\nThe day honors Indigenous resistance and preserves language, cosmology, ancestral traditions, ceremonial offerings, and communal reciprocity.\n\n3. Blessings of protection and renewal\n\nTonantzin is invoked for family protection, safe childbirth and pregnancy, healing and cleansing, good harvests and abundance, and community unity and mutual care.\n\nWhat You Might Say on Tonantzin Day\n\nHere are some authentic, respectful options:\n\nTraditional-style greeting\n\"Tlazocamati Tonantzin, for life, breath, and maize. May your mantle protect us.\"\n\nShort blessing\n\"Tonantzin, Mother of All, may your earth sustain us and your warmth renew us.\"\n\nFor family gatherings\n\"On this day of Tonantzin, may our home be sheltered, our path cleared, and our hearts made gentle.\"\n\nFor a seasonal reflection\n\"As the sun lowers and the year sleeps, we return to the Mother. May Tonantzin guide us toward rebirth.\"\n\nIn Nahuatl (simple)\n- Tlahtōcan Tonantzin - \"We honor Our Mother.\"\n- Motēchmāhuizotl - \"Your reverence surrounds us.\"\n- Tlen ticmomacehualiz Tonantzin - \"Tonantzin, grant us sustenance.\"\n\nHow People Celebrate\n\n1. Visiting or creating a home altar\n\nOfferings (ofrendas) typically include flowers (especially marigold and roses), corn, maize dough, tortillas, copal incense, candles, water, and images of mother deities or the Virgin of Guadalupe.\n\n2. Dawn ceremonies\n\nBefore sunrise, many burn copal or sage, greet the sun, and offer thanks for warmth, continuation of life, and earth cycles.\n\n3. Dances and drumming\n\nAztec danza groups perform at Tepeyac and in cities across the Americas.\n\n4. Foods\n\nTraditional choices include atole (corn drink), tamales, pozole, chocolate caliente, and pan dulce.\n\n5. Reflection or storytelling\n\nTonantzin stories emphasize creation, the sacred feminine, earth cycles, and community responsibility.",
     icon: "🌹",
     category: "religious",
   },
@@ -2571,11 +2589,27 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Las Posadas - Night 1",
+    date: "2025-12-16",
+    description:
+      "First candlelit procession reenacting Mary and Joseph's search for shelter with villancicos and luminarias.",
+    icon: "🫏",
+    category: "cultural",
+  },
+  {
     title: "Hanukkah - Night 2",
     date: "2025-12-16",
     description: "Second night of Hanukkah - Festival of Lights.",
     icon: "🕎",
     category: "religious",
+  },
+  {
+    title: "Las Posadas - Night 2",
+    date: "2025-12-17",
+    description:
+      "Pilgrims and hosts continue the novena with scripted refusals before welcoming the Holy Family inside for prayer.",
+    icon: "🫏",
+    category: "cultural",
   },
   {
     title: "St. Lazarus",
@@ -2585,6 +2619,14 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Las Posadas - Night 3",
+    date: "2025-12-18",
+    description:
+      "Children carry star-shaped faroles while neighbors retell the journey for shelter and sing villancicos.",
+    icon: "🫏",
+    category: "cultural",
+  },
+  {
     title: "St. Gatian",
     date: "2025-12-18",
     description: "Bishop and founder, patron of Tours.",
@@ -2592,11 +2634,27 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Las Posadas - Night 4",
+    date: "2025-12-19",
+    description:
+      "Hospitality stops offer ponche navideño, tamales, and prayers as the procession winds through plazas.",
+    icon: "🫏",
+    category: "cultural",
+  },
+  {
     title: "St. Urban V",
     date: "2025-12-19",
     description: "Pope and saint, patron of Benedictines.",
     icon: "👑",
     category: "religious",
+  },
+  {
+    title: "Las Posadas - Night 5",
+    date: "2025-12-20",
+    description:
+      "Seven-pointed piñatas remind celebrants to break away sin while carols echo through courtyards.",
+    icon: "🫏",
+    category: "cultural",
   },
   {
     title: "St. Dominic of Silos",
@@ -2611,7 +2669,16 @@ const CALENDAR_DATA: CalendarEvent[] = [
     description:
       "The evening before the winter solstice, preparing for the shortest day.",
     icon: "🌙",
+    image: "/images/polar-bear-solstice.svg",
     category: "seasonal",
+  },
+  {
+    title: "Las Posadas - Night 6",
+    date: "2025-12-21",
+    description:
+      "Community choirs gather outside parish doors with petitions for migrants and those seeking refuge.",
+    icon: "🫏",
+    category: "cultural",
   },
   {
     title: "Hanukkah - Night 6",
@@ -2635,11 +2702,20 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Las Posadas - Night 7",
+    date: "2025-12-22",
+    description:
+      "Families add new paper flowers to luminarias and invite neighbors in for atole and bolillos.",
+    icon: "🫏",
+    category: "cultural",
+  },
+  {
     title: "Winter Solstice",
     date: "2025-12-21",
     description:
       "The shortest day - embrace the darkness and prepare for renewal.",
     icon: "❄️",
+    image: "/images/polar-bear-solstice.svg",
     category: "seasonal",
   },
   {
@@ -2658,11 +2734,27 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Las Posadas - Night 8",
+    date: "2025-12-23",
+    description:
+      "Penultimate procession highlights perseverance with scripture, candles, and generous hospitality.",
+    icon: "🫏",
+    category: "cultural",
+  },
+  {
     title: "St. John of Kanty",
     date: "2025-12-23",
     description: "Priest and saint, patron of Poland.",
     icon: "⛪",
     category: "religious",
+  },
+  {
+    title: "Las Posadas - Night 9",
+    date: "2025-12-24",
+    description:
+      "Final Posada opens the doors to Midnight Mass, welcoming Christmas morning with shared feasts.",
+    icon: "🫏",
+    category: "cultural",
   },
   {
     title: "Christmas Eve",
@@ -2690,6 +2782,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     date: "2025-12-26",
     description: "Celebration of St. Stephen, the first martyr.",
     icon: "⛪",
+    image: "/images/stefans-feast-stone.png",
     category: "religious",
   },
   {
