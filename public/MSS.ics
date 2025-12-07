@@ -825,23 +825,6 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/ancient-roman-f
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
-DTSTART:20251220T070000Z
-DTEND:20251221T070000Z
-SUMMARY:Solstice Eve Bonfires
-DESCRIPTION:History: Communities have long marked the night before the sols
- tice with fires that assure the sun's return\, weaving pagan and folk custo
- ms together.\nTraditions: Friends gather at hilltops\, light bonfires or ca
- ndle labyrinths\, and share poetry or intentions as darkness reaches its pe
- ak.\nFeasting: Stews of root vegetables\, roasted chestnuts\, mulled wine\,
-  and gingerbread fortify celebrants against the cold night watch.\nDay: Sat
- urday\n\nIcon: 🌙\\\\\\\\\\\\\\\nCategory: seasonal\\\\\\
-CATEGORIES:seasonal\\\\\\
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/eve-of-the-winter-solstice-the-longest-night.png
-END:VEVENT
-BEGIN:VEVENT
-DTSTAMP:20251104T055848Z
 DTSTART:20251221T070000Z
 DTEND:20251222T070000Z
 SUMMARY:Fourth Sunday of Advent

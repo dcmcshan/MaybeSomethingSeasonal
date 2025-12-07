@@ -2615,14 +2615,6 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
-    title: "Solstice Eve",
-    date: "2025-12-20",
-    description:
-      "The evening before the winter solstice, preparing for the shortest day.",
-    icon: "🌙",
-    category: "seasonal",
-  },
-  {
     title: "Hanukkah - Night 6",
     date: "2025-12-20",
     description: "Sixth night of Hanukkah - Festival of Lights.",
