@@ -1,20 +1,21 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   addDays,
+  addMonths,
   differenceInCalendarDays,
   eachDayOfInterval,
-  eachMonthOfInterval,
   endOfMonth,
   endOfWeek,
   format,
   isSameDay,
   isSameMonth,
-  max,
-  min,
   startOfMonth,
   startOfWeek,
+  subMonths,
 } from "date-fns";
 import {
+  ChevronLeft,
+  ChevronRight,
   Download,
   Calendar,
   Printer,
@@ -2469,15 +2470,6 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
-    title: "Gita Jayanti (गीता जयंती)",
-    date: "2025-12-06",
-    description:
-      "Marks the Margashirsha Shukla Ekadashi when Krishna revealed the Bhagavad Gita; devotees chant the text, light lamps, and recommit to dharma.",
-    icon: "🕉️",
-    image: "/images/image39.jpg",
-    category: "religious",
-  },
-  {
     title: "St. Ambrose",
     date: "2025-12-07",
     description: "Bishop and Doctor of the Church.",
@@ -2532,8 +2524,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
   {
     title: "Our Lady of Guadalupe",
     date: "2025-12-12",
-    description:
-      "Patroness of the Americas and unborn children.\n\nHere is a clean, clear guide for Tonantzin Day - December 12, drawing from history, syncretic tradition, and how it is celebrated today. (I can also craft a full feast, blessings, rituals, or an ii-style festival entry if you want!)\n\n---\n\nTonantzin Day - December 12\n\nTonantzin (from to-nan-tzin, \"Our Revered Mother\") is an ancient Nahua/Aztec title for multiple mother-goddess manifestations, often associated with earth, fertility, birth, healing, and cosmic motherhood.\n\nWhy December 12?\n\nDecember 12 is the feast day of Our Lady of Guadalupe, the Catholic figure venerated at Tepeyac Hill, which was previously a shrine of Tonantzin. From the 16th century onward, Indigenous communities preserved devotion to the Mother Goddess through the syncretic figure of Guadalupe.\n\nSo for many Mexica, Nahua, and Indigenous communities:\n\nDecember 12 = Feast of Tonantzin, through the veiled continuation of Tepeyac devotion. It is one of the most important Indigenous-rooted feast days of the year.\n\nMeanings of the Day\n\n1. Honoring the Earth Mother\n\nTonantzin encompasses many aspects:\n- Coatlicue - earth womb/devourer; cycles of death and rebirth\n- Toci - grandmother healer\n- Xochiquetzal - beauty, fertility, artistry\n- Chicomecōātl - sustenance (corn, food)\n\nOn December 12, the unifying theme is honoring the Earth as Mother and acknowledging her gifts as the year ends.\n\n2. Syncretism as cultural survival\n\nThe day honors Indigenous resistance and preserves language, cosmology, ancestral traditions, ceremonial offerings, and communal reciprocity.\n\n3. Blessings of protection and renewal\n\nTonantzin is invoked for family protection, safe childbirth and pregnancy, healing and cleansing, good harvests and abundance, and community unity and mutual care.\n\nWhat You Might Say on Tonantzin Day\n\nHere are some authentic, respectful options:\n\nTraditional-style greeting\n\"Tlazocamati Tonantzin, for life, breath, and maize. May your mantle protect us.\"\n\nShort blessing\n\"Tonantzin, Mother of All, may your earth sustain us and your warmth renew us.\"\n\nFor family gatherings\n\"On this day of Tonantzin, may our home be sheltered, our path cleared, and our hearts made gentle.\"\n\nFor a seasonal reflection\n\"As the sun lowers and the year sleeps, we return to the Mother. May Tonantzin guide us toward rebirth.\"\n\nIn Nahuatl (simple)\n- Tlahtōcan Tonantzin - \"We honor Our Mother.\"\n- Motēchmāhuizotl - \"Your reverence surrounds us.\"\n- Tlen ticmomacehualiz Tonantzin - \"Tonantzin, grant us sustenance.\"\n\nHow People Celebrate\n\n1. Visiting or creating a home altar\n\nOfferings (ofrendas) typically include flowers (especially marigold and roses), corn, maize dough, tortillas, copal incense, candles, water, and images of mother deities or the Virgin of Guadalupe.\n\n2. Dawn ceremonies\n\nBefore sunrise, many burn copal or sage, greet the sun, and offer thanks for warmth, continuation of life, and earth cycles.\n\n3. Dances and drumming\n\nAztec danza groups perform at Tepeyac and in cities across the Americas.\n\n4. Foods\n\nTraditional choices include atole (corn drink), tamales, pozole, chocolate caliente, and pan dulce.\n\n5. Reflection or storytelling\n\nTonantzin stories emphasize creation, the sacred feminine, earth cycles, and community responsibility.",
+    description: "Patroness of the Americas and unborn children.",
     icon: "🌹",
     category: "religious",
   },
@@ -2589,27 +2580,11 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
-    title: "Las Posadas - Night 1",
-    date: "2025-12-16",
-    description:
-      "First candlelit procession reenacting Mary and Joseph's search for shelter with villancicos and luminarias.",
-    icon: "🫏",
-    category: "cultural",
-  },
-  {
     title: "Hanukkah - Night 2",
     date: "2025-12-16",
     description: "Second night of Hanukkah - Festival of Lights.",
     icon: "🕎",
     category: "religious",
-  },
-  {
-    title: "Las Posadas - Night 2",
-    date: "2025-12-17",
-    description:
-      "Pilgrims and hosts continue the novena with scripted refusals before welcoming the Holy Family inside for prayer.",
-    icon: "🫏",
-    category: "cultural",
   },
   {
     title: "St. Lazarus",
@@ -2619,27 +2594,11 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
-    title: "Las Posadas - Night 3",
-    date: "2025-12-18",
-    description:
-      "Children carry star-shaped faroles while neighbors retell the journey for shelter and sing villancicos.",
-    icon: "🫏",
-    category: "cultural",
-  },
-  {
     title: "St. Gatian",
     date: "2025-12-18",
     description: "Bishop and founder, patron of Tours.",
     icon: "⛪",
     category: "religious",
-  },
-  {
-    title: "Las Posadas - Night 4",
-    date: "2025-12-19",
-    description:
-      "Hospitality stops offer ponche navideño, tamales, and prayers as the procession winds through plazas.",
-    icon: "🫏",
-    category: "cultural",
   },
   {
     title: "St. Urban V",
@@ -2649,36 +2608,11 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
-    title: "Las Posadas - Night 5",
-    date: "2025-12-20",
-    description:
-      "Seven-pointed piñatas remind celebrants to break away sin while carols echo through courtyards.",
-    icon: "🫏",
-    category: "cultural",
-  },
-  {
     title: "St. Dominic of Silos",
     date: "2025-12-20",
     description: "Abbot and saint, patron of prisoners.",
     icon: "⛪",
     category: "religious",
-  },
-  {
-    title: "Solstice Eve",
-    date: "2025-12-20",
-    description:
-      "The evening before the winter solstice, preparing for the shortest day.",
-    icon: "🌙",
-    image: "/images/polar-bear-solstice.svg",
-    category: "seasonal",
-  },
-  {
-    title: "Las Posadas - Night 6",
-    date: "2025-12-21",
-    description:
-      "Community choirs gather outside parish doors with petitions for migrants and those seeking refuge.",
-    icon: "🫏",
-    category: "cultural",
   },
   {
     title: "Hanukkah - Night 6",
@@ -2702,20 +2636,11 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
-    title: "Las Posadas - Night 7",
-    date: "2025-12-22",
-    description:
-      "Families add new paper flowers to luminarias and invite neighbors in for atole and bolillos.",
-    icon: "🫏",
-    category: "cultural",
-  },
-  {
     title: "Winter Solstice",
     date: "2025-12-21",
     description:
       "The shortest day - embrace the darkness and prepare for renewal.",
     icon: "❄️",
-    image: "/images/polar-bear-solstice.svg",
     category: "seasonal",
   },
   {
@@ -2734,27 +2659,11 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
-    title: "Las Posadas - Night 8",
-    date: "2025-12-23",
-    description:
-      "Penultimate procession highlights perseverance with scripture, candles, and generous hospitality.",
-    icon: "🫏",
-    category: "cultural",
-  },
-  {
     title: "St. John of Kanty",
     date: "2025-12-23",
     description: "Priest and saint, patron of Poland.",
     icon: "⛪",
     category: "religious",
-  },
-  {
-    title: "Las Posadas - Night 9",
-    date: "2025-12-24",
-    description:
-      "Final Posada opens the doors to Midnight Mass, welcoming Christmas morning with shared feasts.",
-    icon: "🫏",
-    category: "cultural",
   },
   {
     title: "Christmas Eve",
@@ -2782,7 +2691,6 @@ const CALENDAR_DATA: CalendarEvent[] = [
     date: "2025-12-26",
     description: "Celebration of St. Stephen, the first martyr.",
     icon: "⛪",
-    image: "/images/stefans-feast-stone.png",
     category: "religious",
   },
   {
@@ -2890,6 +2798,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
 ];
 
 const App: React.FC = () => {
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [_selectedEvent, _setSelectedEvent] = useState<CalendarEvent | null>(
     null,
@@ -3217,28 +3126,16 @@ const App: React.FC = () => {
     parseICS();
   }, []);
 
-  const monthsToRender = useMemo(() => {
-    if (!events.length) {
-      const now = startOfMonth(new Date());
-      return [now];
-    }
-    const eventDates = events
-      .map((event) => toLocalDate(event.date))
-      .filter((date) => !Number.isNaN(date.getTime()));
-    if (!eventDates.length) {
-      const now = startOfMonth(new Date());
-      return [now];
-    }
-    const earliest = startOfMonth(min(eventDates));
-    const latest = endOfMonth(max(eventDates));
-    return eachMonthOfInterval({ start: earliest, end: latest });
-  }, [events]);
-
-  const today = useMemo(() => {
-    const value = new Date();
-    value.setHours(0, 0, 0, 0);
-    return value;
-  }, []);
+  const monthStart = startOfMonth(currentDate);
+  const monthEnd = endOfMonth(currentDate);
+  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 });
+  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
+  const calendarDays = eachDayOfInterval({
+    start: calendarStart,
+    end: calendarEnd,
+  });
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   const getEventsForDate = (date: Date) => {
     return events.filter((event) => {
@@ -3352,275 +3249,265 @@ const App: React.FC = () => {
             <div className="p-6">
               {activeTab === "calendar" ? (
                 <>
-                  <div className="max-h-[70vh] overflow-y-auto pr-2 space-y-12">
-                    {monthsToRender.map((monthDate) => {
-                      const monthStart = startOfMonth(monthDate);
-                      const monthEnd = endOfMonth(monthDate);
-                      const calendarStart = startOfWeek(monthStart, {
-                        weekStartsOn: 0,
-                      });
-                      const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
-                      const calendarDays = eachDayOfInterval({
-                        start: calendarStart,
-                        end: calendarEnd,
-                      });
-                      const monthEvents = events.filter((event) => {
-                        const eventStart = toLocalDate(event.date);
-                        if (Number.isNaN(eventStart.getTime())) {
-                          return false;
-                        }
-                        return isSameMonth(eventStart, monthStart);
-                      });
+                  {/* Calendar Header */}
+                  <div className="flex items-center justify-between mb-6">
+                    <button
+                      onClick={() => setCurrentDate(subMonths(currentDate, 1))}
+                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <h2 className="text-xl font-semibold text-gray-800 christmas-title">
+                      {format(currentDate, "MMMM yyyy")}
+                    </h2>
+                    <button
+                      onClick={() => setCurrentDate(addMonths(currentDate, 1))}
+                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </div>
 
-                      return (
-                        <section key={monthStart.toISOString()}>
-                          <div className="flex items-baseline justify-between mb-3">
-                            <h3 className="text-lg font-semibold text-gray-800 christmas-title">
-                              {format(monthStart, "MMMM yyyy")}
-                            </h3>
-                            <span className="text-xs text-gray-500">
-                              {monthEvents.length.toLocaleString()} events
-                            </span>
-                          </div>
+                  {/* Calendar Grid */}
+                  <div className="grid grid-cols-7 gap-2 mb-4">
+                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                      (day) => (
+                        <div
+                          key={day}
+                          className="text-center text-xs font-medium text-gray-500 py-1 christmas-font"
+                        >
+                          {day}
+                        </div>
+                      ),
+                    )}
+                  </div>
 
-                          <div className="grid grid-cols-7 gap-2 mb-3">
-                            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                              (day) => (
-                                <div
-                                  key={day}
-                                  className="text-center text-xs font-medium text-gray-500 py-1 christmas-font"
-                                >
-                                  {day}
+                  <div className="grid grid-cols-7 gap-2">
+                      {calendarDays.map((day) => {
+                        const dayEvents = getEventsForDate(day);
+                        const isCurrentMonthDay = isSameMonth(day, currentDate);
+                        const isToday = isSameDay(day, new Date());
+                        const isPast = isCurrentMonthDay && day < today && !isToday;
+
+                        const dayEventsWithMeta = dayEvents.map((event) => {
+                          const eventStart = toLocalDate(event.date);
+                          const hasValidStart = !Number.isNaN(eventStart.getTime());
+                          const eventEndExclusive = event.endDate
+                            ? toLocalDate(event.endDate)
+                            : addDays(eventStart, 1);
+                          const hasValidEnd =
+                            !Number.isNaN(eventEndExclusive.getTime());
+                          const daysSinceStart = hasValidStart
+                            ? differenceInCalendarDays(day, eventStart)
+                            : 0;
+                          const isContinuation =
+                            hasValidStart &&
+                            daysSinceStart > 0 &&
+                            (!event.endDate ||
+                              (hasValidEnd && day < eventEndExclusive));
+                          const isFirstDay = hasValidStart && daysSinceStart === 0;
+                          return {
+                            event,
+                            isContinuation,
+                            isFirstDay,
+                          };
+                        });
+
+                        // Only use the full card background on the first day of the event
+                        const backgroundImage =
+                          dayEventsWithMeta.find(
+                            ({ event, isFirstDay }) => isFirstDay && event.image,
+                          )?.event.image || undefined;
+
+                        const continuationImageSources = dayEventsWithMeta
+                          .filter(
+                            ({ event, isContinuation }) =>
+                              isContinuation && event.image,
+                          )
+                          .map(({ event }) => event.image!);
+                        const continuationImages =
+                          continuationImageSources.slice(0, 3);
+                        const displayEvents = isCurrentMonthDay
+                          ? dayEventsWithMeta.filter(
+                              ({ isContinuation }) => !isContinuation,
+                            )
+                          : [];
+
+                        return (
+                          <div
+                            key={day.toISOString()}
+                            className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
+                              isToday ? "ring-2 ring-green-500" : ""
+                            }`}
+                            style={{
+                              ...(backgroundImage
+                                ? {
+                                    backgroundImage: `url(${backgroundImage})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundColor: isCurrentMonthDay
+                                      ? "#ffffff"
+                                      : "#f9fafb",
+                                  }
+                                : {
+                                    backgroundColor: isCurrentMonthDay
+                                      ? "#ffffff"
+                                      : "#f9fafb",
+                                  }),
+                            }}
+                          >
+                          {/* Overlay for text readability - only show if image loads */}
+                          {backgroundImage && (
+                            <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
+                          )}
+                          {isPast && (
+                            <div className="absolute inset-1 flex items-center justify-center pointer-events-none">
+                              <span
+                                className="text-red-500"
+                                style={{
+                                  fontSize: "4rem",
+                                  fontWeight: 700,
+                                  opacity: 0.35,
+                                  fontFamily:
+                                    '"Permanent Marker", "Comic Sans MS", "Marker Felt", cursive',
+                                  transform: "rotate(-8deg)",
+                                  textShadow:
+                                    "1px 1px 0 rgba(220,38,38,0.35), -1px -1px 0 rgba(220,38,38,0.35)",
+                                }}
+                              >
+                                X
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Continuation images for multi-day events */}
+                          {continuationImages.length > 0 && (
+                            <div className="absolute top-2 right-2 flex flex-col gap-1 items-end z-10 pointer-events-none">
+                              {continuationImages.map((image, index) => (
+                                <img
+                                  key={`${image}-${index}`}
+                                  src={image}
+                                  alt=""
+                                  aria-hidden="true"
+                                  className="w-10 h-10 object-cover rounded shadow ring-2 ring-white"
+                                />
+                              ))}
+                              {continuationImageSources.length >
+                                continuationImages.length && (
+                                <div className="w-10 h-10 rounded bg-black bg-opacity-50 text-white text-[10px] flex items-center justify-center shadow ring-2 ring-white">
+                                  +
+                                  {continuationImageSources.length -
+                                    continuationImages.length}
                                 </div>
-                              ),
-                            )}
+                              )}
+                            </div>
+                          )}
+
+                          {/* Day number at top */}
+                          <div
+                            className={`text-xs font-medium mb-1 christmas-font relative z-10 ${
+                              isCurrentMonthDay
+                                ? backgroundImage
+                                  ? "text-white drop-shadow-lg"
+                                  : "text-gray-800"
+                                : "text-gray-400"
+                            } ${isToday ? "text-green-600 font-bold" : ""}`}
+                          >
+                            {isCurrentMonthDay ? format(day, "d") : "\u00A0"}
                           </div>
 
-                          <div className="grid grid-cols-7 gap-2">
-                            {calendarDays.map((day) => {
-                              const dayEvents = getEventsForDate(day);
-                              const isCurrentMonthDay = isSameMonth(day, monthStart);
-                              const isToday = isSameDay(day, today);
-                              const isPast = isCurrentMonthDay && day < today && !isToday;
+                          {/* Spacer to push events to bottom */}
+                          <div className="flex-1"></div>
 
-                              const dayEventsWithMeta = dayEvents.map((event) => {
-                                const eventStart = toLocalDate(event.date);
-                                const hasValidStart = !Number.isNaN(eventStart.getTime());
-                                const eventEndExclusive = event.endDate
-                                  ? toLocalDate(event.endDate)
-                                  : addDays(eventStart, 1);
-                                const hasValidEnd =
-                                  !Number.isNaN(eventEndExclusive.getTime());
-                                const daysSinceStart = hasValidStart
-                                  ? differenceInCalendarDays(day, eventStart)
-                                  : 0;
-                                const isContinuation =
-                                  hasValidStart &&
-                                  daysSinceStart > 0 &&
-                                  (!event.endDate ||
-                                    (hasValidEnd && day < eventEndExclusive));
-                                const isFirstDay = hasValidStart && daysSinceStart === 0;
-                                return {
-                                  event,
-                                  isContinuation,
-                                  isFirstDay,
-                                };
-                              });
-
-                              const backgroundImage =
-                                dayEventsWithMeta.find(
-                                  ({ event, isFirstDay }) => isFirstDay && event.image,
-                                )?.event.image || undefined;
-
-                              const continuationImageSources = dayEventsWithMeta
-                                .filter(
-                                  ({ event, isContinuation }) =>
-                                    isContinuation && event.image,
-                                )
-                                .map(({ event }) => event.image!);
-                              const continuationImages =
-                                continuationImageSources.slice(0, 3);
-                              const displayEvents = isCurrentMonthDay
-                                ? dayEventsWithMeta.filter(
-                                    ({ isContinuation }) => !isContinuation,
-                                  )
-                                : [];
-
+                          {/* Event labels at bottom */}
+                          <div className="space-y-1 relative z-10">
+                            {displayEvents.slice(0, 3).map(({ event }, index) => {
+                              const showInlineImage =
+                                !backgroundImage && !!event.image;
+                              const baseLabelClasses =
+                                "text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative font-bold";
+                              const labelClasses = backgroundImage
+                                ? `${baseLabelClasses} bg-black bg-opacity-50 text-white`
+                                : `${baseLabelClasses} bg-white text-black border ${getCategoryColor(event.category)}`;
                               return (
                                 <div
-                                  key={day.toISOString()}
-                                  className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
-                                    isToday ? "ring-2 ring-green-500" : ""
-                                  }`}
-                                  style={{
-                                    ...(backgroundImage
-                                      ? {
-                                          backgroundImage: `url(${backgroundImage})`,
-                                          backgroundSize: "cover",
-                                          backgroundPosition: "center",
-                                          backgroundRepeat: "no-repeat",
-                                          backgroundColor: isCurrentMonthDay
-                                            ? "#ffffff"
-                                            : "#f9fafb",
-                                        }
-                                      : {
-                                          backgroundColor: isCurrentMonthDay
-                                            ? "#ffffff"
-                                            : "#f9fafb",
-                                        }),
-                                  }}
-                                >
-                                  {backgroundImage && (
-                                    <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
-                                  )}
-                                  {isPast && (
-                                    <div className="absolute inset-1 flex items-center justify-center pointer-events-none">
-                                      <span
-                                        className="text-red-500"
-                                        style={{
-                                          fontSize: "4rem",
-                                          fontWeight: 700,
-                                          opacity: 0.35,
-                                          fontFamily:
-                                            '"Permanent Marker", "Comic Sans MS", "Marker Felt", cursive',
-                                          transform: "rotate(-8deg)",
-                                          textShadow:
-                                            "1px 1px 0 rgba(220,38,38,0.35), -1px -1px 0 rgba(220,38,38,0.35)",
-                                        }}
-                                      >
-                                        X
-                                      </span>
-                                    </div>
-                                  )}
-
-                                  {continuationImages.length > 0 && (
-                                    <div className="absolute top-2 right-2 flex flex-col gap-1 items-end z-10 pointer-events-none">
-                                      {continuationImages.map((image, index) => (
-                                        <img
-                                          key={`${image}-${index}`}
-                                          src={image}
-                                          alt=""
-                                          aria-hidden="true"
-                                          className="w-10 h-10 object-cover rounded shadow ring-2 ring-white"
-                                        />
-                                      ))}
-                                      {continuationImageSources.length >
-                                        continuationImages.length && (
-                                        <div className="w-10 h-10 rounded bg-black bg-opacity-50 text-white text-[10px] flex items-center justify-center shadow ring-2 ring-white">
-                                          +
-                                          {continuationImageSources.length -
-                                            continuationImages.length}
-                                        </div>
-                                      )}
-                                    </div>
-                                  )}
-
-                                  <div
-                                    className={`text-xs font-medium mb-1 christmas-font relative z-10 ${
-                                      isCurrentMonthDay
-                                        ? backgroundImage
-                                          ? "text-white drop-shadow-lg"
-                                          : "text-gray-800"
-                                        : "text-gray-400"
-                                    } ${isToday ? "text-green-600 font-bold" : ""}`}
-                                  >
-                                    {isCurrentMonthDay ? format(day, "d") : "\u00A0"}
-                                  </div>
-
-                                  <div className="flex-1"></div>
-
-                                  <div className="space-y-1 relative z-10">
-                                    {displayEvents.slice(0, 3).map(({ event }, index) => {
-                                      const showInlineImage =
-                                        !backgroundImage && !!event.image;
-                                      const baseLabelClasses =
-                                        "text-xs p-1 rounded cursor-pointer hover:shadow-sm transition-all group relative font-bold";
-                                      const labelClasses = backgroundImage
-                                        ? `${baseLabelClasses} bg-black bg-opacity-50 text-white`
-                                        : `${baseLabelClasses} bg-white text-black border ${getCategoryColor(event.category)}`;
-                                      return (
-                                        <div
-                                          key={index}
-                                          className={labelClasses}
-                                          onMouseEnter={(e) => {
-                                            const tooltip = document.createElement("div");
-                                            tooltip.className =
-                                              "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
-                                            tooltip.innerHTML = `
+                                  key={index}
+                                  className={labelClasses}
+                                  onMouseEnter={(e) => {
+                                    const tooltip = document.createElement("div");
+                                    tooltip.className =
+                                      "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
+                                    tooltip.innerHTML = `
                                 <div class="font-semibold mb-1">${event.title}</div>
                                 <div class="text-gray-300 mb-2">${format(toLocalDate(event.date), "MMMM d, yyyy")}</div>
                                 <div class="text-gray-200">${event.description}</div>
                                 ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ""}
                               `;
-                                            tooltip.style.left = "0";
-                                            tooltip.style.bottom = "100%";
-                                            tooltip.style.marginBottom = "4px";
-                                            e.currentTarget.appendChild(tooltip);
-                                          }}
-                                          onMouseLeave={(e) => {
-                                            const tooltip =
-                                              e.currentTarget.querySelector(
-                                                'div[class*="absolute z-50"]',
-                                              );
-                                            if (tooltip) {
-                                              tooltip.remove();
+                                    tooltip.style.left = "0";
+                                    tooltip.style.bottom = "100%";
+                                    tooltip.style.marginBottom = "4px";
+                                    e.currentTarget.appendChild(tooltip);
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    const tooltip = e.currentTarget.querySelector(
+                                      'div[class*="absolute z-50"]',
+                                    );
+                                    if (tooltip) {
+                                      tooltip.remove();
+                                    }
+                                  }}
+                                >
+                                  {!backgroundImage && (
+                                    <>
+                                      {showInlineImage ? (
+                                        <img
+                                          src={event.image}
+                                          alt={event.title}
+                                          className="w-4 h-4 object-cover rounded mr-1 inline-block"
+                                          onError={(e) => {
+                                            e.currentTarget.style.display = "none";
+                                            const nextSibling =
+                                              e.currentTarget.nextElementSibling;
+                                            if (
+                                              nextSibling &&
+                                              nextSibling instanceof HTMLElement
+                                            ) {
+                                              nextSibling.style.display = "inline";
                                             }
                                           }}
-                                        >
-                                          {!backgroundImage && (
-                                            <>
-                                              {showInlineImage ? (
-                                                <img
-                                                  src={event.image}
-                                                  alt={event.title}
-                                                  className="w-4 h-4 object-cover rounded mr-1 inline-block"
-                                                  onError={(e) => {
-                                                    e.currentTarget.style.display = "none";
-                                                    const nextSibling =
-                                                      e.currentTarget.nextElementSibling;
-                                                    if (
-                                                      nextSibling &&
-                                                      nextSibling instanceof HTMLElement
-                                                    ) {
-                                                      nextSibling.style.display = "inline";
-                                                    }
-                                                  }}
-                                                />
-                                              ) : (
-                                                <span className="mr-1">{event.icon}</span>
-                                              )}
-                                            </>
-                                          )}
-                                          <span
-                                            className={`truncate christmas-font text-xs ${
-                                              backgroundImage ? "text-white" : "text-black"
-                                            }`}
-                                          >
-                                            {event.title}
-                                          </span>
-                                        </div>
-                                      );
-                                    })}
-                                    {displayEvents.length > 3 && (
-                                      <div
-                                        className={`text-xs font-bold p-1 rounded ${
-                                          backgroundImage
-                                            ? "bg-black bg-opacity-50 text-white"
-                                            : "bg-white text-black border border-gray-300"
-                                        }`}
-                                      >
-                                        +{displayEvents.length - 3} more
-                                      </div>
-                                    )}
-                                  </div>
+                                        />
+                                      ) : (
+                                        <span className="mr-1">{event.icon}</span>
+                                      )}
+                                    </>
+                                  )}
+                                  <span
+                                    className={`truncate christmas-font text-xs ${
+                                      backgroundImage ? "text-white" : "text-black"
+                                    }`}
+                                  >
+                                    {event.title}
+                                  </span>
                                 </div>
                               );
                             })}
+                            {displayEvents.length > 3 && (
+                              <div
+                                className={`text-xs font-bold p-1 rounded ${
+                                  backgroundImage
+                                    ? "bg-black bg-opacity-50 text-white"
+                                    : "bg-white text-black border border-gray-300"
+                                }`}
+                              >
+                                +{displayEvents.length - 3} more
+                              </div>
+                            )}
                           </div>
-                        </section>
-                      );
-                    })}
-                  </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                 </>
               ) : (
                 <div className="min-h-[60vh]">

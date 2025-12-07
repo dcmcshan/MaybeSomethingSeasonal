@@ -614,17 +614,6 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image30.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
-DTSTART:20251206T070000Z
-DTEND:20251207T070000Z
-SUMMARY:Gita Jayanti (गीता जयंती)
-DESCRIPTION:History: Gita Jayanti marks the Kurukshetra dialogue where Shri Krishna delivered the Bhagavad Gita to Arjuna on Margashirsha Shukla Ekadashi.\nTraditions: Devotees chant all eighteen chapters\, bathe Gitaji manuscripts\, light rows of diyas\, and host satsangs on dharma and selfless action.\nFeasting: Prasad tables share sattvic dishes like khichdi\, kheer\, fresh fruits\, and masala chai after evening aarti.\nDay: Saturday\n\nIcon: 🕉️\\\\\\\\\\\\\\\nCategory: religious\\\\\\
-CATEGORIES:religious\\\\\\
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image39.jpg
-END:VEVENT
-BEGIN:VEVENT
-DTSTAMP:20251104T055848Z
 DTSTART:20251207T070000Z
 DTEND:20251208T070000Z
 SUMMARY:Tiki Christmas at Pearl Harbor
@@ -674,7 +663,6 @@ Category: religious
 CATEGORIES:religious
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image36.jpg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -709,6 +697,7 @@ DESCRIPTION:History: Mozart's Singspiel Die Zauberflote premiered in 1791
 CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image36.jpg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -818,17 +807,6 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/festival-of-lig
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
-DTSTART:20251216T070000Z
-DTEND:20251225T070000Z
-SUMMARY:Las Posadas Novena
-DESCRIPTION:History: Since the 16th century in Mexico, Las Posadas has retold Mary and Joseph's search for lodging over nine evenings leading into Christmas.\nTraditions: Candlelit pilgrims knock on neighborhood doors, trade sung call-and-response villancicos, and welcome the peregrinos inside for prayer and hospitality.\nFeasting: Hosts share ponche navideño, tamales, buñuelos, and star-shaped piñatas that spill sweets for the children.\nDay: Tuesday\n\nIcon: 🫏\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
-CATEGORIES:cultural\\\\\\
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/las-posadas-procession.svg
-END:VEVENT
-BEGIN:VEVENT
-DTSTAMP:20251104T055848Z
 DTSTART:20251217T070000Z
 DTEND:20251218T070000Z
 SUMMARY:Saturnalia
@@ -844,23 +822,6 @@ CATEGORIES:cultural\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/ancient-roman-festival-of-saturn.png
-END:VEVENT
-BEGIN:VEVENT
-DTSTAMP:20251104T055848Z
-DTSTART:20251220T070000Z
-DTEND:20251221T070000Z
-SUMMARY:Solstice Eve Bonfires
-DESCRIPTION:History: Communities have long marked the night before the sols
- tice with fires that assure the sun's return\, weaving pagan and folk custo
- ms together.\nTraditions: Friends gather at hilltops\, light bonfires or ca
- ndle labyrinths\, and share poetry or intentions as darkness reaches its pe
- ak.\nFeasting: Stews of root vegetables\, roasted chestnuts\, mulled wine\,
-  and gingerbread fortify celebrants against the cold night watch.\nDay: Sat
- urday\n\nIcon: 🌙\\\\\\\\\\\\\\\nCategory: seasonal\\\\\\
-CATEGORIES:seasonal\\\\\\
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/polar-bear-solstice.svg
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
@@ -894,7 +855,7 @@ DESCRIPTION:History: The solstice marks the sun's rebirth in cultures from
 CATEGORIES:seasonal\\\\\\
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/polar-bear-solstice.svg
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/eve-of-the-winter-solstice-the-longest-night.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z

@@ -403,12 +403,6 @@ const EVENT_DETAILS = {
     traditions: `Participants shout "Io Saturnalia!", wear felt pileus caps, and elect mock kings who preside over games and generous exchanges.`,
     feasting: `Banquets overflow with roast pork, olives, mulsum sweet wine, pine nuts, and honey cakes shared between patrons and dependents.`,
   },
-  '20251220T070000Z|eve-of-the-winter-solstice-the-longest-night': {
-    title: 'Solstice Eve Bonfires',
-    history: `Communities have long marked the night before the solstice with fires that assure the sun's return, weaving pagan and folk customs together.`,
-    traditions: `Friends gather at hilltops, light bonfires or candle labyrinths, and share poetry or intentions as darkness reaches its peak.`,
-    feasting: `Stews of root vegetables, roasted chestnuts, mulled wine, and gingerbread fortify celebrants against the cold night watch.`,
-  },
   '20251221T070000Z|fourth-sunday-of-advent-final-preparation-before-christmas': {
     title: 'Fourth Sunday of Advent',
     history: `The final Advent Sunday highlights love and the imminence of Christmas, with scriptural focus on Mary's "yes" and the coming of Emmanuel.`,

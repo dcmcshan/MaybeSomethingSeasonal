@@ -119,26 +119,25 @@ The Excel file contains 46 images and 51 holidays. Images are positioned in cell
 26. It's a Wonderful Life
 27. Saturnalia
 28. A Colorado Nutcracker
-29. Solstice Eve
-30. Solstice
-31. Noche de R?banos
-32. Christmas Eve
-33. Christmas
-34. Feast of St. Stefan
-35. St. John Evangelist
-36. Childermas
-37. Broadmoor Brunch
-38. New Years Eve
-39. New Years Day
-40. Perchtag
-41. 12th Night
-42. D?a de los Reyes
-43. F?te de l'?ne
-44. Dondoyaki
-45. Old Twelfth Night
-46. B?ndadagur
-47. St Dwynwyn's Day
-48. Chinese New Year
-49. Imbolc Eve
-50. Imbolc
-51. Candelaria
+29. Solstice
+30. Noche de R?banos
+31. Christmas Eve
+32. Christmas
+33. Feast of St. Stefan
+34. St. John Evangelist
+35. Childermas
+36. Broadmoor Brunch
+37. New Years Eve
+38. New Years Day
+39. Perchtag
+40. 12th Night
+41. D?a de los Reyes
+42. F?te de l'?ne
+43. Dondoyaki
+44. Old Twelfth Night
+45. B?ndadagur
+46. St Dwynwyn's Day
+47. Chinese New Year
+48. Imbolc Eve
+49. Imbolc
+50. Candelaria
