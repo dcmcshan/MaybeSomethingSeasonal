@@ -97,6 +97,9 @@ const HOLIDAY_TO_IMAGE = {
   'Feast of St. Stefan': 'image21.jpg',
   'Feast of the Holy Innocents, also known as Childermas': 'feast-of-the-holy-innocents-also-known-as-childermas.jpg',
   'Childermas': 'feast-of-the-holy-innocents-also-known-as-childermas.jpg',
+  'Tiki Christmas at Pearl Harbor': 'pearl-harbor-day-godzilla-santa-hat.png',
+  'Pearl Harbor Day': 'pearl-harbor-day-godzilla-santa-hat.png',
+  'Pearl Harbor': 'pearl-harbor-day-godzilla-santa-hat.png',
 };
 
 // Normalize description text for matching
