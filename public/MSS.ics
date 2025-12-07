@@ -614,6 +614,18 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image30.png
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
+DTSTART:20251206T070000Z
+DTEND:20251207T070000Z
+SUMMARY:Gita Jayanti (गीता जयंती)
+DESCRIPTION:History: Devotees honour the day Lord Krishna shared the Bhagavad Gita with Arjuna on the Kurukshetra battlefield, aligning with the Margashirsha Shukla Ekadashi tithi.\nTraditions: Temples host full Bhagavad Gita recitations, scholars lead kirtans and discourse circles, and families observe vrata fasts before offering diyas along rivers and at home altars.\nFeasting: After evening prayers, observers share satvik plates of khichdi, jaggery sweets, sugarcane juice, and warm cardamom milk to break the fast.\nDay: Saturday\n\nIcon: 📜
+Category: religious
+CATEGORIES:religious
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-MSS-CALENDAR-META:{"alternateCalendars":[{"calendarSystem":"Hindu Lunar","descriptor":"Margashirsha Shukla Ekadashi","notes":"Bright-eleventh tithi"}],"recurrence":{"calendarSystem":"Hindu Lunar","rule":"Observe on every Margashirsha Shukla Ekadashi","anchor":"Bhagavad Gita discourse anniversary"}}
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
 DTSTART:20251207T070000Z
 DTEND:20251208T070000Z
 SUMMARY:Tiki Christmas at Pearl Harbor

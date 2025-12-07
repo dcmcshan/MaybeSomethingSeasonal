@@ -22,6 +22,23 @@ import {
 } from "lucide-react";
 import "./App.css";
 
+interface AlternateCalendarOccurrence {
+  calendarSystem: string;
+  descriptor: string;
+  notes?: string;
+}
+
+interface CalendarRecurrenceRule {
+  calendarSystem: string;
+  rule: string;
+  anchor?: string;
+}
+
+interface CalendarMetadata {
+  alternateCalendars?: AlternateCalendarOccurrence[];
+  recurrence?: CalendarRecurrenceRule;
+}
+
 interface CalendarEvent {
   title: string;
   date: string;
@@ -30,6 +47,7 @@ interface CalendarEvent {
   image?: string;
   category: string;
   endDate?: string;
+  calendarMeta?: CalendarMetadata;
 }
 
 const toLocalDate = (dateString: string): Date => {
@@ -45,6 +63,25 @@ const toLocalDate = (dateString: string): Date => {
     }
   }
   return new Date(dateString);
+};
+
+const parseCalendarMeta = (
+  value?: string,
+): CalendarMetadata | undefined => {
+  if (!value) {
+    return undefined;
+  }
+  try {
+    const parsed = JSON.parse(value);
+    if (parsed && typeof parsed === "object") {
+      return parsed as CalendarMetadata;
+    }
+  } catch (error) {
+    if ((import.meta.env as { DEV?: boolean }).DEV) {
+      console.warn("Failed to parse calendar metadata:", error, value);
+    }
+  }
+  return undefined;
 };
 
 // MSS.ics is the source of truth
@@ -2954,6 +2991,10 @@ const App: React.FC = () => {
                   );
                 }
 
+                if (currentEvent.calendarMeta) {
+                  eventData.calendarMeta = currentEvent.calendarMeta;
+                }
+
                 events.push(eventData);
               }
 
@@ -3034,6 +3075,18 @@ const App: React.FC = () => {
             const colonIndex = trimmedLine.indexOf(":");
             if (colonIndex >= 0) {
               currentEvent.image = trimmedLine.substring(colonIndex + 1).trim();
+            }
+          } else if (
+            inEvent &&
+            trimmedLine.startsWith("X-MSS-CALENDAR-META")
+          ) {
+            const colonIndex = trimmedLine.indexOf(":");
+            if (colonIndex >= 0) {
+              const metaValue = trimmedLine.substring(colonIndex + 1).trim();
+              const parsedMeta = parseCalendarMeta(metaValue);
+              if (parsedMeta) {
+                currentEvent.calendarMeta = parsedMeta;
+              }
             }
           } else if (inDescription && line.startsWith(" ")) {
             // Continuation line for description (ICS format uses leading space)
@@ -3444,6 +3497,48 @@ const App: React.FC = () => {
                                   key={index}
                                   className={labelClasses}
                                   onMouseEnter={(e) => {
+                                    const metadataHtml = (() => {
+                                      const meta = event.calendarMeta;
+                                      if (!meta) {
+                                        return "";
+                                      }
+                                      const altCalendars =
+                                        meta.alternateCalendars &&
+                                        meta.alternateCalendars.length > 0
+                                          ? meta.alternateCalendars
+                                              .map((alt) => {
+                                                const descriptor = [
+                                                  alt.descriptor,
+                                                  alt.notes,
+                                                ]
+                                                  .filter(Boolean)
+                                                  .join(" — ");
+                                                return `${alt.calendarSystem}: ${
+                                                  descriptor || alt.descriptor
+                                                }`;
+                                              })
+                                              .join("<br />")
+                                          : "";
+                                      const recurrence = meta.recurrence
+                                        ? `Recurs (${
+                                            meta.recurrence.calendarSystem ||
+                                            "calendar"
+                                          }): ${meta.recurrence.rule}${
+                                            meta.recurrence.anchor
+                                              ? ` — ${meta.recurrence.anchor}`
+                                              : ""
+                                          }`
+                                        : "";
+                                      const rows = [altCalendars, recurrence].filter(
+                                        (section) => section && section.length > 0,
+                                      );
+                                      if (!rows.length) {
+                                        return "";
+                                      }
+                                      return `<div class="mt-2 border-t border-gray-700 pt-2 text-[10px] leading-relaxed text-gray-200">${rows
+                                        .map((row) => `<div>${row}</div>`)
+                                        .join("")}</div>`;
+                                    })();
                                     const tooltip = document.createElement("div");
                                     tooltip.className =
                                       "absolute z-50 bg-gray-900 text-white text-xs rounded-lg p-3 shadow-lg max-w-xs pointer-events-none";
@@ -3452,6 +3547,7 @@ const App: React.FC = () => {
                                 <div class="text-gray-300 mb-2">${format(toLocalDate(event.date), "MMMM d, yyyy")}</div>
                                 <div class="text-gray-200">${event.description}</div>
                                 ${event.image ? `<img src="${event.image}" class="mt-2 w-16 h-16 object-cover rounded" />` : ""}
+                                ${metadataHtml}
                               `;
                                     tooltip.style.left = "0";
                                     tooltip.style.bottom = "100%";
