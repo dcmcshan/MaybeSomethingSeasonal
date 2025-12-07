@@ -2589,11 +2589,27 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Las Posadas - Night 1",
+    date: "2025-12-16",
+    description:
+      "First candlelit procession reenacting Mary and Joseph's search for shelter with villancicos and luminarias.",
+    icon: "🫏",
+    category: "cultural",
+  },
+  {
     title: "Hanukkah - Night 2",
     date: "2025-12-16",
     description: "Second night of Hanukkah - Festival of Lights.",
     icon: "🕎",
     category: "religious",
+  },
+  {
+    title: "Las Posadas - Night 2",
+    date: "2025-12-17",
+    description:
+      "Pilgrims and hosts continue the novena with scripted refusals before welcoming the Holy Family inside for prayer.",
+    icon: "🫏",
+    category: "cultural",
   },
   {
     title: "St. Lazarus",
@@ -2603,6 +2619,14 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Las Posadas - Night 3",
+    date: "2025-12-18",
+    description:
+      "Children carry star-shaped faroles while neighbors retell the journey for shelter and sing villancicos.",
+    icon: "🫏",
+    category: "cultural",
+  },
+  {
     title: "St. Gatian",
     date: "2025-12-18",
     description: "Bishop and founder, patron of Tours.",
@@ -2610,11 +2634,27 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Las Posadas - Night 4",
+    date: "2025-12-19",
+    description:
+      "Hospitality stops offer ponche navideño, tamales, and prayers as the procession winds through plazas.",
+    icon: "🫏",
+    category: "cultural",
+  },
+  {
     title: "St. Urban V",
     date: "2025-12-19",
     description: "Pope and saint, patron of Benedictines.",
     icon: "👑",
     category: "religious",
+  },
+  {
+    title: "Las Posadas - Night 5",
+    date: "2025-12-20",
+    description:
+      "Seven-pointed piñatas remind celebrants to break away sin while carols echo through courtyards.",
+    icon: "🫏",
+    category: "cultural",
   },
   {
     title: "St. Dominic of Silos",
@@ -2631,6 +2671,14 @@ const CALENDAR_DATA: CalendarEvent[] = [
     icon: "🌙",
     image: "/images/polar-bear-solstice.svg",
     category: "seasonal",
+  },
+  {
+    title: "Las Posadas - Night 6",
+    date: "2025-12-21",
+    description:
+      "Community choirs gather outside parish doors with petitions for migrants and those seeking refuge.",
+    icon: "🫏",
+    category: "cultural",
   },
   {
     title: "Hanukkah - Night 6",
@@ -2652,6 +2700,14 @@ const CALENDAR_DATA: CalendarEvent[] = [
     description: "Seventh night of Hanukkah - Festival of Lights.",
     icon: "🕎",
     category: "religious",
+  },
+  {
+    title: "Las Posadas - Night 7",
+    date: "2025-12-22",
+    description:
+      "Families add new paper flowers to luminarias and invite neighbors in for atole and bolillos.",
+    icon: "🫏",
+    category: "cultural",
   },
   {
     title: "Winter Solstice",
@@ -2678,11 +2734,27 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Las Posadas - Night 8",
+    date: "2025-12-23",
+    description:
+      "Penultimate procession highlights perseverance with scripture, candles, and generous hospitality.",
+    icon: "🫏",
+    category: "cultural",
+  },
+  {
     title: "St. John of Kanty",
     date: "2025-12-23",
     description: "Priest and saint, patron of Poland.",
     icon: "⛪",
     category: "religious",
+  },
+  {
+    title: "Las Posadas - Night 9",
+    date: "2025-12-24",
+    description:
+      "Final Posada opens the doors to Midnight Mass, welcoming Christmas morning with shared feasts.",
+    icon: "🫏",
+    category: "cultural",
   },
   {
     title: "Christmas Eve",
