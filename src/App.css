@@ -225,7 +225,10 @@
 
   /* Ensure event container is visible */
   .flex-1 {
-    display: block !important;
+    display: none !important;
+    flex: 0 0 auto !important;
+    height: 0 !important;
+    min-height: 0 !important;
   }
 
   .relative.z-10 {
@@ -233,6 +236,22 @@
     z-index: 10 !important;
     display: block !important;
     visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Calendar day cell - ensure events area is visible */
+  .min-h-\[100px\],
+  .min-h-\[120px\] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Make sure the events container takes available space */
+  .space-y-1.relative.z-10 {
+    flex: 1 1 auto !important;
+    display: block !important;
+    visibility: visible !important;
+    margin-top: auto !important;
   }
 
   /* Day numbers */
@@ -270,13 +289,25 @@
     border: 0.5px solid #000000 !important;
   }
 
-  /* Event badges and labels */
+  /* Event badges and labels - target all event div classes */
   .rounded.cursor-pointer,
-  .rounded.cursor-pointer.hover\:shadow-sm {
+  .rounded.cursor-pointer.hover\:shadow-sm,
+  div.text-xs.p-1.rounded,
+  div[class*="text-xs"][class*="p-1"] {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     page-break-inside: avoid !important;
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border: 0.5px solid #000000 !important;
+  }
+
+  /* Ensure all event-related divs are visible */
+  .space-y-1 > div {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   /* Event icons */
@@ -403,5 +434,30 @@
     background-color: #ffffff !important;
     color: #000000 !important;
     border: 0.5px solid #000000 !important;
+  }
+
+  /* Force all event containers to be visible */
+  .min-h-\[100px\] > div,
+  .min-h-\[120px\] > div {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  /* Ensure event text spans are visible */
+  .truncate.christmas-font,
+  span.truncate {
+    display: inline !important;
+    visibility: visible !important;
+    color: #000000 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  /* Make sure event icons/emojis are visible */
+  .mr-1,
+  span.mr-1 {
+    display: inline !important;
+    visibility: visible !important;
   }
 }
