@@ -370,6 +370,18 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/celebration-of-
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
+DTSTART:20260828T060000Z
+DTEND:20260829T060000Z
+SUMMARY:Buddhist Ghost Festival (Ullambana)
+DESCRIPTION:History: In many East and Southeast Asian Buddhist and folk traditions\, the Ghost Festival (Ullambana\, Zhongyuan) marks a time when offerings are made for ancestors and hungry ghosts.\nTraditions: Families visit temples\, burn incense\, offer food\, and set out lanterns or paper offerings to guide and comfort wandering spirits.\nFeasting: Seasonal plates vary by region\, often including rice\, fruit\, tea\, vegetarian dishes\, and family recipes shared in remembrance.\nDay: Friday\n\nIcon: 🏮\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/image22.png
+X-MSS-CALENDAR-META:{"alternateCalendars":[{"calendarSystem":"Chinese Lunar","descriptor":"7th month, day 15","notes":"Ghost Festival / Zhongyuan Jie / Ullambana"}],"recurrence":{"calendarSystem":"Chinese Lunar","rule":"15th day of 7th lunar month","anchor":"Offerings for ancestors and wandering spirits"}}
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
 DTSTART:20260922T060000Z
 DTEND:20260923T060000Z
 SUMMARY:Autumn Equinox (Mabon)
