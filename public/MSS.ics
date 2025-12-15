@@ -846,23 +846,6 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/swedish-celebra
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
-DTSTART:20251215T070000Z
-DTEND:20251216T070000Z
-SUMMARY:Palmer Lake Yule Log Hunt
-DESCRIPTION:History: Since 1933 Palmer Lake\, Colorado\, has staged a commu
- nity hunt that mixes imported English yule log lore with Rocky Mountain hos
- pitality.\nTraditions: Clues lead villagers through the pines until the log
-  is found\, carried in parade\, and lit amid carols and proclamations of "W
- assail!"\nFeasting: Volunteers ladle out chili\, apple cider\, and cookies\
- , while the finder often earns the first slice of yule log cake.\nDay: Mond
- ay\n\nIcon: ��\\\\\\\\\\\\\\\nCategory: cultural\\\\\\
-CATEGORIES:cultural\\\\\\
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/annual-tradition-in-palmer-lake-colorado-community-yule-log-hunt-and-celebration.png
-END:VEVENT
-BEGIN:VEVENT
-DTSTAMP:20251104T055848Z
 DTSTART:20251214T070000Z
 DTEND:20251215T070000Z
 SUMMARY:Gaudete Sunday

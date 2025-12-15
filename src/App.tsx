@@ -2876,7 +2876,21 @@ const isDevMode = (): boolean => {
 };
 
 const App: React.FC = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  // Check for kiosk mode via URL parameter or environment variable
+  const isKioskMode = (() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('kiosk') === 'true' || params.get('kiosk') === '1') {
+        return true;
+      }
+    }
+    // @ts-ignore - Vite replaces this
+    return (import.meta.env as { VITE_KIOSK_MODE?: string })?.VITE_KIOSK_MODE === 'true';
+  })();
+
+  // Set initial date to December 2025 for kiosk mode, otherwise current date
+  const initialDate = isKioskMode ? new Date(2025, 11, 1) : new Date();
+  const [currentDate, setCurrentDate] = useState(initialDate);
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [_selectedEvent, _setSelectedEvent] = useState<CalendarEvent | null>(
     null,
@@ -3283,6 +3297,242 @@ const App: React.FC = () => {
     );
   }
 
+  // Kiosk mode: full screen calendar only
+  if (isKioskMode) {
+    return (
+      <div className="h-screen w-screen bg-white overflow-hidden">
+        <div className="h-full w-full p-2">
+          {/* Calendar Grid - no headers, no navigation */}
+          <div className="grid grid-cols-7 gap-1 h-full">
+            {/* Day headers */}
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+              (day) => (
+                <div
+                  key={day}
+                  className="text-center text-sm font-medium text-gray-500 py-1 christmas-font"
+                >
+                  {day}
+                </div>
+              ),
+            )}
+            {/* Calendar days */}
+            {calendarDays.map((day) => {
+              const dayEvents = getEventsForDate(day);
+              const isCurrentMonthDay = isSameMonth(day, currentDate);
+              const isToday = isSameDay(day, new Date());
+              const isPast = isCurrentMonthDay && day < today && !isToday;
+
+              const dayEventsWithMeta = dayEvents.map((event) => {
+                const eventStart = toLocalDate(event.date);
+                const hasValidStart = !Number.isNaN(eventStart.getTime());
+                const eventEndExclusive = event.endDate
+                  ? toLocalDate(event.endDate)
+                  : addDays(eventStart, 1);
+                const hasValidEnd =
+                  !Number.isNaN(eventEndExclusive.getTime());
+                const daysSinceStart = hasValidStart
+                  ? differenceInCalendarDays(day, eventStart)
+                  : 0;
+                const isContinuation =
+                  hasValidStart &&
+                  daysSinceStart > 0 &&
+                  (!event.endDate ||
+                    (hasValidEnd && day < eventEndExclusive));
+                const isFirstDay = hasValidStart && daysSinceStart === 0;
+                return {
+                  event,
+                  isContinuation,
+                  isFirstDay,
+                };
+              });
+
+              const backgroundImage =
+                dayEventsWithMeta.find(
+                  ({ event, isFirstDay }) => isFirstDay && event.image,
+                )?.event.image || undefined;
+
+              const continuationImageSources = dayEventsWithMeta
+                .filter(
+                  ({ event, isContinuation }) =>
+                    isContinuation && event.image,
+                )
+                .map(({ event }) => event.image!);
+              const continuationImages =
+                continuationImageSources.slice(0, 3);
+              const displayEvents = isCurrentMonthDay
+                ? dayEventsWithMeta.filter(
+                    ({ isContinuation }) => !isContinuation,
+                  )
+                : [];
+
+              return (
+                <div
+                  key={day.toISOString()}
+                  className={`h-full p-1 border border-gray-200 rounded relative flex flex-col overflow-hidden ${
+                    isToday ? "ring-2 ring-green-500" : ""
+                  }`}
+                  style={{
+                    ...(backgroundImage
+                      ? {
+                          backgroundImage: `url(${backgroundImage})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat",
+                          backgroundColor: isCurrentMonthDay
+                            ? "#ffffff"
+                            : "#f9fafb",
+                        }
+                      : {
+                          backgroundColor: isCurrentMonthDay
+                            ? "#ffffff"
+                            : "#f9fafb",
+                        }),
+                  }}
+                >
+                  {backgroundImage && (
+                    <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
+                  )}
+                  {isPast && (
+                    <div className="absolute inset-1 flex items-center justify-center pointer-events-none">
+                      <span
+                        className="text-red-500"
+                        style={{
+                          fontSize: "3rem",
+                          fontWeight: 700,
+                          opacity: 0.35,
+                          fontFamily:
+                            '"Permanent Marker", "Comic Sans MS", "Marker Felt", cursive',
+                          transform: "rotate(-8deg)",
+                          textShadow:
+                            "1px 1px 0 rgba(220,38,38,0.35), -1px -1px 0 rgba(220,38,38,0.35)",
+                        }}
+                      >
+                        X
+                      </span>
+                    </div>
+                  )}
+
+                  {continuationImages.length > 0 && (
+                    <div className="absolute top-1 right-1 flex flex-col gap-0.5 items-end z-10 pointer-events-none">
+                      {continuationImages.map((image, index) => (
+                        <img
+                          key={`${image}-${index}`}
+                          src={image}
+                          alt=""
+                          aria-hidden="true"
+                          className="w-6 h-6 object-cover rounded shadow ring-1 ring-white"
+                        />
+                      ))}
+                      {continuationImageSources.length >
+                        continuationImages.length && (
+                        <div className="w-6 h-6 rounded bg-black bg-opacity-50 text-white text-[8px] flex items-center justify-center shadow ring-1 ring-white">
+                          +
+                          {continuationImageSources.length -
+                            continuationImages.length}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div
+                    className={`text-xs font-medium mb-0.5 christmas-font relative z-10 ${
+                      isCurrentMonthDay
+                        ? backgroundImage
+                          ? "text-white drop-shadow-lg"
+                          : "text-gray-800"
+                        : "text-gray-400"
+                    } ${isToday ? "text-green-600 font-bold" : ""}`}
+                  >
+                    {isCurrentMonthDay ? format(day, "d") : "\u00A0"}
+                  </div>
+
+                  <div className="flex-1"></div>
+
+                  <div className="space-y-0.5 relative z-10 overflow-y-auto">
+                    {displayEvents.slice(0, 5).map(({ event }, index) => {
+                      const showInlineImage =
+                        !backgroundImage && !!event.image;
+                      const baseLabelClasses =
+                        "text-[10px] p-0.5 rounded cursor-pointer transition-all group relative font-bold";
+                      const labelClasses = backgroundImage
+                        ? `${baseLabelClasses} bg-black bg-opacity-50 text-white`
+                        : `${baseLabelClasses} bg-white text-black border ${getCategoryColor(event.category)}`;
+                      return (
+                        <div
+                          key={index}
+                          className={labelClasses}
+                          onMouseEnter={(e) => {
+                            const metadataHtml = (() => {
+                              const meta = event.calendarMeta;
+                              if (!meta) {
+                                return "";
+                              }
+                              const altCalendars =
+                                meta.alternateCalendars &&
+                                meta.alternateCalendars.length > 0
+                                  ? meta.alternateCalendars
+                                      .map((alt) => {
+                                        const descriptor = [
+                                          alt.descriptor,
+                                          alt.notes,
+                                        ]
+                                          .filter(Boolean)
+                                          .join(" — ");
+                                        return `${alt.calendarSystem}: ${
+                                          descriptor || alt.descriptor
+                                        }`;
+                                      })
+                                      .join("<br/>")
+                                  : "";
+                              const recurrence =
+                                meta.recurrence && meta.recurrence.rule
+                                  ? `Recurrence: ${meta.recurrence.rule}`
+                                  : "";
+                              return [altCalendars, recurrence]
+                                .filter(Boolean)
+                                .join("<br/><br/>");
+                            })();
+                            if (metadataHtml) {
+                              showEventTooltip(e.currentTarget, event, metadataHtml);
+                            }
+                          }}
+                          onMouseLeave={hideEventTooltip}
+                        >
+                          <div className="flex items-center gap-1">
+                            {showInlineImage && event.image ? (
+                              <img
+                                src={event.image}
+                                alt=""
+                                className="w-3 h-3 object-cover rounded"
+                              />
+                            ) : (
+                              <span className="text-[10px]">
+                                {event.icon}
+                              </span>
+                            )}
+                            <span className="truncate christmas-font text-[10px]">
+                              {event.title}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                    {displayEvents.length > 5 && (
+                      <div className="text-[8px] text-gray-500 text-center">
+                        +{displayEvents.length - 5} more
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Normal mode: full UI with headers and navigation
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
       <div className="container mx-auto px-4 py-8">
