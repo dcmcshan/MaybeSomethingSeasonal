@@ -335,6 +335,72 @@ X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/patron-saint-of
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:20251104T055848Z
+DTSTART:20260320T060000Z
+DTEND:20260321T060000Z
+SUMMARY:Spring Equinox (Ostara)
+DESCRIPTION:History: The equinox marks a moment of near-equal day and night as spring gathers strength.\nTraditions: People welcome returning light with early garden work, fresh greens, and mindful balance rituals.\nFeasting: Seasonal plates highlight herbs, eggs, citrus, and first tender vegetables.\nDay: Friday\n\nIcon: 🌸\nCategory: seasonal
+CATEGORIES:seasonal
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/spring-equinox.svg
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20260320T060000Z
+DTEND:20260321T060000Z
+SUMMARY:Nowruz
+DESCRIPTION:History: Nowruz is the Persian New Year rooted in ancient springtime renewal traditions.\nTraditions: Families set the Haft-Seen table, clean the home, visit loved ones, and celebrate the first day of spring.\nFeasting: Shared foods include herb-forward dishes, sweets, tea, and celebratory rice.\nDay: Friday\n\nIcon: 🌿\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/nowruz.svg
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20260329T060000Z
+DTEND:20260330T060000Z
+SUMMARY:Palm Sunday
+DESCRIPTION:History: Palm Sunday begins Holy Week, recalling the entry into Jerusalem.\nTraditions: Communities carry palms, sing, and prepare for the week of remembrance.\nFeasting: Simple seasonal meals and shared bread often follow worship.\nDay: Sunday\n\nIcon: 🌿\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/palm-sunday.svg
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20260402T060000Z
+DTEND:20260410T060000Z
+SUMMARY:Passover
+DESCRIPTION:History: Passover commemorates the Exodus and the journey from slavery to freedom.\nTraditions: Families gather for a seder with symbolic foods, storytelling, and songs.\nFeasting: Matzah, bitter herbs, charoset, and festive meals anchor the week.\nDay: Thursday\n\nIcon: 🫓\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/passover.svg
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20260402T060000Z
+DTEND:20260403T060000Z
+SUMMARY:Maundy Thursday
+DESCRIPTION:History: Maundy Thursday recalls the Last Supper and the commandment to love.\nTraditions: Many keep a quiet vigil and share a meal in remembrance.\nFeasting: Bread, soup, and simple dishes reflect the tone of the day.\nDay: Thursday\n\nIcon: 🍞\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/maundy-thursday.svg
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20260403T060000Z
+DTEND:20260404T060000Z
+SUMMARY:Good Friday
+DESCRIPTION:History: Good Friday commemorates the crucifixion and death of Jesus.\nTraditions: Many observe fasting, prayer, and solemn services.\nFeasting: Simple fare and shared bread reflect reflection and remembrance.\nDay: Friday\n\nIcon: ✝️\nCategory: cultural
+CATEGORIES:cultural
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:/images/good-friday.svg
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
 DTSTART:20260422T060000Z
 DTEND:20260423T060000Z
 SUMMARY:Earth Day
