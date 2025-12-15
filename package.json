@@ -14,6 +14,8 @@
     "fix:images": "node scripts/fix-missing-images.js",
     "smoke": "node scripts/smoke-test.js",
     "test:local": "npm run validate && npm run build && npm run preview",
+    "test:ipad2": "playwright test --project=iPad2",
+    "test:ipad2:ui": "playwright test --project=iPad2 --ui",
     "precommit": "npm run validate",
     "prepare": "npx simple-git-hooks"
   },
@@ -25,11 +27,13 @@
     "react-router-dom": "^6.30.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@vitejs/plugin-legacy": "^5.4.3",
     "@vitejs/plugin-react": "^4.1.1",
     "autoprefixer": "^10.4.16",
+    "playwright": "^1.57.0",
     "postcss": "^8.4.32",
     "sharp": "^0.34.4",
     "simple-git-hooks": "^2.13.1",

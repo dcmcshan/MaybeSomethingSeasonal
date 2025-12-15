@@ -1,4 +1,63 @@
 /* Additional custom styles for the calendar */
+
+/* Fallback for browsers that don't support CSS Grid (Safari 9, iPad2) */
+.grid {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+/* Grid columns fallback using flexbox */
+.grid-cols-7 {
+  /* For browsers that support Grid, use Grid */
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  
+  /* Fallback for browsers without Grid support */
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+/* Individual grid items in flexbox fallback */
+.grid-cols-7 > * {
+  /* Grid fallback: each item takes 1/7 of width */
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 calc(14.2857% - 0.5714rem);
+  -ms-flex: 0 0 calc(14.2857% - 0.5714rem);
+  flex: 0 0 calc(14.2857% - 0.5714rem);
+  width: calc(14.2857% - 0.5714rem);
+  min-width: 0;
+}
+
+/* Use @supports to apply Grid only when supported */
+@supports (display: grid) {
+  .grid {
+    display: grid;
+  }
+  
+  .grid-cols-7 {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+  
+  .grid-cols-7 > * {
+    -webkit-box-flex: initial;
+    -webkit-flex: initial;
+    -ms-flex: initial;
+    flex: initial;
+    width: auto;
+  }
+}
+
 .calendar-day {
   transition: all 0.2s ease-in-out;
 }

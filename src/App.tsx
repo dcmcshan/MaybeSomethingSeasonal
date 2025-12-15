@@ -77,7 +77,7 @@ const parseCalendarMeta = (
       return parsed as CalendarMetadata;
     }
   } catch (error) {
-    if ((import.meta.env as { DEV?: boolean }).DEV) {
+    if (isDevMode()) {
       console.warn("Failed to parse calendar metadata:", error, value);
     }
   }
@@ -2843,6 +2843,38 @@ const CALENDAR_DATA: CalendarEvent[] = [
   },
 ];
 
+// Helper function to get base URL that works in both modern and legacy builds
+// Vite replaces import.meta.env.BASE_URL at build time, but we need a runtime fallback for legacy builds
+const getBaseUrl = (): string => {
+  // Try to use Vite's BASE_URL (replaced at build time)
+  // @ts-ignore - Vite replaces import.meta.env at build time
+  const viteBaseUrl = (import.meta.env as { BASE_URL?: string })?.BASE_URL;
+  if (viteBaseUrl) {
+    return viteBaseUrl;
+  }
+  // Fallback: determine from window.location (works in all builds, especially legacy)
+  const pathname = window.location.pathname;
+  // If we're at /MaybeSomethingSeasonal/ or /MaybeSomethingSeasonal/index.html
+  if (pathname.includes('/MaybeSomethingSeasonal')) {
+    const match = pathname.match(/^(\/MaybeSomethingSeasonal\/?)/);
+    if (match) {
+      return match[1].endsWith('/') ? match[1] : match[1] + '/';
+    }
+  }
+  // Default to root
+  return '/';
+};
+
+// Helper to check if we're in dev mode
+const isDevMode = (): boolean => {
+  // @ts-ignore - Vite replaces import.meta.env at build time
+  try {
+    return (import.meta.env as { DEV?: boolean })?.DEV === true;
+  } catch (e) {
+    return false;
+  }
+};
+
 const App: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -2853,8 +2885,7 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"calendar" | "events">("calendar");
   const [showReligious, _setShowReligious] = useState<boolean>(false);
 
-  const resolvedBaseUrl =
-    (import.meta.env as { BASE_URL?: string }).BASE_URL || "/";
+  const resolvedBaseUrl = getBaseUrl();
   const mssEventsUrl = resolvedBaseUrl.endsWith("/")
     ? `${resolvedBaseUrl}mss-events.html`
     : `${resolvedBaseUrl}/mss-events.html`;
@@ -2863,11 +2894,16 @@ const App: React.FC = () => {
     // Parse MSS.ics file - it's the source of truth
     const parseICS = async () => {
       try {
-        // Try different paths for development and production
-        const basePath =
-          (import.meta.env as { BASE_URL?: string }).BASE_URL || "/";
+        // Get base path using helper function that works in legacy builds
+        const basePath = getBaseUrl();
         const icsPath = `${basePath}MSS.ics`;
         console.log("Fetching ICS from:", icsPath, "BASE_URL:", basePath);
+        
+        // Ensure fetch is available (should be polyfilled, but add safety check)
+        if (typeof fetch === 'undefined') {
+          throw new Error('fetch API is not available');
+        }
+        
         const response = await fetch(icsPath);
         if (!response.ok) {
           console.error(
@@ -3128,8 +3164,7 @@ const App: React.FC = () => {
           }
           // If it starts with /, it's an absolute path - prepend base path
           if (imagePath.startsWith("/")) {
-            const basePath =
-              (import.meta.env as { BASE_URL?: string }).BASE_URL || "/";
+            const basePath = getBaseUrl();
             // Remove trailing slash from basePath if present, then add image path
             const cleanBase = basePath.endsWith("/")
               ? basePath.slice(0, -1)
@@ -3137,8 +3172,7 @@ const App: React.FC = () => {
             return `${cleanBase}${imagePath}`;
           }
           // Relative path - prepend base path
-          const basePath =
-            (import.meta.env as { BASE_URL?: string }).BASE_URL || "/";
+          const basePath = getBaseUrl();
           const cleanBase = basePath.endsWith("/") ? basePath : `${basePath}/`;
           return `${cleanBase}${imagePath}`;
         };
@@ -3159,14 +3193,14 @@ const App: React.FC = () => {
           img.src = imageUrl;
           img.onload = () => {
             // Only log success in development to reduce console noise
-            if (import.meta.env.DEV) {
+            if (isDevMode()) {
               console.log(`✓ Prefetched: ${imageUrl.substring(0, 50)}...`);
             }
           };
           img.onerror = () => {
             // Silently fail for Unsplash URLs (they often fail due to redirects/CORS)
             // Only log failures for local images in development
-            if (!imageUrl.includes("unsplash.com") && import.meta.env.DEV) {
+            if (!imageUrl.includes("unsplash.com") && isDevMode()) {
               console.warn(
                 `✗ Failed to prefetch: ${imageUrl.substring(0, 50)}...`,
               );
@@ -3266,7 +3300,7 @@ const App: React.FC = () => {
           {/* Action buttons in top right */}
           <div className="absolute top-0 right-0 flex items-center gap-3">
             <a
-              href={`${(import.meta.env as { BASE_URL?: string }).BASE_URL || "/"}MSS.ics`}
+              href={`${getBaseUrl()}MSS.ics`}
               download="MSS.ics"
               className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
               title="Download Calendar (editable .ics file - import to edit)"
