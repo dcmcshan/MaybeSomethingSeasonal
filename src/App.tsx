@@ -2747,6 +2747,14 @@ const CALENDAR_DATA: CalendarEvent[] = [
     category: "religious",
   },
   {
+    title: "Broadmoor Brunch",
+    date: "2025-12-28",
+    description: "Broadmoor Brunch at 9:00am.",
+    icon: "🥂",
+    image: "/images/broadmoor.jpg",
+    category: "cultural",
+  },
+  {
     title: "Holy Innocents",
     date: "2025-12-28",
     description: "Commemoration of children killed by Herod.",
