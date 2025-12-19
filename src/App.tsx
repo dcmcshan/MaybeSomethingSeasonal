@@ -2527,6 +2527,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     date: "2025-12-08",
     description: "Mary conceived without original sin.",
     icon: "🌹",
+    image: "/images/image36.jpg",
     category: "religious",
   },
   {
@@ -2535,6 +2536,7 @@ const CALENDAR_DATA: CalendarEvent[] = [
     description:
       "Feast of the Immaculate Conception; families set out the Caga Tio log and feed it sweets until Christmas Eve.",
     icon: "🌹",
+    image: "/images/image36.jpg",
     category: "religious",
   },
   {
