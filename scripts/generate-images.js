@@ -337,11 +337,30 @@ async function enhancePromptWithOpenRouter(originalPrompt) {
 function createPrompt(event) {
   const description = event.description || '';
   const summary = event.summary || 'Calendar Event';
+  const currentImage = (event.currentImage || '').toLowerCase();
   
   // Special case: Pearl Harbor Day - Godzilla in Santa hat
   if (summary.toLowerCase().includes('pearl harbor') || 
       description.toLowerCase().includes('pearl harbor')) {
     return 'Create a clean, high-contrast icon of Godzilla wearing a Santa hat. Focus on Godzilla as a single symbolic character, centered composition, minimal shadow. Render on a crisp white or transparent background with no scenery or text. Style: polished vector, flat illustration, subtle gradients welcome. Godzilla should be recognizable with classic features, wearing a festive red and white Santa hat.';
+  }
+
+  // Special case: Winter Solstice (Yule) image
+  // Note: This image slug is shared by multiple events in the ICS (e.g., Yalda Night),
+  // so we key off the shared filename to keep regenerations consistent.
+  if (
+    summary.toLowerCase().includes('winter solstice') ||
+    summary.toLowerCase().includes('yule') ||
+    description.toLowerCase().includes('winter solstice') ||
+    currentImage.includes('eve-of-the-winter-solstice-the-longest-night')
+  ) {
+    return [
+      'Create a clean, high-contrast calendar icon for "Winter Solstice (Yule)".',
+      'Include three clear elements: a friendly polar bear in the style of classic Coca-Cola holiday polar bear ads (but with NO logos, NO text, and NO branded labels), Santa Claus, and a red-and-white mushroom (toadstool).',
+      'Keep the composition centered and balanced, minimal shadow.',
+      'Render on a crisp white or transparent background with no scenery or text.',
+      'Style: polished vector / flat illustration, subtle gradients welcome.'
+    ].join(' ');
   }
   
   // Clean description (remove icon/category markers)
