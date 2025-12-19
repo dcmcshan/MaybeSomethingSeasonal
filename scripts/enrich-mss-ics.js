@@ -445,7 +445,7 @@ const EVENT_DETAILS = {
       traditions: `Foxhunts, charity drives, and visits to friends are common, while in Ireland the Wren Boys once paraded door to door collecting donations.`,
       feasting: `Leftover Christmas roasts become hearty pies, paired with bubble-and-squeak, mince pies, and mugs of spiced ale.`,
     },
-    '20251227T070000Z|image22': {
+    '20251227T070000Z|baby-back-ribs': {
       title: 'Feast of the Holy Innocents (Childermas Banquet)',
       history: `Childermas commemorates the Bethlehem children slain under King Herod; medieval English households kept 28 December as the Feast of the Holy Innocents, centring prayers and hospitality on the youngest family members.`,
       traditions: `Households set a whimsical winter table with white candles, holly berries, and silver bells, portion dishes in child-sized servings, and invite the youngest at table to announce each course as the day's presider.`,
