@@ -2423,14 +2423,16 @@
     "date": "2025-12-08",
     "description": "Mary conceived without original sin.",
     "icon": "🌹",
-    "category": "religious"
+    "category": "religious",
+    "image": "/images/image36.jpg"
   },
   {
     "title": "Immaculada",
     "date": "2025-12-08",
     "description": "Feast of the Immaculate Conception.",
     "icon": "🌹",
-    "category": "religious"
+    "category": "religious",
+    "image": "/images/image36.jpg"
   },
   {
     "title": "St. Juan Diego",
@@ -2451,8 +2453,7 @@
     "date": "2025-12-10",
     "description": "Mozart's beloved opera invites winter audiences into a fantastical journey of music and light.",
     "icon": "🎵",
-    "category": "cultural",
-    "image": "/images/image36.jpg"
+    "category": "cultural"
   },
   {
     "title": "St. Damasus I",
