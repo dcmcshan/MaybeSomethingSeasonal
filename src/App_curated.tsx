@@ -456,7 +456,8 @@ const CALENDAR_DATA: CalendarEvent[] = [
     date: "2025-12-24",
     description: "Vigil of the Nativity, anticipation of Christ's birth.",
     icon: "🌟",
-    category: "religious"
+    category: "religious",
+    image: "/images/caga-tio.svg"
   },
   {
     title: "Christmas Day",

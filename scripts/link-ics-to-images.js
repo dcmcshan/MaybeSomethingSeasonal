@@ -89,8 +89,8 @@ const HOLIDAY_TO_IMAGE = {
   'Solstice': 'eve-of-the-winter-solstice-the-longest-night.jpg',
   'Yalda Night - Persian celebration of the winter solstice, the longest night of the year': 'yalda-night-persian-celebration-of-the-winter-solstice-the-longest-night-of-the-.jpg',
   'Night of the Radishes - traditional Oaxacan festival': 'night-of-the-radishes-traditional-oaxacan-festival.jpg',
-  'Vigil of the Nativity, anticipation of Christ\'s birth': 'vigil-of-the-nativity-anticipation-of-christs-birth.jpg',
-  'Christmas Eve': 'vigil-of-the-nativity-anticipation-of-christs-birth.jpg',
+  'Vigil of the Nativity, anticipation of Christ\'s birth': 'caga-tio.svg',
+  'Christmas Eve': 'caga-tio.svg',
   'Birth of Jesus Christ, joy and celebration': 'birth-of-jesus-christ-joy-and-celebration.jpg',
   'Christmas': 'birth-of-jesus-christ-joy-and-celebration.jpg',
   'Celebration of St. Stephen, the first martyr': 'image21.jpg',
@@ -161,7 +161,13 @@ function updateIcsImageLinks() {
   // Get available images
   const availableImages = new Set();
   fs.readdirSync(IMAGES_DIR)
-    .filter(f => f.endsWith('.jpg') || f.endsWith('.jpeg') || f.endsWith('.png'))
+    .filter(
+      (f) =>
+        f.endsWith('.jpg') ||
+        f.endsWith('.jpeg') ||
+        f.endsWith('.png') ||
+        f.endsWith('.svg'),
+    )
     .forEach(f => availableImages.add(f));
   
   console.log(`📁 Found ${availableImages.size} images in ${IMAGES_DIR}\n`);

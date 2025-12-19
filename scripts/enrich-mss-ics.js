@@ -427,7 +427,7 @@ const EVENT_DETAILS = {
       traditions: `Artisans sculpt Nativity scenes, dancers, and mythical beasts from radishes, competing for prizes as bands and crowds stroll the zocalo.`,
       feasting: `Cena Tradicional Oaxaquena de Invierno features an ensalada de rabanos with lime and cilantro, tamales de rabano with bright raw radish salsa and atole verde de epazote, champurrado espeso de cacao y masa, optional tamales dulces de pina y pasas, and sips of mezcal artesanal served with orange slices and sal de gusano.`,
     },
-  '20251224T070000Z|image33': {
+  '20251224T070000Z|caga-tio': {
     title: 'Christmas Eve',
     history: `Christian communities have kept the Nativity vigil since the fourth century, preparing through liturgies of lessons, carols, and midnight Mass.`,
     traditions: `Families light Advent candles, attend services, exchange modest gifts, and observe the tradition of refraining from meat until the feast begins.`,
