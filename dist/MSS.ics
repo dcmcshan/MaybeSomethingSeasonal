@@ -1082,4 +1082,15 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 X-IMAGE:/images/broadmoor.jpg
 END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20251104T055848Z
+DTSTART:20251231T070000Z
+DTEND:20260101T070000Z
+SUMMARY:New Year's Eve
+DESCRIPTION:New Year's Eve - herring under a fur coat.\n\nIcon: 🎆\nCategory: celebration
+CATEGORIES:celebration
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+X-IMAGE:https://dcmcshan.github.io/MaybeSomethingSeasonal/images/herring-under-a-fur-coat-new-years-eve.png
+END:VEVENT
 END:VCALENDAR
