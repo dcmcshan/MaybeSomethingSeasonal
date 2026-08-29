@@ -20,26 +20,72 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Build
         run: npm run build
-        
+
+      - name: Verify calendar artifact
+        run: |
+          test -s dist/MSS.ics
+          grep -q '^BEGIN:VCALENDAR' dist/MSS.ics
+          grep -q '^END:VCALENDAR' dist/MSS.ics
+
+      - name: Upload MSS calendar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mss-calendar
+          path: dist/MSS.ics
+          if-no-files-found: error
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        
-      - name: Upload artifact
+
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
+
+  publish-cal:
+    name: Publish MSS.ics to Cal
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download MSS calendar artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mss-calendar
+          path: mss-calendar
+
+      - name: Checkout Cal
+        uses: actions/checkout@v4
+        with:
+          repository: CastaliaInstitute/cal.inquiry.institute
+          ref: main
+          token: ${{ secrets.CAL_REPO_TOKEN }}
+          path: cal
+
+      - name: Update Cal static calendar
+        run: |
+          cp mss-calendar/MSS.ics cal/www/MSS.ics
+          cd cal
+          if git diff --quiet -- www/MSS.ics; then
+            echo "Cal already has the current MSS.ics"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- www/MSS.ics
+          git commit -m "Update MSS subscription calendar"
+          git push origin HEAD:main
 
   deploy:
     environment:
