@@ -57,7 +57,7 @@ function addRrule(block, rrule) {
   return block.replace(/^(DTSTART(?:;[^:]*)?:[^\r\n]+\r?\n)/mi, `$1RRULE:${rrule}\n`);
 }
 
-const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|navaratri|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
+const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|navaratri|dussehra|vijayadashami|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
 
 const eventRegex = /BEGIN:VEVENT[\s\S]*?END:VEVENT\r?\n?/g;
 const events = [...content.matchAll(eventRegex)].map((m, index) => ({
