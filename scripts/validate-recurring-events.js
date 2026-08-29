@@ -70,8 +70,8 @@ function assertNoRecurrence(summary) {
 
 requireMatch(/UID:burn-night@maybesomethingseasonal\.com/, 'Burn Night UID missing');
 requireMatch(/SUMMARY:Burn Night/, 'Burn Night missing');
-requireMatch(/RDATE:20270904T060000Z/, 'Burn Night 2027 occurrence missing');
-requireMatch(/RDATE:21000904T060000Z/, 'Burn Night recurrence horizon does not reach 2100');
+requireMatch(/RDATE;VALUE=DATE:20270904/, 'Burn Night 2027 occurrence missing');
+requireMatch(/RDATE;VALUE=DATE:21000904/, 'Burn Night recurrence horizon does not reach 2100');
 
 requireMatch(/UID:glen-eyrie-madrigal-tickets@maybesomethingseasonal\.com/, 'Madrigal ticket-sale UID missing');
 requireMatch(/SUMMARY:Glen Eyrie Madrigal Tickets Go On Sale/, 'Madrigal ticket-sale event missing');
@@ -122,17 +122,17 @@ requireMatch(/URL:https:\/\/palmerdividehistory\.org\//, 'Palmer Lake Yule Log s
 
 // Correct known source-date defects before making them recurring.
 const candlemas = requireBlock('Candlemas (Feast of the Presentation)');
-if (prop(candlemas, 'DTSTART') !== '20260202T070000Z') throw new Error('Candlemas must be February 2');
-if (prop(candlemas, 'DTEND') !== '20260203T070000Z') throw new Error('Candlemas end date must be February 3');
+if (prop(candlemas, 'DTSTART') !== '20260202') throw new Error('Candlemas must be February 2');
+if (prop(candlemas, 'DTEND') !== '20260203') throw new Error('Candlemas end date must be February 3');
 if (prop(candlemas, 'RRULE') !== 'FREQ=YEARLY') throw new Error('Candlemas must recur yearly');
 
 const halloween = requireBlock("All Hallows' Eve (Halloween)");
-if (prop(halloween, 'DTEND') !== '20261101T060000Z') throw new Error('Halloween end date must follow its 2026 start');
+if (prop(halloween, 'DTEND') !== '20261101') throw new Error('Halloween end date must follow its 2026 start');
 if (prop(halloween, 'RRULE') !== 'FREQ=YEARLY') throw new Error('Halloween must recur yearly');
 
 const innocents = requireBlock('Feast of the Holy Innocents (Childermas Banquet)');
-if (prop(innocents, 'DTSTART') !== '20251228T070000Z') throw new Error('Holy Innocents must begin December 28');
-if (prop(innocents, 'DTEND') !== '20251229T070000Z') throw new Error('Holy Innocents must end December 29');
+if (prop(innocents, 'DTSTART') !== '20251228') throw new Error('Holy Innocents must begin December 28');
+if (prop(innocents, 'DTEND') !== '20251229') throw new Error('Holy Innocents must end December 29');
 
 // Rule-based Gregorian observances.
 const thanksgiving = requireBlock('Thanksgiving Day (United States)');
@@ -146,26 +146,26 @@ if (prop(sinterklaas, 'RRULE') !== 'FREQ=YEARLY;BYMONTH=11;BYDAY=SU;BYMONTHDAY=1
 
 // Deterministic movable Christian dates are generated as RDATEs through 2100.
 const palm = assertNoRrule('Palm Sunday');
-if (!/RDATE:20350318T060000Z/.test(palm) || !/RDATE:21000321T060000Z/.test(palm)) {
+if (!/RDATE;VALUE=DATE:20350318/.test(palm) || !/RDATE;VALUE=DATE:21000321/.test(palm)) {
   throw new Error('Palm Sunday generated dates must reach through 2100');
 }
 const maundy = assertNoRrule('Maundy Thursday');
-if (!/RDATE:20350322T060000Z/.test(maundy) || !/RDATE:21000325T060000Z/.test(maundy)) {
+if (!/RDATE;VALUE=DATE:20350322/.test(maundy) || !/RDATE;VALUE=DATE:21000325/.test(maundy)) {
   throw new Error('Maundy Thursday generated dates must reach through 2100');
 }
 const goodFriday = assertNoRrule('Good Friday');
-if (!/RDATE:20350323T060000Z/.test(goodFriday) || !/RDATE:21000326T060000Z/.test(goodFriday)) {
+if (!/RDATE;VALUE=DATE:20350323/.test(goodFriday) || !/RDATE;VALUE=DATE:21000326/.test(goodFriday)) {
   throw new Error('Good Friday generated dates must reach through 2100');
 }
 
 for (const [summary, expected2035] of [
-  ['First Sunday of Advent', '20351202T070000Z'],
-  ['Second Sunday of Advent', '20351209T070000Z'],
-  ['Gaudete Sunday', '20351216T070000Z'],
-  ['Fourth Sunday of Advent', '20351223T070000Z'],
+  ['First Sunday of Advent', '20351202'],
+  ['Second Sunday of Advent', '20351209'],
+  ['Gaudete Sunday', '20351216'],
+  ['Fourth Sunday of Advent', '20351223'],
 ]) {
   const block = assertNoRrule(summary);
-  if (!block.includes(`RDATE:${expected2035}`)) throw new Error(`${summary} 2035 generated occurrence missing`);
+  if (!block.includes(`RDATE;VALUE=DATE:${expected2035}`)) throw new Error(`${summary} 2035 generated occurrence missing`);
 }
 
 // Known movable or one-time entries must not be accidentally annualized.
@@ -185,6 +185,18 @@ for (const summary of [
   assertNoRecurrence(summary);
 }
 assertNoRecurrence('Broadmoor Brunch');
+
+// Apple/iCloud subscriptions should receive true all-day values for date-only observances.
+const timedMidnightEvents = blocks.filter((block) => {
+  const start = prop(block, 'DTSTART');
+  const end = prop(block, 'DTEND');
+  const sm = start && start.match(/^\d{8}T(\d{6})Z$/);
+  const em = end && end.match(/^\d{8}T(\d{6})Z$/);
+  return sm && em && sm[1] === em[1];
+});
+if (timedMidnightEvents.length) {
+  throw new Error(`All-day observances remain encoded as midnight times: ${timedMidnightEvents.map((block) => prop(block, 'SUMMARY')).join(', ')}`);
+}
 
 const events = blocks.map((block) => ({
   block,
