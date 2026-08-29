@@ -2924,7 +2924,7 @@ const App: React.FC = () => {
     (isKioskMode ? new Date(2025, 11, 1) : new Date());
   const [currentDate, setCurrentDate] = useState(initialDate);
   const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const [_selectedEvent, _setSelectedEvent] = useState<CalendarEvent | null>(
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
     null,
   );
   const [isLoading, setIsLoading] = useState(true);
@@ -3452,6 +3452,56 @@ const App: React.FC = () => {
     window.print();
   };
 
+  useEffect(() => {
+    if (!selectedEvent) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedEvent(null);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [selectedEvent]);
+
+  const eventDialog = selectedEvent ? (
+    <div
+      className="event-dialog-backdrop fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 p-4"
+      role="presentation"
+      onClick={() => setSelectedEvent(null)}
+    >
+      <section
+        className="event-dialog w-full max-w-sm rounded-2xl bg-white p-5 text-gray-900 shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="event-dialog-title"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-start gap-3">
+          <span className="text-4xl leading-none" aria-hidden="true">
+            {selectedEvent.icon}
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 id="event-dialog-title" className="text-xl font-semibold">
+              {selectedEvent.title}
+            </h2>
+            <p className="mt-1 text-sm text-gray-500">
+              {format(toLocalDate(selectedEvent.date), "MMMM d, yyyy")}
+            </p>
+          </div>
+          <button
+            type="button"
+            className="rounded-full px-2 py-1 text-xl leading-none text-gray-500 hover:bg-gray-100"
+            aria-label="Close event details"
+            onClick={() => setSelectedEvent(null)}
+          >
+            ×
+          </button>
+        </div>
+        <p className="mt-4 text-sm leading-relaxed text-gray-700">
+          {selectedEvent.description}
+        </p>
+      </section>
+    </div>
+  ) : null;
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
@@ -3469,7 +3519,7 @@ const App: React.FC = () => {
       <div className="h-screen w-screen bg-white overflow-hidden">
         <div className="h-full w-full p-2">
           {/* Calendar Grid - no headers, no navigation */}
-          <div className="grid grid-cols-7 gap-1 h-full">
+          <div className="calendar-month-grid grid grid-cols-7 gap-1 h-full">
             {/* Day headers */}
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
               (day) => (
@@ -3534,7 +3584,7 @@ const App: React.FC = () => {
               return (
                 <div
                   key={day.toISOString()}
-                  className={`h-full p-1 border border-gray-200 rounded relative flex flex-col overflow-hidden ${
+                  className={`calendar-day-cell h-full p-1 border border-gray-200 rounded relative flex flex-col overflow-hidden ${
                     isToday ? "ring-2 ring-green-500" : ""
                   }`}
                   style={{
@@ -3579,7 +3629,7 @@ const App: React.FC = () => {
                   )}
 
                   {continuationImages.length > 0 && (
-                    <div className="absolute top-1 right-1 flex flex-col gap-0.5 items-end z-10 pointer-events-none">
+                    <div className="calendar-continuation-images absolute top-1 right-1 flex flex-col gap-0.5 items-end z-10 pointer-events-none">
                       {continuationImages.map((image, index) => (
                         <img
                           key={`${image}-${index}`}
@@ -3614,7 +3664,7 @@ const App: React.FC = () => {
 
                   <div className="flex-1"></div>
 
-                  <div className="space-y-0.5 relative z-10 overflow-y-auto">
+                  <div className="calendar-event-list space-y-0.5 relative z-10 overflow-y-auto">
                     {displayEvents.slice(0, 5).map(({ event }, index) => {
                       const showInlineImage =
                         !backgroundImage && !!event.image;
@@ -3624,9 +3674,11 @@ const App: React.FC = () => {
                         ? `${baseLabelClasses} bg-black bg-opacity-50 text-white`
                         : `${baseLabelClasses} bg-white text-black border ${getCategoryColor(event.category)}`;
                       return (
-                        <div
+                        <button
+                          type="button"
                           key={index}
-                          className={labelClasses}
+                          className={`calendar-event-label ${labelClasses}`}
+                          onClick={() => setSelectedEvent(event)}
                           onMouseEnter={(e) => {
                             const metadataHtml = (() => {
                               const meta = event.calendarMeta;
@@ -3664,27 +3716,35 @@ const App: React.FC = () => {
                           }}
                           onMouseLeave={hideEventTooltip}
                         >
-                          <div className="flex items-center gap-1">
-                            {showInlineImage && event.image ? (
-                              <img
-                                src={event.image}
-                                alt=""
-                                className="w-3 h-3 object-cover rounded"
-                              />
-                            ) : (
-                              <span className="text-[10px]">
-                                {event.icon}
+                          <span
+                            className="mobile-event-icon"
+                            role="img"
+                            aria-label={event.title}
+                            title={event.title}
+                          >
+                            {event.icon}
+                          </span>
+                          <div className="desktop-event-content flex items-center gap-1">
+                              {showInlineImage && event.image ? (
+                                <img
+                                  src={event.image}
+                                  alt=""
+                                  className="w-3 h-3 object-cover rounded"
+                                />
+                              ) : (
+                                <span className="text-[10px]">
+                                  {event.icon}
+                                </span>
+                              )}
+                              <span className="truncate christmas-font text-[10px]">
+                                {event.title}
                               </span>
-                            )}
-                            <span className="truncate christmas-font text-[10px]">
-                              {event.title}
-                            </span>
                           </div>
-                        </div>
+                        </button>
                       );
                     })}
                     {displayEvents.length > 5 && (
-                      <div className="text-[8px] text-gray-500 text-center">
+                      <div className="calendar-more-count text-[8px] text-gray-500 text-center">
                         +{displayEvents.length - 5} more
                       </div>
                     )}
@@ -3693,6 +3753,7 @@ const App: React.FC = () => {
               );
             })}
           </div>
+          {eventDialog}
         </div>
       </div>
     );
@@ -3794,7 +3855,7 @@ const App: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="grid grid-cols-7 gap-2">
+                  <div className="calendar-month-grid grid grid-cols-7 gap-2">
                       {calendarDays.map((day) => {
                         const dayEvents = getEventsForDate(day);
                         const isCurrentMonthDay = isSameMonth(day, currentDate);
@@ -3848,7 +3909,7 @@ const App: React.FC = () => {
                         return (
                           <div
                             key={day.toISOString()}
-                            className={`min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
+                            className={`calendar-day-cell min-h-[120px] p-2 border rounded-lg relative flex flex-col overflow-hidden ${
                               isToday ? "ring-2 ring-green-500" : ""
                             }`}
                             style={{
@@ -3895,7 +3956,7 @@ const App: React.FC = () => {
 
                           {/* Continuation images for multi-day events */}
                           {continuationImages.length > 0 && (
-                            <div className="absolute top-2 right-2 flex flex-col gap-1 items-end z-10 pointer-events-none">
+                            <div className="calendar-continuation-images absolute top-2 right-2 flex flex-col gap-1 items-end z-10 pointer-events-none">
                               {continuationImages.map((image, index) => (
                                 <img
                                   key={`${image}-${index}`}
@@ -3933,7 +3994,7 @@ const App: React.FC = () => {
                           <div className="flex-1"></div>
 
                           {/* Event labels at bottom */}
-                          <div className="space-y-1 relative z-10">
+                          <div className="calendar-event-list space-y-1 relative z-10">
                             {displayEvents.slice(0, 3).map(({ event }, index) => {
                               const showInlineImage =
                                 !backgroundImage && !!event.image;
@@ -3943,9 +4004,11 @@ const App: React.FC = () => {
                                 ? `${baseLabelClasses} bg-black bg-opacity-50 text-white`
                                 : `${baseLabelClasses} bg-white text-black border ${getCategoryColor(event.category)}`;
                               return (
-                                <div
+                                <button
+                                  type="button"
                                   key={index}
-                                  className={labelClasses}
+                                  className={`calendar-event-label ${labelClasses}`}
+                                  onClick={() => setSelectedEvent(event)}
                                   onMouseEnter={(e) => {
                                     const metadataHtml = (() => {
                                       const meta = event.calendarMeta;
@@ -4013,6 +4076,15 @@ const App: React.FC = () => {
                                     }
                                   }}
                                 >
+                                  <span
+                                    className="mobile-event-icon"
+                                    role="img"
+                                    aria-label={event.title}
+                                    title={event.title}
+                                  >
+                                    {event.icon}
+                                  </span>
+                                  <span className="desktop-event-content">
                                   {!backgroundImage && (
                                     <>
                                       {showInlineImage ? (
@@ -4044,12 +4116,13 @@ const App: React.FC = () => {
                                   >
                                     {event.title}
                                   </span>
-                                </div>
+                                  </span>
+                                </button>
                               );
                             })}
                             {displayEvents.length > 3 && (
                               <div
-                                className={`text-xs font-bold p-1 rounded ${
+                                className={`calendar-more-count text-xs font-bold p-1 rounded ${
                                   backgroundImage
                                     ? "bg-black bg-opacity-50 text-white"
                                     : "bg-white text-black border border-gray-300"
@@ -4077,6 +4150,7 @@ const App: React.FC = () => {
             </div>
           </div>
       </div>
+      {eventDialog}
     </div>
   );
 };
