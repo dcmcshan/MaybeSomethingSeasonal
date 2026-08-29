@@ -43,7 +43,7 @@ function recurrenceSignature(date) {
   };
 }
 
-const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|navaratri|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
+const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|navaratri|dussehra|vijayadashami|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
 
 requireMatch(/UID:burn-night@maybesomethingseasonal\.com/, 'Burn Night UID missing');
 requireMatch(/SUMMARY:Burn Night/, 'Burn Night missing');
@@ -80,6 +80,16 @@ if (navaratriBlocks.some((block) => prop(block, 'RRULE') || prop(block, 'RDATE')
 for (let day = 1; day <= 9; day += 1) {
   requireMatch(new RegExp(`SUMMARY:Navaratri Day ${day} — `), `Navaratri Day ${day} missing`);
 }
+
+const dussehraBlock = [...content.matchAll(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g)]
+  .map((match) => match[0])
+  .find((block) => prop(block, 'SUMMARY') === 'Dussehra / Vijayadashami');
+if (!dussehraBlock) throw new Error('Dussehra / Vijayadashami event missing');
+if (prop(dussehraBlock, 'DTSTART') !== '20261020') throw new Error('Dussehra 2026 date must be October 20');
+if (prop(dussehraBlock, 'RRULE') || prop(dussehraBlock, 'RDATE')) {
+  throw new Error('Dussehra must remain an explicit lunisolar event');
+}
+if (!/Icon: 🏹/.test(dussehraBlock)) throw new Error('Dussehra bow icon missing');
 
 requireMatch(/UID:st-francis-transitus-800@maybesomethingseasonal\.com/, 'St. Francis Transitus UID missing');
 requireMatch(/DTSTART;VALUE=DATE:20261003/, 'St. Francis 800th-anniversary Transitus date missing');
