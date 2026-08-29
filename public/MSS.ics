@@ -1076,7 +1076,7 @@ DTSTAMP:20251104T055848Z
 DTSTART;TZID=America/Denver:20251228T090000
 DTEND;TZID=America/Denver:20251228T110000
 SUMMARY:Broadmoor Brunch
-DESCRIPTION:Brunch at The Broadmoor.\n\nTime: 9:00am
+DESCRIPTION:Brunch at The Broadmoor.\n\nTime: 9:00am\n\nIcon: 🥂\nCategory: cultural
 CATEGORIES:cultural
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT

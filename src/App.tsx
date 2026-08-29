@@ -3116,46 +3116,32 @@ const App: React.FC = () => {
               }
             }
 
-            // The description contains literal \n sequences (backslash-n as two characters)
-            // Icon and Category are separated by \n\nIcon: and \nCategory:
-            // Image is now stored in X-IMAGE property, but we fall back to description parsing for compatibility
+            // Older entries contain several generations of escaped
+            // backslashes before "n". Normalize all of them before reading
+            // embedded metadata.
+            const normalizedDescription = fullDescription.replace(/\\+n/g, "\n");
+
+            // Image is normally stored in X-IMAGE, but description metadata is
+            // retained for compatibility with the older calendar entries.
             let icon = "📅";
             let category = "default";
             let image = currentEvent.image; // Get from X-IMAGE property if set
 
-            // Pattern 1: Match literal \n (backslash followed by n) - two characters
-            const iconMatch1 = fullDescription.match(
-              /\\n\\nIcon:\s*([^\n\\]+?)(?=\\n|$)/,
+            const iconMatch = normalizedDescription.match(
+              /(?:^|\n)Icon:\s*([^\n]+)/,
             );
-            const categoryMatch1 = fullDescription.match(
-              /\\nCategory:\s*([^\n\\]+?)(?=\\n|$)/,
+            const categoryMatch = normalizedDescription.match(
+              /(?:^|\n)Category:\s*([^\n]+)/,
             );
-            const imageMatch1 = fullDescription.match(
-              /\\nImage:\s*([^\n\\]+?)(?=\\n|$)/,
-            );
-
-            // Pattern 2: Match actual newline characters (in case file was processed)
-            const iconMatch2 = fullDescription.match(
-              /\n\nIcon:\s*([^\n]+?)(?=\n|$)/,
-            );
-            const categoryMatch2 = fullDescription.match(
-              /\nCategory:\s*([^\n]+?)(?=\n|$)/,
-            );
-            const imageMatch2 = fullDescription.match(
-              /\nImage:\s*([^\n]+?)(?=\n|$)/,
+            const imageMatch = normalizedDescription.match(
+              /(?:^|\n)Image:\s*([^\n]+)/,
             );
 
-            if (iconMatch1) icon = iconMatch1[1].trim();
-            else if (iconMatch2) icon = iconMatch2[1].trim();
-
-            if (categoryMatch1) category = categoryMatch1[1].trim();
-            else if (categoryMatch2) category = categoryMatch2[1].trim();
+            if (iconMatch) icon = iconMatch[1].trim();
+            if (categoryMatch) category = categoryMatch[1].trim();
 
               // Only use description-based image if X-IMAGE wasn't found
-              if (!image) {
-                if (imageMatch1) image = imageMatch1[1].trim();
-                else if (imageMatch2) image = imageMatch2[1].trim();
-              }
+              if (!image && imageMatch) image = imageMatch[1].trim();
 
               if (currentEvent.title && currentEvent.date) {
                 const startDate = toLocalDate(currentEvent.date);
