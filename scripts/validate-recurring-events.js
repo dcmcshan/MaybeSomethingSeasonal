@@ -55,6 +55,14 @@ requireMatch(/SUMMARY:Glen Eyrie Madrigal Tickets Go On Sale/, 'Madrigal ticket-
 requireMatch(/RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=TU;BYMONTHDAY=2,3,4,5,6,7,8/, 'Madrigal recurrence rule missing or changed');
 requireMatch(/URL:https:\/\/gleneyrie\.org\/our-event\/madrigal\//, 'Madrigal source URL missing');
 
+requireMatch(/UID:palmer-lake-yule-log@maybesomethingseasonal\.com/, 'Palmer Lake Yule Log UID missing');
+requireMatch(/SUMMARY:Palmer Lake Yule Log Hunt/, 'Palmer Lake Yule Log event missing');
+requireMatch(
+  /RRULE:FREQ=YEARLY;BYMONTH=12;BYDAY=SU;BYMONTHDAY=11,12,13,14,15,16,17/,
+  'Palmer Lake Yule Log must recur on the second Sunday before Christmas'
+);
+requireMatch(/URL:https:\/\/palmerdividehistory\.org\//, 'Palmer Lake Yule Log source URL missing');
+
 const events = [...content.matchAll(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g)].map((match) => ({
   block: match[0],
   summary: prop(match[0], 'SUMMARY'),
