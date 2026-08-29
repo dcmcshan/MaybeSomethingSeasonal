@@ -87,6 +87,35 @@ const indigenousPeoplesDayEvent = [
   ''
 ].join('\n');
 
+// Navaratri follows a lunisolar calendar, so its nine 2026 nights are
+// published as explicit dated events rather than an incorrect Gregorian RRULE.
+const navaratriDays = [
+  ['20261011', '20261012', 'shailaputri', 'Navaratri Day 1 — Shailaputri', '🏔️', 'Honor Shailaputri, daughter of the mountains and embodiment of grounded beginnings. Begin Navaratri with intention, steadiness, and reverence for the earth.'],
+  ['20261012', '20261013', 'brahmacharini', 'Navaratri Day 2 — Brahmacharini', '📿', 'Honor Brahmacharini, the devoted seeker whose discipline and contemplative strength illuminate the path of spiritual practice.'],
+  ['20261013', '20261014', 'chandraghanta', 'Navaratri Day 3 — Chandraghanta', '🔔', 'Honor Chandraghanta, the moon-belled warrior whose courage, vigilance, and protective grace confront fear and restore peace.'],
+  ['20261014', '20261015', 'kushmanda', 'Navaratri Day 4 — Kushmanda', '☀️', 'Honor Kushmanda, the radiant creator whose smile kindles the cosmic egg and fills the world with warmth, vitality, and light.'],
+  ['20261015', '20261016', 'skandamata', 'Navaratri Day 5 — Skandamata', '👩‍👦', 'Honor Skandamata, mother of Skanda, as an image of nurturing courage, protective love, and wisdom carried through generations.'],
+  ['20261016', '20261017', 'katyayani', 'Navaratri Day 6 — Katyayani', '🦁', 'Honor Katyayani, the lion-riding warrior goddess who embodies decisive strength, justice, and resistance to destructive forces.'],
+  ['20261017', '20261018', 'kalaratri', 'Navaratri Day 7 — Kalaratri', '🌌', 'Honor Kalaratri, the dark night that dissolves fear and ignorance, revealing the fierce protection hidden within transformation.'],
+  ['20261018', '20261019', 'mahagauri', 'Navaratri Day 8 — Mahagauri', '🪷', 'Honor Mahagauri, the luminous form of purification, serenity, compassion, and renewal after hardship.'],
+  ['20261019', '20261020', 'siddhidatri', 'Navaratri Day 9 — Siddhidatri', '✨', 'Honor Siddhidatri, bestower of insight and accomplishment, bringing the nine-night journey toward wholeness, wisdom, and fulfillment.'],
+];
+
+const navaratriEvents = navaratriDays.map(([start, end, slug, summary, icon, description]) => [
+  'BEGIN:VEVENT',
+  `UID:navaratri-2026-${slug}@maybesomethingseasonal.com`,
+  'DTSTAMP:20260829T130000Z',
+  `DTSTART;VALUE=DATE:${start}`,
+  `DTEND;VALUE=DATE:${end}`,
+  `SUMMARY:${summary}`,
+  `DESCRIPTION:${description}\\n\\nIcon: ${icon}\\nCategory: cultural`,
+  'CATEGORIES:cultural',
+  'STATUS:CONFIRMED',
+  'TRANSP:TRANSPARENT',
+  'END:VEVENT',
+  ''
+].join('\n'));
+
 // Palmer Lake Resolution 54-2022 defines Yule Log Sunday as the second
 // Sunday before Christmas. That is the Sunday falling December 11 through 17
 // (the Third Sunday of Advent).
@@ -116,6 +145,10 @@ const additions = [];
 if (!source.includes('SUMMARY:Burn Night')) additions.push(burnNightEvent);
 if (!source.includes('SUMMARY:Glen Eyrie Madrigal Tickets Go On Sale')) additions.push(madrigalTicketSaleEvent);
 if (!source.includes('SUMMARY:Indigenous Peoples’ Day')) additions.push(indigenousPeoplesDayEvent);
+for (const event of navaratriEvents) {
+  const summary = event.match(/^SUMMARY:(.*)$/m)?.[1];
+  if (summary && !source.includes(`SUMMARY:${summary}`)) additions.push(event);
+}
 if (!source.includes('SUMMARY:Palmer Lake Yule Log Hunt')) additions.push(palmerLakeYuleLogEvent);
 
 if (additions.length === 0) {
