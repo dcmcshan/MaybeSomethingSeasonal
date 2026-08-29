@@ -70,6 +70,27 @@ const madrigalTicketSaleEvent = [
   ''
 ].join('\n');
 
+// Palmer Lake Resolution 54-2022 defines Yule Log Sunday as the second
+// Sunday before Christmas. That is the Sunday falling December 11 through 17
+// (the Third Sunday of Advent).
+const palmerLakeYuleLogEvent = [
+  'BEGIN:VEVENT',
+  'UID:palmer-lake-yule-log@maybesomethingseasonal.com',
+  'DTSTAMP:20260829T120000Z',
+  'DTSTART:20251214T200000Z',
+  'DTEND:20251215T033000Z',
+  'RRULE:FREQ=YEARLY;BYMONTH=12;BYDAY=SU;BYMONTHDAY=11,12,13,14,15,16,17',
+  'SUMMARY:Palmer Lake Yule Log Hunt',
+  'DESCRIPTION:Palmer Lake’s annual Yule Log Hunt, held on the second Sunday before Christmas (the Third Sunday of Advent). Begins at Palmer Lake Town Hall.\\nhttps://palmerdividehistory.org/\\n\\nIcon: 🪵\\nCategory: seasonal',
+  'URL:https://palmerdividehistory.org/',
+  'LOCATION:Palmer Lake Town Hall\\, 28 Valley Crescent St.\\, Palmer Lake\\, CO',
+  'CATEGORIES:seasonal',
+  'STATUS:CONFIRMED',
+  'TRANSP:TRANSPARENT',
+  'END:VEVENT',
+  ''
+].join('\n');
+
 if (!/END:VCALENDAR\s*$/.test(source)) {
   throw new Error('MSS.ics is missing END:VCALENDAR');
 }
@@ -77,6 +98,7 @@ if (!/END:VCALENDAR\s*$/.test(source)) {
 const additions = [];
 if (!source.includes('SUMMARY:Burn Night')) additions.push(burnNightEvent);
 if (!source.includes('SUMMARY:Glen Eyrie Madrigal Tickets Go On Sale')) additions.push(madrigalTicketSaleEvent);
+if (!source.includes('SUMMARY:Palmer Lake Yule Log Hunt')) additions.push(palmerLakeYuleLogEvent);
 
 if (additions.length === 0) {
   fs.writeFileSync(outputPath, source);
