@@ -34,7 +34,7 @@ for (let year = firstYear + 1; year <= lastYear; year += 1) {
   recurrenceDates.push(`RDATE:${icsDateTime(burnNightForYear(year))}`);
 }
 
-const event = [
+const burnNightEvent = [
   'BEGIN:VEVENT',
   'UID:burn-night@maybesomethingseasonal.com',
   'DTSTAMP:20260829T102300Z',
@@ -50,14 +50,38 @@ const event = [
   ''
 ].join('\n');
 
-if (source.includes('SUMMARY:Burn Night')) {
-  fs.writeFileSync(outputPath, source);
-  process.exit(0);
-}
+// Glen Eyrie states that Madrigal Banquet tickets go on sale on the Tuesday
+// after Labor Day. Because Labor Day is the first Monday in September, this
+// is exactly the Tuesday falling on September 2 through 8.
+const madrigalTicketSaleEvent = [
+  'BEGIN:VEVENT',
+  'UID:glen-eyrie-madrigal-tickets@maybesomethingseasonal.com',
+  'DTSTAMP:20260829T104500Z',
+  'DTSTART;VALUE=DATE:20260908',
+  'DTEND;VALUE=DATE:20260909',
+  'RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=TU;BYMONTHDAY=2,3,4,5,6,7,8',
+  'SUMMARY:Glen Eyrie Madrigal Tickets Go On Sale',
+  'DESCRIPTION:Glen Eyrie Madrigal Banquet tickets go on sale the Tuesday after Labor Day.\\nhttps://gleneyrie.org/our-event/madrigal/\\n\\nIcon: 🎟️\\nCategory: seasonal',
+  'URL:https://gleneyrie.org/our-event/madrigal/',
+  'CATEGORIES:seasonal',
+  'STATUS:CONFIRMED',
+  'TRANSP:TRANSPARENT',
+  'END:VEVENT',
+  ''
+].join('\n');
 
 if (!/END:VCALENDAR\s*$/.test(source)) {
   throw new Error('MSS.ics is missing END:VCALENDAR');
 }
 
-const merged = source.replace(/END:VCALENDAR\s*$/, `${event}END:VCALENDAR\n`);
+const additions = [];
+if (!source.includes('SUMMARY:Burn Night')) additions.push(burnNightEvent);
+if (!source.includes('SUMMARY:Glen Eyrie Madrigal Tickets Go On Sale')) additions.push(madrigalTicketSaleEvent);
+
+if (additions.length === 0) {
+  fs.writeFileSync(outputPath, source);
+  process.exit(0);
+}
+
+const merged = source.replace(/END:VCALENDAR\s*$/, `${additions.join('')}END:VCALENDAR\n`);
 fs.writeFileSync(outputPath, merged);
