@@ -14,6 +14,12 @@ function prop(block, name) {
   return match ? match[1].trim() : null;
 }
 
+function replaceProp(block, name, value) {
+  const pattern = new RegExp(`^(${name}(?:;[^:]*)?:).*?$`, 'mi');
+  if (!pattern.test(block)) return block;
+  return block.replace(pattern, `$1${value}`);
+}
+
 function ymdFromDtstart(block) {
   const value = prop(block, 'DTSTART');
   const match = value && value.match(/^(\d{4})(\d{2})(\d{2})/);
@@ -47,7 +53,7 @@ function stableUid(summary) {
   return `${slug}@maybesomethingseasonal.com`;
 }
 
-function addOrReplaceUid(block, summary) {
+function addUid(block, summary) {
   if (/^UID:/mi.test(block)) return block;
   return block.replace(/^BEGIN:VEVENT\r?\n/m, `BEGIN:VEVENT\nUID:${stableUid(summary)}\n`);
 }
@@ -57,18 +63,118 @@ function addRrule(block, rrule) {
   return block.replace(/^(DTSTART(?:;[^:]*)?:[^\r\n]+\r?\n)/mi, `$1RRULE:${rrule}\n`);
 }
 
-const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|navaratri|dussehra|vijayadashami|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
+function formatDateLikeSeed(date, seedValue) {
+  const y = date.getUTCFullYear();
+  const m = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const d = String(date.getUTCDate()).padStart(2, '0');
+  const suffix = seedValue.slice(8);
+  return `${y}${m}${d}${suffix}`;
+}
+
+function addGeneratedRdates(block, summary, dateForYear, throughYear = 2100) {
+  if (/^RRULE:/mi.test(block) || /^RDATE(?:;[^:]*)?:/mi.test(block)) return block;
+  const seedValue = prop(block, 'DTSTART');
+  const seedDate = ymdFromDtstart(block);
+  if (!seedValue || !seedDate) return block;
+
+  const lines = [];
+  for (let year = seedDate.year + 1; year <= throughYear; year += 1) {
+    lines.push(`RDATE:${formatDateLikeSeed(dateForYear(year), seedValue)}`);
+  }
+  if (!lines.length) return addUid(block, summary);
+
+  let updated = addUid(block, summary);
+  updated = updated.replace(
+    /^(DTSTART(?:;[^:]*)?:[^\r\n]+\r?\n)/mi,
+    `$1${lines.join('\n')}\n`,
+  );
+  return updated;
+}
+
+function addDaysUtc(date, days) {
+  const result = new Date(date.getTime());
+  result.setUTCDate(result.getUTCDate() + days);
+  return result;
+}
+
+// Gregorian Meeus/Jones/Butcher algorithm.
+function westernEaster(year) {
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31);
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
+function firstSundayOfAdvent(year) {
+  const date = new Date(Date.UTC(year, 10, 27));
+  while (date.getUTCDay() !== 0) date.setUTCDate(date.getUTCDate() + 1);
+  return date;
+}
+
+const GENERATED_DATE_RULES = new Map([
+  ['Palm Sunday', (year) => addDaysUtc(westernEaster(year), -7)],
+  ['Maundy Thursday', (year) => addDaysUtc(westernEaster(year), -3)],
+  ['Good Friday', (year) => addDaysUtc(westernEaster(year), -2)],
+  ['First Sunday of Advent', (year) => firstSundayOfAdvent(year)],
+  ['Second Sunday of Advent', (year) => addDaysUtc(firstSundayOfAdvent(year), 7)],
+  ['Gaudete Sunday', (year) => addDaysUtc(firstSundayOfAdvent(year), 14)],
+  ['Fourth Sunday of Advent', (year) => addDaysUtc(firstSundayOfAdvent(year), 21)],
+]);
+
+const RULE_BASED_RRULES = new Map([
+  ['Thanksgiving Day (United States)', 'FREQ=YEARLY;BYMONTH=11;BYDAY=4TH'],
+  ['Sinterklaas Arrival (Intocht)', 'FREQ=YEARLY;BYMONTH=11;BYDAY=SU;BYMONTHDAY=12,13,14,15,16,17,18'],
+]);
+
+// Correct known source-data defects in the deployed feed before recurrence is
+// applied. These can be removed once the large source ICS is rewritten cleanly.
+const DATE_CORRECTIONS = new Map([
+  ['Candlemas (Feast of the Presentation)', ['20260202T070000Z', '20260203T070000Z']],
+  ["All Hallows' Eve (Halloween)", ['20261031T060000Z', '20261101T060000Z']],
+  ['Feast of the Holy Innocents (Childermas Banquet)', ['20251228T070000Z', '20251229T070000Z']],
+]);
+
+const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|maundy thursday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|navaratri|dussehra|vijayadashami|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|yalda|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
+
+const ONE_OFF_NAME = new Set([
+  '800th Anniversary Transitus of St. Francis',
+  'Broadmoor Brunch',
+]);
+
+function correctedBlock(block, summary) {
+  const correction = DATE_CORRECTIONS.get(summary);
+  if (!correction) return block;
+  let updated = replaceProp(block, 'DTSTART', correction[0]);
+  updated = replaceProp(updated, 'DTEND', correction[1]);
+  return updated;
+}
 
 const eventRegex = /BEGIN:VEVENT[\s\S]*?END:VEVENT\r?\n?/g;
-const events = [...content.matchAll(eventRegex)].map((m, index) => ({
-  index,
-  block: m[0],
-  start: m.index,
-  end: m.index + m[0].length,
-  summary: prop(m[0], 'SUMMARY'),
-  date: ymdFromDtstart(m[0]),
-  hasRecurrence: /^RRULE:|^RDATE(?:;[^:]*)?:/mi.test(unfold(m[0])),
-}));
+const events = [...content.matchAll(eventRegex)].map((m, index) => {
+  const summary = prop(m[0], 'SUMMARY');
+  let block = summary ? correctedBlock(m[0], summary) : m[0];
+  if (summary) block = addUid(block, summary);
+  return {
+    index,
+    block,
+    start: m.index,
+    end: m.index + m[0].length,
+    summary,
+    date: ymdFromDtstart(block),
+    hasRecurrence: /^RRULE:|^RDATE(?:;[^:]*)?:/mi.test(unfold(block)),
+  };
+});
 
 const groups = new Map();
 for (const event of events) {
@@ -81,29 +187,57 @@ const replacements = new Map();
 const removals = new Set();
 let fixedDateCount = 0;
 let weekdayRuleCount = 0;
+let generatedDateCount = 0;
+let ruleBasedCount = 0;
 let protectedMovableCount = 0;
+let oneOffCount = 0;
 let unresolvedRepeatedCount = 0;
 
 for (const [summary, group] of groups) {
+  const sorted = [...group].sort((a, b) =>
+    a.date.year - b.date.year || a.date.month - b.date.month || a.date.day - b.date.day
+  );
+  const canonical = sorted[0];
+
+  if (ONE_OFF_NAME.has(summary) || /\banniversary\b/i.test(summary)) {
+    oneOffCount++;
+    continue;
+  }
+
+  if (GENERATED_DATE_RULES.has(summary)) {
+    replacements.set(
+      canonical.index,
+      addGeneratedRdates(canonical.block, summary, GENERATED_DATE_RULES.get(summary)),
+    );
+    for (const duplicate of sorted.slice(1)) removals.add(duplicate.index);
+    generatedDateCount++;
+    continue;
+  }
+
+  if (RULE_BASED_RRULES.has(summary)) {
+    let block = addUid(canonical.block, summary);
+    block = addRrule(block, RULE_BASED_RRULES.get(summary));
+    replacements.set(canonical.index, block);
+    for (const duplicate of sorted.slice(1)) removals.add(duplicate.index);
+    ruleBasedCount++;
+    continue;
+  }
+
   const years = new Set(group.map((e) => e.date.year));
   if (MOVABLE_NAME.test(summary)) {
     protectedMovableCount++;
     continue;
   }
 
-  const sorted = [...group].sort((a, b) =>
-    a.date.year - b.date.year || a.date.month - b.date.month || a.date.day - b.date.day
-  );
-  const canonical = sorted[0];
-
-  // A single dated instance is sufficient evidence for a fixed annual
-  // observance unless its name identifies a movable calendar tradition.
+  // MSS is a seasonal-observance feed. A singleton that is neither known
+  // movable nor explicitly one-off is treated as a fixed Gregorian annual
+  // observance. The exclusions above are deliberately conservative.
   if (years.size < 2) {
     if (group.length !== 1) {
       unresolvedRepeatedCount++;
       continue;
     }
-    let block = addOrReplaceUid(canonical.block, summary);
+    let block = addUid(canonical.block, summary);
     block = addRrule(block, 'FREQ=YEARLY');
     replacements.set(canonical.index, block);
     fixedDateCount++;
@@ -139,7 +273,7 @@ for (const [summary, group] of groups) {
     continue;
   }
 
-  let block = addOrReplaceUid(canonical.block, summary);
+  let block = addUid(canonical.block, summary);
   block = addRrule(block, rrule);
   replacements.set(canonical.index, block);
   for (const duplicate of sorted.slice(1)) removals.add(duplicate.index);
@@ -156,6 +290,8 @@ rebuilt += content.slice(cursor);
 
 fs.writeFileSync(icsPath, rebuilt);
 console.log(
-  `Normalized recurring events: ${fixedDateCount} fixed-date, ${weekdayRuleCount} weekday-rule; ` +
-  `${protectedMovableCount} movable groups protected; ${unresolvedRepeatedCount} repeated groups left explicit.`
+  `Normalized recurring events: ${fixedDateCount} fixed-date, ${weekdayRuleCount} inferred weekday, ` +
+  `${ruleBasedCount} explicit weekday-rule, ${generatedDateCount} generated-date; ` +
+  `${protectedMovableCount} movable groups protected, ${oneOffCount} one-off groups protected, ` +
+  `${unresolvedRepeatedCount} repeated groups left explicit.`
 );
