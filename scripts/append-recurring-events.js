@@ -85,7 +85,7 @@ const indigenousPeoplesDayEvent = [
   'TRANSP:TRANSPARENT',
   'END:VEVENT',
   ''
-].join('\\n');
+].join('\n');
 
 // Palmer Lake Resolution 54-2022 defines Yule Log Sunday as the second
 // Sunday before Christmas. That is the Sunday falling December 11 through 17
