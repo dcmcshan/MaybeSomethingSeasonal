@@ -81,6 +81,13 @@ for (let day = 1; day <= 9; day += 1) {
   requireMatch(new RegExp(`SUMMARY:Navaratri Day ${day} — `), `Navaratri Day ${day} missing`);
 }
 
+requireMatch(/UID:st-francis-transitus-800@maybesomethingseasonal\.com/, 'St. Francis Transitus UID missing');
+requireMatch(/DTSTART;VALUE=DATE:20261003/, 'St. Francis 800th-anniversary Transitus date missing');
+requireMatch(/UID:feast-of-st-francis@maybesomethingseasonal\.com/, 'Feast of St. Francis UID missing');
+requireMatch(/SUMMARY:Feast of St. Francis of Assisi/, 'Feast of St. Francis missing');
+requireMatch(/RRULE:FREQ=YEARLY;BYMONTH=10;BYMONTHDAY=4/, 'Feast of St. Francis must recur on October 4');
+requireMatch(/Icon: 🐦/, 'Feast of St. Francis icon missing');
+
 requireMatch(/UID:palmer-lake-yule-log@maybesomethingseasonal\.com/, 'Palmer Lake Yule Log UID missing');
 requireMatch(/SUMMARY:Palmer Lake Yule Log Hunt/, 'Palmer Lake Yule Log event missing');
 requireMatch(
