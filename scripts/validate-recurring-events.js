@@ -43,7 +43,7 @@ function recurrenceSignature(date) {
   };
 }
 
-const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz)\b/i;
+const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
 
 requireMatch(/UID:burn-night@maybesomethingseasonal\.com/, 'Burn Night UID missing');
 requireMatch(/SUMMARY:Burn Night/, 'Burn Night missing');
@@ -80,7 +80,6 @@ for (const event of events) {
 
 const missed = [];
 for (const [summary, group] of oneOffGroups) {
-  if (new Set(group.map((event) => event.date.year)).size < 2) continue;
   if (MOVABLE_NAME.test(summary)) continue;
   const signatures = group.map((event) => recurrenceSignature(event.date));
   const fixed = new Set(signatures.map((sig) => sig.fixed));
@@ -89,7 +88,15 @@ for (const [summary, group] of oneOffGroups) {
 }
 
 if (missed.length) {
-  throw new Error(`Recurring groups were not normalized: ${missed.join(', ')}`);
+  throw new Error(`Fixed or inferable recurring events were not normalized: ${missed.join(', ')}`);
+}
+
+const feastOneOffs = events
+  .filter((event) => event.summary && /\\b(feast|fete)\\b/i.test(event.summary))
+  .filter((event) => !MOVABLE_NAME.test(event.summary) && !event.recurrence)
+  .map((event) => event.summary);
+if (feastOneOffs.length) {
+  throw new Error(`Fixed Feast events remain one-offs: ${feastOneOffs.join(', ')}`);
 }
 
 const recurringCount = events.filter((event) => event.recurrence).length;
