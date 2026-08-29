@@ -2942,7 +2942,86 @@ const App: React.FC = () => {
         const events: CalendarEvent[] = [];
         const lines = icsText.split(/\r?\n/);
 
-        let currentEvent: Partial<CalendarEvent & { endDate?: string }> = {};
+        const formatOccurrenceDate = (year: number, month: number, day: number) =>
+          `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+        const parseOccurrenceDate = (value: string) => {
+          const match = value.match(/^(\d{4})(\d{2})(\d{2})/);
+          return match
+            ? { year: Number(match[1]), month: Number(match[2]), day: Number(match[3]) }
+            : null;
+        };
+
+        const expandOccurrenceDates = (
+          start: string,
+          rrule?: string,
+          rdates: string[] = [],
+        ): string[] => {
+          const dates = new Set<string>([start]);
+          for (const rdate of rdates) {
+            const parsed = parseOccurrenceDate(rdate);
+            if (parsed) dates.add(formatOccurrenceDate(parsed.year, parsed.month, parsed.day));
+          }
+
+          if (!rrule) return [...dates].sort();
+          const parts = Object.fromEntries(
+            rrule.split(";").map((part) => {
+              const [key, ...value] = part.split("=");
+              return [key, value.join("=")];
+            }),
+          );
+          if (parts.FREQ !== "YEARLY") return [...dates].sort();
+
+          const seed = toLocalDate(start);
+          const seedYear = seed.getFullYear();
+          const month = Number(parts.BYMONTH || seed.getMonth() + 1);
+          const weekdays: Record<string, number> = {
+            SU: 0, MO: 1, TU: 2, WE: 3, TH: 4, FR: 5, SA: 6,
+          };
+
+          for (let year = seedYear; year <= 2100; year += 1) {
+            let day: number | null = null;
+            const byDay = parts.BYDAY;
+            const monthDays = parts.BYMONTHDAY
+              ? parts.BYMONTHDAY.split(",").map(Number)
+              : [];
+
+            if (byDay && monthDays.length) {
+              const weekday = weekdays[byDay.slice(-2)];
+              day = monthDays.find(
+                (candidate) =>
+                  new Date(Date.UTC(year, month - 1, candidate)).getUTCDay() === weekday,
+              ) || null;
+            } else if (byDay) {
+              const match = byDay.match(/^(-?\d+)?(SU|MO|TU|WE|TH|FR|SA)$/);
+              if (match) {
+                const ordinal = Number(match[1] || 1);
+                const weekday = weekdays[match[2]];
+                if (ordinal === -1) {
+                  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+                  for (let candidate = lastDay; candidate >= lastDay - 6; candidate -= 1) {
+                    if (new Date(Date.UTC(year, month - 1, candidate)).getUTCDay() === weekday) {
+                      day = candidate;
+                      break;
+                    }
+                  }
+                } else {
+                  const firstWeekday = new Date(Date.UTC(year, month - 1, 1)).getUTCDay();
+                  day = 1 + ((weekday - firstWeekday + 7) % 7) + (ordinal - 1) * 7;
+                }
+              }
+            } else {
+              day = seed.getDate();
+            }
+
+            if (day) dates.add(formatOccurrenceDate(year, month, day));
+          }
+          return [...dates].sort();
+        };
+
+        let currentEvent: Partial<
+          CalendarEvent & { endDate?: string; rrule?: string; rdates?: string[] }
+        > = {};
         let inEvent = false;
         let descriptionLines: string[] = [];
         let inDescription = false;
@@ -3054,7 +3133,22 @@ const App: React.FC = () => {
                   eventData.calendarMeta = currentEvent.calendarMeta;
                 }
 
-                events.push(eventData);
+                const occurrenceDates = expandOccurrenceDates(
+                  currentEvent.date,
+                  currentEvent.rrule,
+                  currentEvent.rdates,
+                );
+                for (const occurrenceDate of occurrenceDates) {
+                  const occurrenceStart = toLocalDate(occurrenceDate);
+                  events.push({
+                    ...eventData,
+                    date: occurrenceDate,
+                    endDate:
+                      daysDiff > 1
+                        ? format(addDays(occurrenceStart, daysDiff), "yyyy-MM-dd")
+                        : undefined,
+                  });
+                }
               }
 
             inEvent = false;
@@ -3090,6 +3184,18 @@ const App: React.FC = () => {
               const month = datePart.substring(4, 6);
               const day = datePart.substring(6, 8);
               currentEvent.endDate = `${year}-${month}-${day}`;
+            }
+          } else if (inEvent && trimmedLine.startsWith("RRULE:")) {
+            currentEvent.rrule = trimmedLine.substring("RRULE:".length).trim();
+          } else if (inEvent && trimmedLine.startsWith("RDATE")) {
+            const colonIndex = trimmedLine.indexOf(":");
+            if (colonIndex >= 0) {
+              const values = trimmedLine
+                .substring(colonIndex + 1)
+                .split(",")
+                .map((value) => value.trim())
+                .filter(Boolean);
+              currentEvent.rdates = [...(currentEvent.rdates || []), ...values];
             }
           } else if (inEvent && trimmedLine.startsWith("DESCRIPTION")) {
             // Handle DESCRIPTION with or without parameters
