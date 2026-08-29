@@ -27,11 +27,22 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build
         run: npm run build
+
+      - name: Install external RFC 5545 validators
+        run: python -m pip install --disable-pip-version-check icalendar==7.3.0 recurring-ical-events==3.8.2
+
+      - name: Expand recurrences with external parser
+        run: python scripts/validate-rfc5545.py
 
       - name: Verify calendar artifact
         run: |
@@ -58,6 +69,8 @@ jobs:
     name: Publish MSS.ics to Cal
     runs-on: ubuntu-latest
     needs: build
+    env:
+      CAL_REPO_TOKEN: ${{ secrets.CAL_REPO_TOKEN }}
     steps:
       - name: Download MSS calendar artifact
         uses: actions/download-artifact@v4
@@ -65,15 +78,21 @@ jobs:
           name: mss-calendar
           path: mss-calendar
 
+      - name: Cal mirror not configured
+        if: env.CAL_REPO_TOKEN == ''
+        run: echo "CAL_REPO_TOKEN is not configured; GitHub Pages remains the authoritative MSS.ics subscription endpoint."
+
       - name: Checkout Cal
+        if: env.CAL_REPO_TOKEN != ''
         uses: actions/checkout@v4
         with:
           repository: CastaliaInstitute/cal.inquiry.institute
           ref: main
-          token: ${{ secrets.CAL_REPO_TOKEN }}
+          token: ${{ env.CAL_REPO_TOKEN }}
           path: cal
 
       - name: Update Cal static calendar
+        if: env.CAL_REPO_TOKEN != ''
         run: |
           cp mss-calendar/MSS.ics cal/www/MSS.ics
           cd cal

@@ -43,12 +43,35 @@ function recurrenceSignature(date) {
   };
 }
 
-const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|navaratri|dussehra|vijayadashami|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
+const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|maundy thursday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|navaratri|dussehra|vijayadashami|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|yalda|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
+const ONE_OFF_NAME = new Set(['800th Anniversary Transitus of St. Francis', 'Broadmoor Brunch']);
+
+const blocks = [...content.matchAll(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g)].map((match) => match[0]);
+function blockFor(summary) {
+  return blocks.find((block) => prop(block, 'SUMMARY') === summary);
+}
+function requireBlock(summary) {
+  const block = blockFor(summary);
+  if (!block) throw new Error(`${summary} event missing`);
+  return block;
+}
+function assertNoRrule(summary) {
+  const block = requireBlock(summary);
+  if (prop(block, 'RRULE')) throw new Error(`${summary} must not use a naive yearly RRULE`);
+  return block;
+}
+function assertNoRecurrence(summary) {
+  const block = requireBlock(summary);
+  if (prop(block, 'RRULE') || prop(block, 'RDATE')) {
+    throw new Error(`${summary} must remain a one-off until authoritative future dates are generated`);
+  }
+  return block;
+}
 
 requireMatch(/UID:burn-night@maybesomethingseasonal\.com/, 'Burn Night UID missing');
 requireMatch(/SUMMARY:Burn Night/, 'Burn Night missing');
-requireMatch(/RDATE:20270904T060000Z/, 'Burn Night 2027 occurrence missing');
-requireMatch(/RDATE:21000904T060000Z/, 'Burn Night recurrence horizon does not reach 2100');
+requireMatch(/RDATE;VALUE=DATE:20270904/, 'Burn Night 2027 occurrence missing');
+requireMatch(/RDATE;VALUE=DATE:21000904/, 'Burn Night recurrence horizon does not reach 2100');
 
 requireMatch(/UID:glen-eyrie-madrigal-tickets@maybesomethingseasonal\.com/, 'Madrigal ticket-sale UID missing');
 requireMatch(/SUMMARY:Glen Eyrie Madrigal Tickets Go On Sale/, 'Madrigal ticket-sale event missing');
@@ -64,35 +87,26 @@ requireMatch(
 requireMatch(/Icon: 🍅/, 'Indigenous Peoples’ Day tomato icon missing');
 requireMatch(/especially tomatoes/, 'Indigenous Peoples’ Day tomato feast description missing');
 
-const navaratriBlocks = [...content.matchAll(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g)]
-  .map((match) => match[0])
-  .filter((block) => /^Navaratri Day [1-9] — /.test(prop(block, 'SUMMARY') || ''));
+const navaratriBlocks = blocks.filter((block) => /^Navaratri Day [1-9] — /.test(prop(block, 'SUMMARY') || ''));
 if (navaratriBlocks.length !== 9) {
   throw new Error(`Expected nine distinct Navaratri events, found ${navaratriBlocks.length}`);
 }
 const navaratriIcons = navaratriBlocks.map((block) => prop(block, 'DESCRIPTION')?.match(/Icon: ([^\\]+)/)?.[1]);
-if (new Set(navaratriIcons).size !== 9) {
-  throw new Error('Each Navaratri event must have its own icon');
-}
+if (new Set(navaratriIcons).size !== 9) throw new Error('Each Navaratri event must have its own icon');
 if (navaratriBlocks.some((block) => prop(block, 'RRULE') || prop(block, 'RDATE'))) {
   throw new Error('Navaratri 2026 dates must remain explicit lunisolar events');
 }
-for (let day = 1; day <= 9; day += 1) {
-  requireMatch(new RegExp(`SUMMARY:Navaratri Day ${day} — `), `Navaratri Day ${day} missing`);
-}
 
-const dussehraBlock = [...content.matchAll(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g)]
-  .map((match) => match[0])
-  .find((block) => prop(block, 'SUMMARY') === 'Dussehra / Vijayadashami');
-if (!dussehraBlock) throw new Error('Dussehra / Vijayadashami event missing');
+const dussehraBlock = requireBlock('Dussehra / Vijayadashami');
 if (prop(dussehraBlock, 'DTSTART') !== '20261020') throw new Error('Dussehra 2026 date must be October 20');
 if (prop(dussehraBlock, 'RRULE') || prop(dussehraBlock, 'RDATE')) {
-  throw new Error('Dussehra must remain an explicit lunisolar event');
+  throw new Error('Dussehra must remain an explicit lunisolar event until future dates are generated');
 }
 if (!/Icon: 🏹/.test(dussehraBlock)) throw new Error('Dussehra bow icon missing');
 
 requireMatch(/UID:st-francis-transitus-800@maybesomethingseasonal\.com/, 'St. Francis Transitus UID missing');
 requireMatch(/DTSTART;VALUE=DATE:20261003/, 'St. Francis 800th-anniversary Transitus date missing');
+assertNoRecurrence('800th Anniversary Transitus of St. Francis');
 requireMatch(/UID:feast-of-st-francis@maybesomethingseasonal\.com/, 'Feast of St. Francis UID missing');
 requireMatch(/SUMMARY:Feast of St. Francis of Assisi/, 'Feast of St. Francis missing');
 requireMatch(/RRULE:FREQ=YEARLY;BYMONTH=10;BYMONTHDAY=4/, 'Feast of St. Francis must recur on October 4');
@@ -106,22 +120,100 @@ requireMatch(
 );
 requireMatch(/URL:https:\/\/palmerdividehistory\.org\//, 'Palmer Lake Yule Log source URL missing');
 
-const events = [...content.matchAll(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g)].map((match) => ({
-  block: match[0],
-  summary: prop(match[0], 'SUMMARY'),
-  date: eventDate(match[0]),
-  recurrence: prop(match[0], 'RRULE') || prop(match[0], 'RDATE'),
+// Correct known source-date defects before making them recurring.
+const candlemas = requireBlock('Candlemas (Feast of the Presentation)');
+if (prop(candlemas, 'DTSTART') !== '20260202') throw new Error('Candlemas must be February 2');
+if (prop(candlemas, 'DTEND') !== '20260203') throw new Error('Candlemas end date must be February 3');
+if (prop(candlemas, 'RRULE') !== 'FREQ=YEARLY') throw new Error('Candlemas must recur yearly');
+
+const halloween = requireBlock("All Hallows' Eve (Halloween)");
+if (prop(halloween, 'DTEND') !== '20261101') throw new Error('Halloween end date must follow its 2026 start');
+if (prop(halloween, 'RRULE') !== 'FREQ=YEARLY') throw new Error('Halloween must recur yearly');
+
+const innocents = requireBlock('Feast of the Holy Innocents (Childermas Banquet)');
+if (prop(innocents, 'DTSTART') !== '20251228') throw new Error('Holy Innocents must begin December 28');
+if (prop(innocents, 'DTEND') !== '20251229') throw new Error('Holy Innocents must end December 29');
+
+// Rule-based Gregorian observances.
+const thanksgiving = requireBlock('Thanksgiving Day (United States)');
+if (prop(thanksgiving, 'RRULE') !== 'FREQ=YEARLY;BYMONTH=11;BYDAY=4TH') {
+  throw new Error('Thanksgiving must recur on the fourth Thursday in November');
+}
+const sinterklaas = requireBlock('Sinterklaas Arrival (Intocht)');
+if (prop(sinterklaas, 'RRULE') !== 'FREQ=YEARLY;BYMONTH=11;BYDAY=SU;BYMONTHDAY=12,13,14,15,16,17,18') {
+  throw new Error('Sinterklaas Arrival must recur on the Sunday after St. Martin’s Day');
+}
+
+// Deterministic movable Christian dates are generated as RDATEs through 2100.
+const palm = assertNoRrule('Palm Sunday');
+if (!/RDATE;VALUE=DATE:20350318/.test(palm) || !/RDATE;VALUE=DATE:21000321/.test(palm)) {
+  throw new Error('Palm Sunday generated dates must reach through 2100');
+}
+const maundy = assertNoRrule('Maundy Thursday');
+if (!/RDATE;VALUE=DATE:20350322/.test(maundy) || !/RDATE;VALUE=DATE:21000325/.test(maundy)) {
+  throw new Error('Maundy Thursday generated dates must reach through 2100');
+}
+const goodFriday = assertNoRrule('Good Friday');
+if (!/RDATE;VALUE=DATE:20350323/.test(goodFriday) || !/RDATE;VALUE=DATE:21000326/.test(goodFriday)) {
+  throw new Error('Good Friday generated dates must reach through 2100');
+}
+
+for (const [summary, expected2035] of [
+  ['First Sunday of Advent', '20351202'],
+  ['Second Sunday of Advent', '20351209'],
+  ['Gaudete Sunday', '20351216'],
+  ['Fourth Sunday of Advent', '20351223'],
+]) {
+  const block = assertNoRrule(summary);
+  if (!block.includes(`RDATE;VALUE=DATE:${expected2035}`)) throw new Error(`${summary} 2035 generated occurrence missing`);
+}
+
+// Known movable or one-time entries must not be accidentally annualized.
+for (const summary of [
+  'Lunar New Year (Chunjie)',
+  'Losar (Tibetan New Year)',
+  'Passover',
+  'Buddhist Ghost Festival (Ullambana)',
+  'Gita Jayanti (गीता जयंती)',
+  'Hanukkah (Festival of Lights)',
+  'Spring Equinox (Ostara)',
+  'Autumn Equinox (Mabon)',
+  'Winter Solstice (Yule)',
+  'Nowruz',
+  'Yalda Night',
+]) {
+  assertNoRecurrence(summary);
+}
+assertNoRecurrence('Broadmoor Brunch');
+
+// Apple/iCloud subscriptions should receive true all-day values for date-only observances.
+const timedMidnightEvents = blocks.filter((block) => {
+  const start = prop(block, 'DTSTART');
+  const end = prop(block, 'DTEND');
+  const sm = start && start.match(/^\d{8}T(\d{6})Z$/);
+  const em = end && end.match(/^\d{8}T(\d{6})Z$/);
+  return sm && em && sm[1] === em[1];
+});
+if (timedMidnightEvents.length) {
+  throw new Error(`All-day observances remain encoded as midnight times: ${timedMidnightEvents.map((block) => prop(block, 'SUMMARY')).join(', ')}`);
+}
+
+const events = blocks.map((block) => ({
+  block,
+  summary: prop(block, 'SUMMARY'),
+  date: eventDate(block),
+  recurrence: prop(block, 'RRULE') || prop(block, 'RDATE'),
 }));
 
 const uidLines = events.map((event) => prop(event.block, 'UID')).filter(Boolean);
+if (uidLines.length !== events.length) {
+  throw new Error(`Every VEVENT must have a stable UID (${events.length - uidLines.length} missing)`);
+}
 const uniqueUids = new Set(uidLines);
 if (uidLines.length !== uniqueUids.size) {
   throw new Error(`Duplicate UIDs detected: ${uidLines.length - uniqueUids.size}`);
 }
 
-// After normalization, no non-movable same-summary multi-year group that
-// clearly follows a fixed month/day or stable weekday ordinal should remain as
-// separate one-offs.
 const oneOffGroups = new Map();
 for (const event of events) {
   if (!event.summary || !event.date || event.recurrence) continue;
@@ -131,26 +223,15 @@ for (const event of events) {
 
 const missed = [];
 for (const [summary, group] of oneOffGroups) {
-  if (MOVABLE_NAME.test(summary)) continue;
+  if (MOVABLE_NAME.test(summary) || ONE_OFF_NAME.has(summary) || /\banniversary\b/i.test(summary)) continue;
   const signatures = group.map((event) => recurrenceSignature(event.date));
   const fixed = new Set(signatures.map((sig) => sig.fixed));
   const weekday = new Set(signatures.map((sig) => sig.weekday));
   if (fixed.size === 1 || weekday.size === 1) missed.push(summary);
 }
-
-if (missed.length) {
-  throw new Error(`Fixed or inferable recurring events were not normalized: ${missed.join(', ')}`);
-}
-
-const feastOneOffs = events
-  .filter((event) => event.summary && /\\b(feast|fete)\\b/i.test(event.summary))
-  .filter((event) => !MOVABLE_NAME.test(event.summary) && !event.recurrence)
-  .map((event) => event.summary);
-if (feastOneOffs.length) {
-  throw new Error(`Fixed Feast events remain one-offs: ${feastOneOffs.join(', ')}`);
-}
+if (missed.length) throw new Error(`Fixed or inferable recurring events were not normalized: ${missed.join(', ')}`);
 
 const recurringCount = events.filter((event) => event.recurrence).length;
-if (recurringCount < 2) throw new Error('Expected at least the Burn Night and Madrigal recurring events');
+if (recurringCount < 50) throw new Error(`Expected broad recurrence migration, found only ${recurringCount} recurring VEVENTs`);
 
-console.log(`Recurring-event validation passed (${recurringCount} recurring VEVENTs).`);
+console.log(`Recurring-event validation passed (${recurringCount} recurring VEVENTs; all ${events.length} VEVENTs have unique UIDs).`);

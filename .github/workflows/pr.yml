@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ main ]
   push:
-    branches: [ feature/burn-night ]
+    branches: [ 'feature/**' ]
 
 permissions:
   contents: read
@@ -22,6 +22,11 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: Install dependencies
         run: npm ci
 
@@ -30,3 +35,9 @@ jobs:
 
       - name: Build and validate subscription ICS
         run: npm run build
+
+      - name: Install external RFC 5545 validators
+        run: python -m pip install --disable-pip-version-check icalendar==7.3.0 recurring-ical-events==3.8.2
+
+      - name: Expand recurrences with external parser
+        run: python scripts/validate-rfc5545.py
