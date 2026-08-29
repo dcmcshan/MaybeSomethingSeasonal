@@ -55,6 +55,15 @@ requireMatch(/SUMMARY:Glen Eyrie Madrigal Tickets Go On Sale/, 'Madrigal ticket-
 requireMatch(/RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=TU;BYMONTHDAY=2,3,4,5,6,7,8/, 'Madrigal recurrence rule missing or changed');
 requireMatch(/URL:https:\/\/gleneyrie\.org\/our-event\/madrigal\//, 'Madrigal source URL missing');
 
+requireMatch(/UID:indigenous-peoples-day@maybesomethingseasonal\\.com/, 'Indigenous Peoples’ Day UID missing');
+requireMatch(/SUMMARY:Indigenous Peoples’ Day/, 'Indigenous Peoples’ Day event missing');
+requireMatch(
+  /RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=MO;BYMONTHDAY=8,9,10,11,12,13,14/,
+  'Indigenous Peoples’ Day must recur on the second Monday in October'
+);
+requireMatch(/Icon: 🍅/, 'Indigenous Peoples’ Day tomato icon missing');
+requireMatch(/especially tomatoes/, 'Indigenous Peoples’ Day tomato feast description missing');
+
 requireMatch(/UID:palmer-lake-yule-log@maybesomethingseasonal\.com/, 'Palmer Lake Yule Log UID missing');
 requireMatch(/SUMMARY:Palmer Lake Yule Log Hunt/, 'Palmer Lake Yule Log event missing');
 requireMatch(
