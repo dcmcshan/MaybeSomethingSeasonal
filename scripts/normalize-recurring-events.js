@@ -33,12 +33,7 @@ function weekdayRule(date) {
   const weekday = weekdayToken(date.year, date.month, date.day);
   const positiveOrdinal = Math.floor((date.day - 1) / 7) + 1;
   const isLast = date.day + 7 > daysInMonth(date.year, date.month);
-  return {
-    month: date.month,
-    weekday,
-    positiveOrdinal,
-    isLast,
-  };
+  return { month: date.month, weekday, positiveOrdinal, isLast };
 }
 
 function stableUid(summary) {
@@ -62,6 +57,8 @@ function addRrule(block, rrule) {
   return block.replace(/^(DTSTART(?:;[^:]*)?:[^\r\n]+\r?\n)/mi, `$1RRULE:${rrule}\n`);
 }
 
+const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz)\b/i;
+
 const eventRegex = /BEGIN:VEVENT[\s\S]*?END:VEVENT\r?\n?/g;
 const events = [...content.matchAll(eventRegex)].map((m, index) => ({
   index,
@@ -84,11 +81,17 @@ const replacements = new Map();
 const removals = new Set();
 let fixedDateCount = 0;
 let weekdayRuleCount = 0;
+let protectedMovableCount = 0;
 let unresolvedRepeatedCount = 0;
 
 for (const [summary, group] of groups) {
   const years = new Set(group.map((e) => e.date.year));
   if (years.size < 2) continue;
+
+  if (MOVABLE_NAME.test(summary)) {
+    protectedMovableCount++;
+    continue;
+  }
 
   const sorted = [...group].sort((a, b) =>
     a.date.year - b.date.year || a.date.month - b.date.month || a.date.day - b.date.day
@@ -141,5 +144,6 @@ rebuilt += content.slice(cursor);
 
 fs.writeFileSync(icsPath, rebuilt);
 console.log(
-  `Normalized recurring events: ${fixedDateCount} fixed-date, ${weekdayRuleCount} weekday-rule; ${unresolvedRepeatedCount} repeated movable groups left explicit.`
+  `Normalized recurring events: ${fixedDateCount} fixed-date, ${weekdayRuleCount} weekday-rule; ` +
+  `${protectedMovableCount} movable groups protected; ${unresolvedRepeatedCount} repeated groups left explicit.`
 );
