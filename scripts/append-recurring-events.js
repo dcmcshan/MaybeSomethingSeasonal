@@ -70,6 +70,23 @@ const madrigalTicketSaleEvent = [
   ''
 ].join('\n');
 
+// Indigenous Peoples’ Day is observed on the second Monday in October.
+const indigenousPeoplesDayEvent = [
+  'BEGIN:VEVENT',
+  'UID:indigenous-peoples-day@maybesomethingseasonal.com',
+  'DTSTAMP:20260829T130000Z',
+  'DTSTART;VALUE=DATE:20261012',
+  'DTEND;VALUE=DATE:20261013',
+  'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=MO;BYMONTHDAY=8,9,10,11,12,13,14',
+  'SUMMARY:Indigenous Peoples’ Day',
+  'DESCRIPTION:Celebrate the Indigenous American origins of foods that transformed Italian cooking with an Italian feast of American foods—especially tomatoes.\\n\\nIcon: 🍅\\nCategory: cultural',
+  'CATEGORIES:cultural',
+  'STATUS:CONFIRMED',
+  'TRANSP:TRANSPARENT',
+  'END:VEVENT',
+  ''
+].join('\\n');
+
 // Palmer Lake Resolution 54-2022 defines Yule Log Sunday as the second
 // Sunday before Christmas. That is the Sunday falling December 11 through 17
 // (the Third Sunday of Advent).
@@ -98,6 +115,7 @@ if (!/END:VCALENDAR\s*$/.test(source)) {
 const additions = [];
 if (!source.includes('SUMMARY:Burn Night')) additions.push(burnNightEvent);
 if (!source.includes('SUMMARY:Glen Eyrie Madrigal Tickets Go On Sale')) additions.push(madrigalTicketSaleEvent);
+if (!source.includes('SUMMARY:Indigenous Peoples’ Day')) additions.push(indigenousPeoplesDayEvent);
 if (!source.includes('SUMMARY:Palmer Lake Yule Log Hunt')) additions.push(palmerLakeYuleLogEvent);
 
 if (additions.length === 0) {
