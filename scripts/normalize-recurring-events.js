@@ -20,6 +20,37 @@ function replaceProp(block, name, value) {
   return block.replace(pattern, `$1${value}`);
 }
 
+function normalizeAllDayBlock(block) {
+  const startValue = prop(block, 'DTSTART');
+  const endValue = prop(block, 'DTEND');
+  const startMatch = startValue && startValue.match(/^(\d{8})T(\d{6})Z$/);
+  const endMatch = endValue && endValue.match(/^(\d{8})T(\d{6})Z$/);
+  if (!startMatch || !endMatch || startMatch[2] !== endMatch[2]) return block;
+
+  const startDate = new Date(Date.UTC(
+    Number(startMatch[1].slice(0, 4)),
+    Number(startMatch[1].slice(4, 6)) - 1,
+    Number(startMatch[1].slice(6, 8)),
+  ));
+  const endDate = new Date(Date.UTC(
+    Number(endMatch[1].slice(0, 4)),
+    Number(endMatch[1].slice(4, 6)) - 1,
+    Number(endMatch[1].slice(6, 8)),
+  ));
+  if (endDate <= startDate) return block;
+
+  let updated = block
+    .replace(/^DTSTART(?:;[^:]*)?:.*$/mi, `DTSTART;VALUE=DATE:${startMatch[1]}`)
+    .replace(/^DTEND(?:;[^:]*)?:.*$/mi, `DTEND;VALUE=DATE:${endMatch[1]}`);
+
+  updated = updated.replace(/^RDATE(?:;[^:]*)?:(.*)$/gmi, (line, rawValues) => {
+    const values = rawValues.split(',').map((value) => value.trim());
+    if (!values.every((value) => /^\d{8}T\d{6}Z$/.test(value))) return line;
+    return `RDATE;VALUE=DATE:${values.map((value) => value.slice(0, 8)).join(',')}`;
+  });
+  return updated;
+}
+
 function ymdFromDtstart(block) {
   const value = prop(block, 'DTSTART');
   const match = value && value.match(/^(\d{4})(\d{2})(\d{2})/);
@@ -78,8 +109,9 @@ function addGeneratedRdates(block, summary, dateForYear, throughYear = 2100) {
   if (!seedValue || !seedDate) return block;
 
   const lines = [];
+  const rdatePrefix = seedValue.length === 8 ? 'RDATE;VALUE=DATE' : 'RDATE';
   for (let year = seedDate.year + 1; year <= throughYear; year += 1) {
-    lines.push(`RDATE:${formatDateLikeSeed(dateForYear(year), seedValue)}`);
+    lines.push(`${rdatePrefix}:${formatDateLikeSeed(dateForYear(year), seedValue)}`);
   }
   if (!lines.length) return addUid(block, summary);
 
@@ -164,6 +196,7 @@ const eventRegex = /BEGIN:VEVENT[\s\S]*?END:VEVENT\r?\n?/g;
 const events = [...content.matchAll(eventRegex)].map((m, index) => {
   const summary = prop(m[0], 'SUMMARY');
   let block = summary ? correctedBlock(m[0], summary) : m[0];
+  block = normalizeAllDayBlock(block);
   if (summary) block = addUid(block, summary);
   return {
     index,
