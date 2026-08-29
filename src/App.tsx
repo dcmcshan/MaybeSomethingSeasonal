@@ -2884,6 +2884,26 @@ const isDevMode = (): boolean => {
   }
 };
 
+const monthFromLocation = (): Date | null => {
+  if (typeof window === "undefined") return null;
+  const basePath = getBaseUrl().replace(/\/$/, "");
+  const redirectPath = new URLSearchParams(window.location.search).get("route");
+  const pathname = redirectPath || window.location.pathname;
+  const match = pathname.match(
+    new RegExp(`^${basePath.replace(/[.*+?^$()|[\]\\]/g, "\\$&")}/(\\d{4})/(0?[1-9]|1[0-2])/?$`),
+  );
+  if (!match) return null;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  if (year < 1900 || year > 2100) return null;
+  return new Date(year, month - 1, 1);
+};
+
+const canonicalMonthPath = (date: Date): string => {
+  const basePath = getBaseUrl().replace(/\/$/, "");
+  return `${basePath}/${format(date, "yyyy/MM")}`;
+};
+
 const App: React.FC = () => {
   // Check for kiosk mode via URL parameter or environment variable
   const isKioskMode = (() => {
@@ -2897,8 +2917,11 @@ const App: React.FC = () => {
     return (import.meta.env as { VITE_KIOSK_MODE?: string })?.VITE_KIOSK_MODE === 'true';
   })();
 
-  // Set initial date to December 2025 for kiosk mode, otherwise current date
-  const initialDate = isKioskMode ? new Date(2025, 11, 1) : new Date();
+  // A canonical /YYYY/MM URL takes precedence; kiosk and current month remain
+  // the fallbacks for the unqualified homepage.
+  const initialDate =
+    monthFromLocation() ||
+    (isKioskMode ? new Date(2025, 11, 1) : new Date());
   const [currentDate, setCurrentDate] = useState(initialDate);
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [_selectedEvent, _setSelectedEvent] = useState<CalendarEvent | null>(
@@ -2912,6 +2935,34 @@ const App: React.FC = () => {
   const mssEventsUrl = resolvedBaseUrl.endsWith("/")
     ? `${resolvedBaseUrl}mss-events.html`
     : `${resolvedBaseUrl}/mss-events.html`;
+
+  const showMonth = (date: Date, replace = false) => {
+    const month = startOfMonth(date);
+    setCurrentDate(month);
+    const nextPath = canonicalMonthPath(month);
+    if (replace) {
+      window.history.replaceState({ month: nextPath }, "", nextPath);
+    } else {
+      window.history.pushState({ month: nextPath }, "", nextPath);
+    }
+  };
+
+  useEffect(() => {
+    const redirectPath = new URLSearchParams(window.location.search).get("route");
+    if (redirectPath) {
+      window.history.replaceState(
+        { month: canonicalMonthPath(initialDate) },
+        "",
+        canonicalMonthPath(initialDate),
+      );
+    }
+    const handlePopState = () => {
+      const month = monthFromLocation();
+      if (month) setCurrentDate(month);
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   useEffect(() => {
     // Parse MSS.ics file - it's the source of truth
@@ -3713,7 +3764,7 @@ const App: React.FC = () => {
                   {/* Calendar Header */}
                   <div className="flex items-center justify-between mb-6">
                     <button
-                      onClick={() => setCurrentDate(subMonths(currentDate, 1))}
+                      onClick={() => showMonth(subMonths(currentDate, 1))}
                       className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                     >
                       <ChevronLeft className="w-5 h-5" />
@@ -3722,7 +3773,7 @@ const App: React.FC = () => {
                       {format(currentDate, "MMMM yyyy")}
                     </h2>
                     <button
-                      onClick={() => setCurrentDate(addMonths(currentDate, 1))}
+                      onClick={() => showMonth(addMonths(currentDate, 1))}
                       className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                     >
                       <ChevronRight className="w-5 h-5" />
