@@ -6,6 +6,7 @@ const PREVIEW_HOST = '127.0.0.1';
 const BASE_URL = `http://${PREVIEW_HOST}:${PREVIEW_PORT}`;
 const SITE_PATH = '/MaybeSomethingSeasonal/';
 const ICS_PATH = `${SITE_PATH}MSS.ics`;
+const MONTH_PATH = `${SITE_PATH}2026/12`;
 const DEPLOY_BASE = 'https://dcmcshan.github.io/MaybeSomethingSeasonal';
 
 async function waitForServer(maxAttempts = 20, delayMs = 500) {
@@ -35,6 +36,17 @@ async function checkPage() {
   return html;
 }
 
+async function checkMonthRoute() {
+  const response = await fetch(`${BASE_URL}${MONTH_PATH}`);
+  if (!response.ok) {
+    throw new Error(`GET ${MONTH_PATH} responded with status ${response.status}`);
+  }
+  const html = await response.text();
+  if (!html.includes('<div id="root">')) {
+    throw new Error('Month route did not resolve to the calendar app.');
+  }
+}
+
 async function checkIcs(html) {
   const response = await fetch(`${BASE_URL}${ICS_PATH}`);
   if (!response.ok) {
@@ -43,6 +55,12 @@ async function checkIcs(html) {
   const ics = await response.text();
   if (!ics.includes('BEGIN:VEVENT')) {
     throw new Error('ICS file does not contain BEGIN:VEVENT markers.');
+  }
+  if (!ics.includes('RRULE:FREQ=YEARLY')) {
+    throw new Error('ICS file does not contain expanded yearly recurrence rules.');
+  }
+  if (!ics.includes('SUMMARY:Palmer Lake Yule Log Hunt')) {
+    throw new Error('ICS file is missing the recurring Palmer Lake Yule Log event.');
   }
   const imagePathRegex = /X-IMAGE:(.+)/g;
   const missingImages = [];
@@ -97,6 +115,7 @@ async function run() {
   try {
     await waitForServer();
     const html = await checkPage();
+    await checkMonthRoute();
     await checkIcs(html);
     console.log('✅ Smoke test passed.');
   } catch (error) {
