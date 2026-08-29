@@ -43,6 +43,8 @@ function recurrenceSignature(date) {
   };
 }
 
+const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz)\b/i;
+
 requireMatch(/UID:burn-night@maybesomethingseasonal\.com/, 'Burn Night UID missing');
 requireMatch(/SUMMARY:Burn Night/, 'Burn Night missing');
 requireMatch(/RDATE:20270904T060000Z/, 'Burn Night 2027 occurrence missing');
@@ -66,8 +68,9 @@ if (uidLines.length !== uniqueUids.size) {
   throw new Error(`Duplicate UIDs detected: ${uidLines.length - uniqueUids.size}`);
 }
 
-// After normalization, no same-summary multi-year group that clearly follows a
-// fixed month/day or stable weekday ordinal should remain as separate one-offs.
+// After normalization, no non-movable same-summary multi-year group that
+// clearly follows a fixed month/day or stable weekday ordinal should remain as
+// separate one-offs.
 const oneOffGroups = new Map();
 for (const event of events) {
   if (!event.summary || !event.date || event.recurrence) continue;
@@ -78,6 +81,7 @@ for (const event of events) {
 const missed = [];
 for (const [summary, group] of oneOffGroups) {
   if (new Set(group.map((event) => event.date.year)).size < 2) continue;
+  if (MOVABLE_NAME.test(summary)) continue;
   const signatures = group.map((event) => recurrenceSignature(event.date));
   const fixed = new Set(signatures.map((sig) => sig.fixed));
   const weekday = new Set(signatures.map((sig) => sig.weekday));
