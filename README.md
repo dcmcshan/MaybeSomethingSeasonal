@@ -7,7 +7,8 @@ A beautiful seasonal calendar celebrating nature's cycles and special moments th
 - 📅 **Interactive Calendar View** - Navigate through months and view events
 - 🎨 **Custom Icons** - Each event has a unique emoji icon
 - 📱 **Responsive Design** - Works perfectly on desktop and mobile
-- 📥 **ICS Download** - Download the calendar as a standard .ics file
+- 📥 **ICS Subscription** - Subscribe to the standard `MSS.ics` calendar feed
+- 🔁 **Recurrence-aware feed** - Repeated Gregorian observances are normalized into RFC 5545 recurrence rules when the existing calendar data proves a stable yearly pattern
 - 🌱 **Seasonal Focus** - Events centered around nature's cycles and seasonal celebrations
 
 ## Live Demo
@@ -47,7 +48,7 @@ npm run dev
 npm run build
 ```
 
-This will create a `dist` folder with the production build. The `public/MSS.ics` file is copied to `dist/` during the build.
+The production build copies `public/MSS.ics` into `dist/`, appends programmatic recurring events, normalizes repeated multi-year Gregorian instances into recurrence rules where the pattern is unambiguous, and validates the final subscription artifact.
 
 ## Project Structure
 
@@ -59,38 +60,39 @@ MaybeSomethingSeasonal/
 │   ├── main.tsx         # React entry point
 │   └── index.css        # Global styles
 ├── scripts/
-│   └── generate-ics.js  # Legacy ICS generator (not used)
-├── public/              # Static files
-│   └── MSS.ics          # Calendar source file (edit directly)
+│   ├── append-recurring-events.js
+│   ├── normalize-recurring-events.js
+│   ├── validate-recurring-events.js
+│   └── generate-ics.js  # Legacy ICS generator
+├── public/
+│   └── MSS.ics          # Base calendar source file
 ├── .github/workflows/
-│   └── deploy.yml       # GitHub Pages deployment
+│   ├── deploy.yml       # GitHub Pages deployment
+│   └── pr.yml           # Pull-request validation
 └── package.json
 ```
 
+## Recurrence model
+
+The published `dist/MSS.ics` is recurrence-aware:
+
+- Repeated events that occur on the same Gregorian month/day in multiple years are collapsed into one event with `RRULE:FREQ=YEARLY`.
+- Repeated events that consistently occur on the same ordinal weekday of a month are collapsed into a yearly `BYMONTH`/`BYDAY` rule.
+- Repeated events whose dates move according to lunar, lunisolar, religious, astronomical, or other non-Gregorian rules remain explicit dated instances unless a dedicated generator supplies their future dates.
+- Stable UIDs are used for normalized and programmatically generated recurring events so subscription clients can refresh without duplicating them.
+
+This deliberately avoids making a movable holiday recur on an incorrect Gregorian date merely because one year's date appeared in the source calendar.
+
 ## Customizing Events
 
-**MSS.ics is the source of truth** - edit `public/MSS.ics` directly to add, modify, or remove events.
+`public/MSS.ics` is the base source of truth. Edit it directly to add, modify, or remove source events. Programmatic or inferred recurrences are applied during the production build.
 
 The ICS file format includes:
 - `SUMMARY:` - Event title
-- `DTSTART:` - Event date (YYYYMMDDTHHMMSSZ format)
-- `DTEND:` - End date
+- `DTSTART:` - Event date/time
+- `DTEND:` - End date/time
 - `DESCRIPTION:` - Event description with embedded Icon and Category
-
-Example event structure:
-```
-BEGIN:VEVENT
-UID:event-0-1234567890@maybesomethingseasonal.com
-DTSTAMP:20250101T000000Z
-DTSTART:20250101T070000Z
-DTEND:20250102T070000Z
-SUMMARY:New Year's Day
-DESCRIPTION:Celebration of the new year.\n\nIcon: 🎊\nCategory: celebration
-CATEGORIES:celebration
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-```
+- `RRULE:` / `RDATE:` - Recurrence information where appropriate
 
 After editing, commit and push the changes. The app will automatically parse and display the updated events.
 
@@ -99,8 +101,11 @@ After editing, commit and push the changes. The app will automatically parse and
 The project is automatically deployed to GitHub Pages when changes are pushed to the main branch. The deployment workflow:
 
 1. Builds the React application
-2. Copies `public/MSS.ics` to `dist/`
-3. Deploys to GitHub Pages
+2. Copies the base `public/MSS.ics` to `dist/`
+3. Appends dedicated recurring events
+4. Normalizes inferable repeated events
+5. Validates the final `dist/MSS.ics`
+6. Deploys `dist/` to GitHub Pages
 
 ## Technologies Used
 

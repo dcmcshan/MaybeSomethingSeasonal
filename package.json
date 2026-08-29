@@ -6,10 +6,11 @@
   "scripts": {
     "generate-images": "node scripts/generate-images.js",
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/append-recurring-events.js && node scripts/normalize-recurring-events.js && node scripts/validate-recurring-events.js",
     "preview": "vite preview",
     "deploy": "npm run build",
     "validate": "node scripts/validate-ics.js",
+    "validate:recurrence": "node scripts/validate-recurring-events.js",
     "fix:ics-format": "node scripts/fix-ics-format.js",
     "fix:images": "node scripts/fix-missing-images.js",
     "smoke": "node scripts/smoke-test.js",
