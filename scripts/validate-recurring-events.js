@@ -43,7 +43,7 @@ function recurrenceSignature(date) {
   };
 }
 
-const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz)\b/i;
+const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|navaratri|dussehra|vijayadashami|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
 
 requireMatch(/UID:burn-night@maybesomethingseasonal\.com/, 'Burn Night UID missing');
 requireMatch(/SUMMARY:Burn Night/, 'Burn Night missing');
@@ -54,6 +54,57 @@ requireMatch(/UID:glen-eyrie-madrigal-tickets@maybesomethingseasonal\.com/, 'Mad
 requireMatch(/SUMMARY:Glen Eyrie Madrigal Tickets Go On Sale/, 'Madrigal ticket-sale event missing');
 requireMatch(/RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=TU;BYMONTHDAY=2,3,4,5,6,7,8/, 'Madrigal recurrence rule missing or changed');
 requireMatch(/URL:https:\/\/gleneyrie\.org\/our-event\/madrigal\//, 'Madrigal source URL missing');
+
+requireMatch(/UID:indigenous-peoples-day@maybesomethingseasonal\.com/, 'Indigenous Peoples’ Day UID missing');
+requireMatch(/SUMMARY:Indigenous Peoples’ Day/, 'Indigenous Peoples’ Day event missing');
+requireMatch(
+  /RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=MO;BYMONTHDAY=8,9,10,11,12,13,14/,
+  'Indigenous Peoples’ Day must recur on the second Monday in October'
+);
+requireMatch(/Icon: 🍅/, 'Indigenous Peoples’ Day tomato icon missing');
+requireMatch(/especially tomatoes/, 'Indigenous Peoples’ Day tomato feast description missing');
+
+const navaratriBlocks = [...content.matchAll(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g)]
+  .map((match) => match[0])
+  .filter((block) => /^Navaratri Day [1-9] — /.test(prop(block, 'SUMMARY') || ''));
+if (navaratriBlocks.length !== 9) {
+  throw new Error(`Expected nine distinct Navaratri events, found ${navaratriBlocks.length}`);
+}
+const navaratriIcons = navaratriBlocks.map((block) => prop(block, 'DESCRIPTION')?.match(/Icon: ([^\\]+)/)?.[1]);
+if (new Set(navaratriIcons).size !== 9) {
+  throw new Error('Each Navaratri event must have its own icon');
+}
+if (navaratriBlocks.some((block) => prop(block, 'RRULE') || prop(block, 'RDATE'))) {
+  throw new Error('Navaratri 2026 dates must remain explicit lunisolar events');
+}
+for (let day = 1; day <= 9; day += 1) {
+  requireMatch(new RegExp(`SUMMARY:Navaratri Day ${day} — `), `Navaratri Day ${day} missing`);
+}
+
+const dussehraBlock = [...content.matchAll(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g)]
+  .map((match) => match[0])
+  .find((block) => prop(block, 'SUMMARY') === 'Dussehra / Vijayadashami');
+if (!dussehraBlock) throw new Error('Dussehra / Vijayadashami event missing');
+if (prop(dussehraBlock, 'DTSTART') !== '20261020') throw new Error('Dussehra 2026 date must be October 20');
+if (prop(dussehraBlock, 'RRULE') || prop(dussehraBlock, 'RDATE')) {
+  throw new Error('Dussehra must remain an explicit lunisolar event');
+}
+if (!/Icon: 🏹/.test(dussehraBlock)) throw new Error('Dussehra bow icon missing');
+
+requireMatch(/UID:st-francis-transitus-800@maybesomethingseasonal\.com/, 'St. Francis Transitus UID missing');
+requireMatch(/DTSTART;VALUE=DATE:20261003/, 'St. Francis 800th-anniversary Transitus date missing');
+requireMatch(/UID:feast-of-st-francis@maybesomethingseasonal\.com/, 'Feast of St. Francis UID missing');
+requireMatch(/SUMMARY:Feast of St. Francis of Assisi/, 'Feast of St. Francis missing');
+requireMatch(/RRULE:FREQ=YEARLY;BYMONTH=10;BYMONTHDAY=4/, 'Feast of St. Francis must recur on October 4');
+requireMatch(/Icon: 🐦/, 'Feast of St. Francis icon missing');
+
+requireMatch(/UID:palmer-lake-yule-log@maybesomethingseasonal\.com/, 'Palmer Lake Yule Log UID missing');
+requireMatch(/SUMMARY:Palmer Lake Yule Log Hunt/, 'Palmer Lake Yule Log event missing');
+requireMatch(
+  /RRULE:FREQ=YEARLY;BYMONTH=12;BYDAY=SU;BYMONTHDAY=11,12,13,14,15,16,17/,
+  'Palmer Lake Yule Log must recur on the second Sunday before Christmas'
+);
+requireMatch(/URL:https:\/\/palmerdividehistory\.org\//, 'Palmer Lake Yule Log source URL missing');
 
 const events = [...content.matchAll(/BEGIN:VEVENT[\s\S]*?END:VEVENT/g)].map((match) => ({
   block: match[0],
@@ -80,7 +131,6 @@ for (const event of events) {
 
 const missed = [];
 for (const [summary, group] of oneOffGroups) {
-  if (new Set(group.map((event) => event.date.year)).size < 2) continue;
   if (MOVABLE_NAME.test(summary)) continue;
   const signatures = group.map((event) => recurrenceSignature(event.date));
   const fixed = new Set(signatures.map((sig) => sig.fixed));
@@ -89,7 +139,15 @@ for (const [summary, group] of oneOffGroups) {
 }
 
 if (missed.length) {
-  throw new Error(`Recurring groups were not normalized: ${missed.join(', ')}`);
+  throw new Error(`Fixed or inferable recurring events were not normalized: ${missed.join(', ')}`);
+}
+
+const feastOneOffs = events
+  .filter((event) => event.summary && /\\b(feast|fete)\\b/i.test(event.summary))
+  .filter((event) => !MOVABLE_NAME.test(event.summary) && !event.recurrence)
+  .map((event) => event.summary);
+if (feastOneOffs.length) {
+  throw new Error(`Fixed Feast events remain one-offs: ${feastOneOffs.join(', ')}`);
 }
 
 const recurringCount = events.filter((event) => event.recurrence).length;

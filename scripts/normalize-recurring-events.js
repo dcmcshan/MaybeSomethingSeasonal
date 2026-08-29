@@ -57,7 +57,7 @@ function addRrule(block, rrule) {
   return block.replace(/^(DTSTART(?:;[^:]*)?:[^\r\n]+\r?\n)/mi, `$1RRULE:${rrule}\n`);
 }
 
-const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz)\b/i;
+const MOVABLE_NAME = /\b(lunar|losar|ramadan|eid|passover|pesach|rosh hash|yom kippur|sukkot|hanukkah|chanukah|purim|easter|ash wednesday|palm sunday|good friday|holy saturday|pentecost|ascension|corpus christi|orthodox|mardi gras|carnival|diwali|deepavali|navaratri|dussehra|vijayadashami|holi|vesak|wesak|mid-autumn|moon|equinox|solstice|nowruz|navroz|thanksgiving|advent|gaudete|sinterklaas arrival|ghost festival|ullambana|gita jayanti)\b/i;
 
 const eventRegex = /BEGIN:VEVENT[\s\S]*?END:VEVENT\r?\n?/g;
 const events = [...content.matchAll(eventRegex)].map((m, index) => ({
@@ -86,8 +86,6 @@ let unresolvedRepeatedCount = 0;
 
 for (const [summary, group] of groups) {
   const years = new Set(group.map((e) => e.date.year));
-  if (years.size < 2) continue;
-
   if (MOVABLE_NAME.test(summary)) {
     protectedMovableCount++;
     continue;
@@ -97,6 +95,20 @@ for (const [summary, group] of groups) {
     a.date.year - b.date.year || a.date.month - b.date.month || a.date.day - b.date.day
   );
   const canonical = sorted[0];
+
+  // A single dated instance is sufficient evidence for a fixed annual
+  // observance unless its name identifies a movable calendar tradition.
+  if (years.size < 2) {
+    if (group.length !== 1) {
+      unresolvedRepeatedCount++;
+      continue;
+    }
+    let block = addOrReplaceUid(canonical.block, summary);
+    block = addRrule(block, 'FREQ=YEARLY');
+    replacements.set(canonical.index, block);
+    fixedDateCount++;
+    continue;
+  }
 
   const sameMonthDay = group.every(
     (e) => e.date.month === canonical.date.month && e.date.day === canonical.date.day
