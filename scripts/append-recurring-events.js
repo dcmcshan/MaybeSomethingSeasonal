@@ -116,6 +116,21 @@ const navaratriEvents = navaratriDays.map(([start, end, slug, summary, icon, des
   ''
 ].join('\n'));
 
+const dussehraEvent = [
+  'BEGIN:VEVENT',
+  'UID:dussehra-2026@maybesomethingseasonal.com',
+  'DTSTAMP:20260829T130000Z',
+  'DTSTART;VALUE=DATE:20261020',
+  'DTEND;VALUE=DATE:20261021',
+  'SUMMARY:Dussehra / Vijayadashami',
+  'DESCRIPTION:Celebrate the victorious tenth day after Navaratri: Rama’s defeat of Ravana and Durga’s victory over Mahishasura, expressing the triumph of courage, justice, and good over destructive forces.\\n\\nIcon: 🏹\\nCategory: cultural',
+  'CATEGORIES:cultural',
+  'STATUS:CONFIRMED',
+  'TRANSP:TRANSPARENT',
+  'END:VEVENT',
+  ''
+].join('\n');
+
 // The liturgical Feast of St. Francis is October 4. In 2026, the linked
 // Colorado Springs parish observance begins with the 800th-anniversary
 // Transitus on October 3, the date of Francis's death.
@@ -185,6 +200,7 @@ for (const event of navaratriEvents) {
   const summary = event.match(/^SUMMARY:(.*)$/m)?.[1];
   if (summary && !source.includes(`SUMMARY:${summary}`)) additions.push(event);
 }
+if (!source.includes('SUMMARY:Dussehra / Vijayadashami')) additions.push(dussehraEvent);
 if (!source.includes('SUMMARY:800th Anniversary Transitus of St. Francis')) additions.push(stFrancisTransitusEvent);
 if (!source.includes('SUMMARY:Feast of St. Francis of Assisi')) additions.push(stFrancisFeastEvent);
 if (!source.includes('SUMMARY:Palmer Lake Yule Log Hunt')) additions.push(palmerLakeYuleLogEvent);
