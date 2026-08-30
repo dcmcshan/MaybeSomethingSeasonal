@@ -6,7 +6,7 @@
   "scripts": {
     "generate-images": "node scripts/generate-images.js",
     "dev": "vite",
-    "build": "vite build && node scripts/append-recurring-events.js && node scripts/normalize-recurring-events.js && node scripts/validate-recurring-events.js",
+    "build": "vite build && node scripts/append-recurring-events.js && node scripts/normalize-recurring-events.js && node scripts/validate-recurring-events.js && node scripts/apply-authoritative-lunar-dates.js && node scripts/validate-authoritative-lunar-dates.js",
     "preview": "vite preview",
     "deploy": "npm run build",
     "validate": "node scripts/validate-ics.js",
