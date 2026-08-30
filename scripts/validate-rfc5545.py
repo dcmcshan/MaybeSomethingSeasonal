@@ -33,6 +33,8 @@ occurrences = {(str(event.get("SUMMARY", "")), start_day(event)) for event in ex
 
 expected = {
     ("New Year's Day", date(2035, 1, 1)),
+    ("Lunar New Year (Chunjie)", date(2035, 2, 8)),
+    ("Buddhist Ghost Festival (Ullambana)", date(2035, 8, 18)),
     ("Burn Night", date(2035, 9, 1)),
     ("Glen Eyrie Madrigal Tickets Go On Sale", date(2035, 9, 4)),
     ("Indigenous Peoples’ Day", date(2035, 10, 8)),
@@ -51,6 +53,16 @@ missing = sorted(expected - occurrences, key=lambda item: (item[1], item[0]))
 if missing:
     details = ", ".join(f"{summary}={day.isoformat()}" for summary, day in missing)
     raise SystemExit(f"10-year recurrence expansion is missing expected occurrences: {details}")
+
+# Guard known source defects that authoritative calendar data corrects.
+forbidden = {
+    ("Lunar New Year (Chunjie)", date(2026, 1, 29)),
+    ("Buddhist Ghost Festival (Ullambana)", date(2026, 8, 28)),
+}
+incorrect = sorted(forbidden & occurrences, key=lambda item: (item[1], item[0]))
+if incorrect:
+    details = ", ".join(f"{summary}={day.isoformat()}" for summary, day in incorrect)
+    raise SystemExit(f"Authoritative lunar migration retained incorrect source dates: {details}")
 
 for summary in ["800th Anniversary Transitus of St. Francis", "Broadmoor Brunch", "Yalda Night"]:
     future = sorted(day for title, day in occurrences if title == summary and day.year >= 2027)
