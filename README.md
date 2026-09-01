@@ -79,6 +79,8 @@ The published `dist/MSS.ics` is recurrence-aware:
 - Repeated events that occur on the same Gregorian month/day in multiple years are collapsed into one event with `RRULE:FREQ=YEARLY`.
 - Repeated events that consistently occur on the same ordinal weekday of a month are collapsed into a yearly `BYMONTH`/`BYDAY` rule.
 - Repeated events whose dates move according to lunar, lunisolar, religious, astronomical, or other non-Gregorian rules remain explicit dated instances unless a dedicated generator supplies their future dates.
+- Authoritative lunar, Jewish-calendar, and astronomical dates are pinned as `RDATE;VALUE=DATE` values during the build rather than receiving fake Gregorian RRULEs.
+- For astronomical seasonal observances, the U.S. Naval Observatory season instant is mapped to the civil date in `America/Denver`; this timezone policy is recorded in the deployed VEVENT metadata.
 - Stable UIDs are used for normalized and programmatically generated recurring events so subscription clients can refresh without duplicating them.
 
 This deliberately avoids making a movable holiday recur on an incorrect Gregorian date merely because one year's date appeared in the source calendar.
