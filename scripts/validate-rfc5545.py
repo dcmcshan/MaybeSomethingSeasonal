@@ -34,6 +34,7 @@ occurrences = {(str(event.get("SUMMARY", "")), start_day(event)) for event in ex
 expected = {
     ("New Year's Day", date(2035, 1, 1)),
     ("Lunar New Year (Chunjie)", date(2035, 2, 8)),
+    ("Losar (Tibetan New Year)", date(2035, 2, 9)),
     ("Spring Equinox (Ostara)", date(2035, 3, 20)),
     ("Nowruz", date(2035, 3, 20)),
     ("Passover", date(2035, 4, 24)),
@@ -64,9 +65,13 @@ if missing:
 # Guard known source defects, naive annualization, and UTC-date leakage that
 # authoritative calendar/astronomy data corrects. Astronomical events use the
 # America/Denver civil date containing the USNO season instant. Persian events
-# use pinned University of Tehran Solar Hijri civil dates, not a Gregorian RRULE.
+# use pinned University of Tehran Solar Hijri civil dates. Losar uses the
+# Phugpa Tibetan-calendar convention and generated dates from Janson's calendar
+# mathematics rather than the stale 2026 seed or a Gregorian RRULE.
 forbidden = {
     ("Lunar New Year (Chunjie)", date(2026, 1, 29)),
+    ("Losar (Tibetan New Year)", date(2026, 1, 29)),
+    ("Losar (Tibetan New Year)", date(2035, 2, 8)),
     ("Buddhist Ghost Festival (Ullambana)", date(2026, 8, 28)),
     ("Passover", date(2035, 4, 2)),
     ("Hanukkah (Festival of Lights)", date(2035, 12, 15)),
