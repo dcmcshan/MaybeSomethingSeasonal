@@ -35,6 +35,7 @@ expected = {
     ("New Year's Day", date(2035, 1, 1)),
     ("Lunar New Year (Chunjie)", date(2035, 2, 8)),
     ("Spring Equinox (Ostara)", date(2035, 3, 20)),
+    ("Nowruz", date(2035, 3, 20)),
     ("Passover", date(2035, 4, 24)),
     ("Buddhist Ghost Festival (Ullambana)", date(2035, 8, 18)),
     ("Burn Night", date(2035, 9, 1)),
@@ -51,6 +52,7 @@ expected = {
     ("Gaudete Sunday", date(2035, 12, 16)),
     ("Fourth Sunday of Advent", date(2035, 12, 23)),
     ("Palmer Lake Yule Log Hunt", date(2035, 12, 16)),
+    ("Yalda Night", date(2035, 12, 20)),
     ("Winter Solstice (Yule)", date(2035, 12, 21)),
     ("Hanukkah (Festival of Lights)", date(2035, 12, 26)),
 }
@@ -61,7 +63,8 @@ if missing:
 
 # Guard known source defects, naive annualization, and UTC-date leakage that
 # authoritative calendar/astronomy data corrects. Astronomical events use the
-# America/Denver civil date containing the USNO season instant.
+# America/Denver civil date containing the USNO season instant. Persian events
+# use pinned University of Tehran Solar Hijri civil dates, not a Gregorian RRULE.
 forbidden = {
     ("Lunar New Year (Chunjie)", date(2026, 1, 29)),
     ("Buddhist Ghost Festival (Ullambana)", date(2026, 8, 28)),
@@ -70,13 +73,15 @@ forbidden = {
     ("Spring Equinox (Ostara)", date(2028, 3, 20)),
     ("Autumn Equinox (Mabon)", date(2026, 9, 23)),
     ("Winter Solstice (Yule)", date(2027, 12, 22)),
+    ("Nowruz", date(2035, 3, 21)),
+    ("Yalda Night", date(2035, 12, 21)),
 }
 incorrect = sorted(forbidden & occurrences, key=lambda item: (item[1], item[0]))
 if incorrect:
     details = ", ".join(f"{summary}={day.isoformat()}" for summary, day in incorrect)
     raise SystemExit(f"Authoritative movable-calendar migration retained incorrect dates: {details}")
 
-for summary in ["800th Anniversary Transitus of St. Francis", "Broadmoor Brunch", "Yalda Night"]:
+for summary in ["800th Anniversary Transitus of St. Francis", "Broadmoor Brunch"]:
     future = sorted(day for title, day in occurrences if title == summary and day.year >= 2027)
     if future:
         raise SystemExit(f"{summary} was incorrectly expanded into future years: {future[:3]}")
