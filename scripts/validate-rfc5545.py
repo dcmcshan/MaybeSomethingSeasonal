@@ -42,7 +42,17 @@ expected = {
     ("Burn Night", date(2035, 9, 1)),
     ("Glen Eyrie Madrigal Tickets Go On Sale", date(2035, 9, 4)),
     ("Autumn Equinox (Mabon)", date(2035, 9, 22)),
+    ("Navaratri Day 1 — Shailaputri", date(2035, 10, 2)),
+    ("Navaratri Day 2 — Brahmacharini", date(2035, 10, 3)),
+    ("Navaratri Day 3 — Chandraghanta", date(2035, 10, 4)),
+    ("Navaratri Day 4 — Kushmanda", date(2035, 10, 5)),
+    ("Navaratri Day 5 — Skandamata", date(2035, 10, 6)),
+    ("Navaratri Day 6 — Katyayani", date(2035, 10, 7)),
     ("Indigenous Peoples’ Day", date(2035, 10, 8)),
+    ("Navaratri Day 7 — Kalaratri", date(2035, 10, 8)),
+    ("Navaratri Day 8 — Mahagauri", date(2035, 10, 9)),
+    ("Navaratri Day 9 — Siddhidatri", date(2035, 10, 10)),
+    ("Dussehra / Vijayadashami", date(2035, 10, 11)),
     ("Thanksgiving Day (United States)", date(2035, 11, 22)),
     ("Sinterklaas Arrival (Intocht)", date(2035, 11, 18)),
     ("Palm Sunday", date(2035, 3, 18)),
@@ -50,6 +60,7 @@ expected = {
     ("Good Friday", date(2035, 3, 23)),
     ("First Sunday of Advent", date(2035, 12, 2)),
     ("Second Sunday of Advent", date(2035, 12, 9)),
+    ("Gita Jayanti (गीता जयंती)", date(2035, 12, 11)),
     ("Gaudete Sunday", date(2035, 12, 16)),
     ("Fourth Sunday of Advent", date(2035, 12, 23)),
     ("Palmer Lake Yule Log Hunt", date(2035, 12, 16)),
@@ -63,11 +74,8 @@ if missing:
     raise SystemExit(f"10-year recurrence expansion is missing expected occurrences: {details}")
 
 # Guard known source defects, naive annualization, and UTC-date leakage that
-# authoritative calendar/astronomy data corrects. Astronomical events use the
-# America/Denver civil date containing the USNO season instant. Persian events
-# use pinned University of Tehran Solar Hijri civil dates. Losar uses the
-# Phugpa Tibetan-calendar convention and generated dates from Janson's calendar
-# mathematics rather than the stale 2026 seed or a Gregorian RRULE.
+# authoritative calendar/astronomy data corrects. Hindu events use pinned Drik
+# Panchang Ujjain dates rather than repeating their 2025/2026 Gregorian seeds.
 forbidden = {
     ("Lunar New Year (Chunjie)", date(2026, 1, 29)),
     ("Losar (Tibetan New Year)", date(2026, 1, 29)),
@@ -80,6 +88,9 @@ forbidden = {
     ("Winter Solstice (Yule)", date(2027, 12, 22)),
     ("Nowruz", date(2035, 3, 21)),
     ("Yalda Night", date(2035, 12, 21)),
+    ("Navaratri Day 1 — Shailaputri", date(2035, 10, 11)),
+    ("Dussehra / Vijayadashami", date(2035, 10, 20)),
+    ("Gita Jayanti (गीता जयंती)", date(2035, 12, 6)),
 }
 incorrect = sorted(forbidden & occurrences, key=lambda item: (item[1], item[0]))
 if incorrect:
