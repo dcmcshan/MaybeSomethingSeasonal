@@ -9,8 +9,12 @@ const BASE_PATH = 'https://dcmcshan.github.io/MaybeSomethingSeasonal';
 // Based on the final-image-holiday-mapping.json and existing image names
 const HOLIDAY_TO_IMAGE = {
   // New Year
-  'Celebration of the new year and fresh beginnings': 'celebration-of-the-new-year-and-fresh-beginnings.jpg',
-  'New Years Day': 'celebration-of-the-new-year-and-fresh-beginnings.jpg',
+  'Celebration of the new year and fresh beginnings': 'celebration-of-the-new-year-and-fresh-beginnings.png',
+  'New Years Day': 'celebration-of-the-new-year-and-fresh-beginnings.png',
+  'New Years Eve': 'herring-under-a-fur-coat-new-years-eve.png',
+  "New Year's Eve": 'herring-under-a-fur-coat-new-years-eve.png',
+  'New Year’s Eve': 'herring-under-a-fur-coat-new-years-eve.png',
+  'Herring under a fur coat': 'herring-under-a-fur-coat-new-years-eve.png',
   
   // January
   'Austrian and Bavarian tradition, Perchta Day': 'austrian-and-bavarian-tradition-perchta-day.jpg',
